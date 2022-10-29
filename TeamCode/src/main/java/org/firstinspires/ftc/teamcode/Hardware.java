@@ -5,14 +5,15 @@ import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware {
     public MotorEx driveLeftFront;
     public MotorEx driveRightFront;
     public MotorEx driveLeftRear;
     public MotorEx driveRightRear;
-    public ServoEx intake;
+    public ServoEx intakeFront;
+    public ServoEx intakeLeft;
+    public ServoEx intakeRight;
     public MotorEx lift;
 
 
@@ -21,7 +22,10 @@ public class Hardware {
         driveRightFront = new MotorEx(hardwareMap, "driveRightFront", Motor.GoBILDA.RPM_312);
         driveLeftRear = new MotorEx(hardwareMap, "driveLeftRear", Motor.GoBILDA.RPM_312);
         driveRightRear = new MotorEx(hardwareMap, "driveRightRear", Motor.GoBILDA.RPM_312);
-        intake = new SimpleServo(hardwareMap, "driveRightRear",-1,-1);
+        intakeFront = new SimpleServo(hardwareMap, "driveRightRear",-1,-1);
+        intakeLeft = new SimpleServo(hardwareMap,"intakeLeft",-1,-1);
+        intakeRight = new SimpleServo(hardwareMap,"intakeRight",-1,-1);
+
         lift = new MotorEx(hardwareMap, "lift", Motor.GoBILDA.RPM_435);
     }
 }
