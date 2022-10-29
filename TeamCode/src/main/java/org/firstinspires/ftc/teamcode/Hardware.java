@@ -13,6 +13,7 @@ public class Hardware {
     public MotorEx driveLeftRear;
     public MotorEx driveRightRear;
     public ServoEx intake;
+    public MotorEx lift;
 
 
     public Hardware(HardwareMap hardwareMap) {
@@ -21,5 +22,6 @@ public class Hardware {
         driveLeftRear = new MotorEx(hardwareMap, "driveLeftRear", Motor.GoBILDA.RPM_312);
         driveRightRear = new MotorEx(hardwareMap, "driveRightRear", Motor.GoBILDA.RPM_312);
         intake = new SimpleServo(hardwareMap, "driveRightRear",-1,-1);
+        lift = new MotorEx(hardwareMap, "lift", Motor.GoBILDA.RPM_435);
     }
 }

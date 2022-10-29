@@ -9,8 +9,12 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeStopCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftDownCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftStopCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftUpCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class TeleOpMode extends CommandOpMode {
     @Override
@@ -22,6 +26,7 @@ public class TeleOpMode extends CommandOpMode {
 
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardware, telemetry);
         IntakeSubsystem intakeSubsystem = new IntakeSubsystem(hardware, telemetry);
+        LiftSubsystem liftSubsystem = new LiftSubsystem(hardware, telemetry);
 
         DriveCommand driveCommand = new DriveCommand(
             driveSubsystem,
@@ -34,19 +39,21 @@ public class TeleOpMode extends CommandOpMode {
         IntakeOutCommand intakeOutCommand = new IntakeOutCommand(intakeSubsystem);
         IntakeStopCommand intakeStopCommand = new IntakeStopCommand(intakeSubsystem);
 
-        gamepad1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-            .whenActive(intakeInCommand)
-            .whenInactive(intakeStopCommand);
+        LiftUpCommand liftUpCommand = new LiftUpCommand(liftSubsystem);
+        LiftStopCommand liftStopCommand = new LiftStopCommand(liftSubsystem);
+        LiftDownCommand liftDownCommand = new LiftDownCommand(liftSubsystem);
 
-        gamepad1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-            .whenActive(intakeOutCommand)
-            .whenInactive(intakeOutCommand);
-
+        gamepad1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenActive(intakeInCommand);
+        gamepad1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenActive(intakeOutCommand);
+        gamepad1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenActive(liftUpCommand);
+        gamepad1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenActive(liftDownCommand);
 
         driveSubsystem.setDefaultCommand(driveCommand);
-        intakeSubsystem.setDefaultCommand(intakeInCommand);
+        intakeSubsystem.setDefaultCommand(intakeStopCommand);
+        liftSubsystem.setDefaultCommand(liftStopCommand);
 
         this.register(intakeSubsystem);
         this.register(driveSubsystem);
+        this.register(liftSubsystem);
     }
 }
