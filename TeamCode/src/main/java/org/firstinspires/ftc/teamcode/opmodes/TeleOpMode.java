@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
+@TeleOp
 public class TeleOpMode extends CommandOpMode {
     @Override
     public void initialize() {
