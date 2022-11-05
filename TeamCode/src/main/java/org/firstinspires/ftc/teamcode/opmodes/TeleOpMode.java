@@ -22,7 +22,6 @@ public class TeleOpMode extends CommandOpMode {
     @Override
     public void initialize() {
         Hardware hardware = new Hardware(this.hardwareMap);
-
         GamepadEx gamepad1 = new GamepadEx(this.gamepad1);
         GamepadEx gamepad2 = new GamepadEx(this.gamepad2);
 

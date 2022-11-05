@@ -16,13 +16,15 @@ public class LiftSubsystem extends HardwareSubsystem{
         hardware.lift.setDistancePerPulse(LIFT_INCHES_PER_PULSE);
     }
 
-    public void up(){hardware.lift.set(.1);
+    public void up() {
+        hardware.lift.set(0.1);
     }
 
-    public void down(){hardware.lift.set(-.1);
+    public void down() {
+        hardware.lift.set(-0.1);
     }
 
-    public void stop(){
+    public void stop() {
         hardware.lift.set(0);
     }
 
