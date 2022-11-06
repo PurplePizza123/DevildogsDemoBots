@@ -56,6 +56,15 @@ public class DriveSubsystem extends HardwareSubsystem {
         );
     }
 
+    @Override
+    public void periodic() {
+        telemetry.addData("Drive(Heading)","%.2f deg", Math.toDegrees(hardware.imu.getHeading()));
+        telemetry.addData("Drive (LF)","%.2f vel, %.2f dist", hardware.driveLeftFront.getVelocity(),hardware.driveLeftFront.getDistance());
+        telemetry.addData("Drive (RF)","%.2f vel, %.2f dist", hardware.driveRightFront.getVelocity(),hardware.driveRightFront.getDistance());
+        telemetry.addData("Drive (LR)","%.2f vel, %.2f dist", hardware.driveLeftRear.getVelocity(),hardware.driveLeftRear.getDistance());
+        telemetry.addData("Drive (RR)","%.2f vel, %.2f dist", hardware.driveRightRear.getVelocity(),hardware.driveRightRear.getDistance());
+    }
+
     public void drive(double strafe, double forward, double turn) {
         mecanum.driveRobotCentric(strafe, forward, turn, true);
     }

@@ -15,7 +15,7 @@ public class IntakeSubsystem extends HardwareSubsystem{
 
     @Override
     public void periodic() {
-        telemetry.addData("Intake", "%.2f vel", hardware.intake.get())
+        telemetry.addData("Intake", "%.2f vel", hardware.intake.get());
     }
 
     public void in() {
