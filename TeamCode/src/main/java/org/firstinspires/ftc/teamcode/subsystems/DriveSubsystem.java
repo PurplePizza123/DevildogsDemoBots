@@ -56,7 +56,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         );
     }
 
-    public void drive(double strafe, double forward, double turn){
+    public void drive(double strafe, double forward, double turn) {
         mecanum.driveRobotCentric(strafe, forward, turn, true);
     }
 }

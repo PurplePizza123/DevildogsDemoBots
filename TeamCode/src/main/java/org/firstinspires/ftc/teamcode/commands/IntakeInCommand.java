@@ -12,7 +12,8 @@ public class IntakeInCommand extends CommandBase {
         addRequirements(intakeSubsystem);
     }
 
-    public void initialized() {
+    @Override
+    public void initialize() {
         intakeSubsystem.in();
     }
 

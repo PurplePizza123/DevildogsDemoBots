@@ -12,7 +12,8 @@ public class IntakeStopCommand extends CommandBase {
         addRequirements(intakeSubsystem);
     }
 
-    public void initialized() {
+    @Override
+    public void initialize() {
         intakeSubsystem.stop();
     }
 

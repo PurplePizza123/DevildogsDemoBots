@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class LiftStopCommand extends CommandBase {
@@ -13,7 +12,8 @@ public class LiftStopCommand extends CommandBase {
         addRequirements(liftsubsystem);
     }
 
-    public void initialized() {
+    @Override
+    public void initialize() {
         liftSubsystem.stop();
     }
 

@@ -13,11 +13,12 @@ public class Hardware {
     public MotorEx driveRightFront;
     public MotorEx driveLeftRear;
     public MotorEx driveRightRear;
+
     public ServoEx intakeFront;
     public ServoEx intakeLeft;
     public ServoEx intakeRight;
-    public MotorEx lift;
 
+    public MotorEx lift;
 
     public Hardware(HardwareMap hardwareMap) {
         imu = new RevIMU(hardwareMap);
@@ -25,6 +26,7 @@ public class Hardware {
         driveRightFront = new MotorEx(hardwareMap, "driveRightFront", Motor.GoBILDA.RPM_312);
         driveLeftRear = new MotorEx(hardwareMap, "driveLeftRear", Motor.GoBILDA.RPM_312);
         driveRightRear = new MotorEx(hardwareMap, "driveRightRear", Motor.GoBILDA.RPM_312);
+
         intakeFront = new SimpleServo(hardwareMap, "driveRightRear",-1,-1);
         intakeLeft = new SimpleServo(hardwareMap,"intakeLeft",-1,-1);
         intakeRight = new SimpleServo(hardwareMap,"intakeRight",-1,-1);
