@@ -11,10 +11,20 @@ import org.firstinspires.ftc.teamcode.commands.Commands;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public abstract class OpMode extends CommandOpMode {
-    public Telemetry telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
-    public Hardware hardware = new Hardware(super.hardwareMap);
-    public GamepadEx gamepad1 = new GamepadEx(super.gamepad1);
-    public GamepadEx gamepad2 = new GamepadEx(super.gamepad2);
-    public Subsystems subsystems = new Subsystems(hardware, telemetry);
-    public Commands commands = new Commands(subsystems);
+    public Telemetry telemetry;
+    public Hardware hardware;
+    public GamepadEx gamepad1;
+    public GamepadEx gamepad2;
+    public Subsystems subsystems;
+    public Commands commands;
+
+    @Override
+    public void initialize() {
+        telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
+        hardware = new Hardware(super.hardwareMap);
+        gamepad1 = new GamepadEx(super.gamepad1);
+        gamepad2 = new GamepadEx(super.gamepad2);
+        subsystems = new Subsystems(hardware, telemetry);
+        commands = new Commands(subsystems);
+    }
 }

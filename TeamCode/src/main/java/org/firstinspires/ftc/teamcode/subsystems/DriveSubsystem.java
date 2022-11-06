@@ -48,10 +48,11 @@ public class DriveSubsystem extends HardwareSubsystem {
         hardware.drive.setRunMode(RUN_MODE);
         hardware.drive.setZeroPowerBehavior(ZERO_POWER_BEHAVIOR);
         hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
+        hardware.drive.resetEncoder();
 
         mecanum = new MecanumDrive(
             hardware.driveLeftFront,
-            hardware.driveRightRear,
+            hardware.driveRightFront,
             hardware.driveLeftRear,
             hardware.driveRightRear
         );
@@ -79,7 +80,7 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        telemetry.addData("Drive(Heading)","%.2f deg", hardware.imu.getHeading());
+        telemetry.addData("Drive (Heading)","%.2f deg", hardware.imu.getHeading());
         telemetry.addData("Drive (LF)","%.2f vel, %.2f dist", hardware.driveLeftFront.getVelocity(),hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)","%.2f vel, %.2f dist", hardware.driveRightFront.getVelocity(),hardware.driveRightFront.getDistance());
         telemetry.addData("Drive (LR)","%.2f vel, %.2f dist", hardware.driveLeftRear.getVelocity(),hardware.driveLeftRear.getDistance());

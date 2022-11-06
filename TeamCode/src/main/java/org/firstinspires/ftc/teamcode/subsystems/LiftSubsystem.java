@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.PositionControl;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
@@ -11,12 +13,14 @@ public class LiftSubsystem extends HardwareSubsystem {
     public static double LIFT_SPOOL_CIRCUMFERENCE = 4.80315;
     public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
     public static double LIFT_INCHES_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
-    public static double POWER = 0.1;
+    public static double POWER = 0.15;
+    public static double MIN = 0;
+    public static double MAX = 10;
 
     public LiftSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
-        hardware.lift.setDistancePerPulse(LIFT_INCHES_PER_PULSE);
         hardware.lift.resetEncoder();
+        hardware.lift.setDistancePerPulse(LIFT_INCHES_PER_PULSE);
     }
 
     @Override
@@ -38,8 +42,16 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public void to(double inches) {
+        hardware.lift.setRunMode(PositionControl);
         hardware.lift.setTargetDistance(inches);
-        hardware.lift.setRunMode(Motor.RunMode.PositionControl);
         hardware.lift.set(POWER);
+    }
+
+    public void toHalf() {
+        to(MAX);
+    }
+
+    public void toBottom() {
+        to(MIN);
     }
 }

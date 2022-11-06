@@ -7,14 +7,14 @@ import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class LiftModule {
     public LiftModule(OpMode opMode) {
-        opMode.subsystems.lift.setDefaultCommand(opMode.commands.lift.stop());
-
         opMode.gamepad1
             .getGamepadButton(DPAD_UP)
-            .whenActive(opMode.commands.lift.up());
+            .whenPressed(opMode.commands.lift.up());
+            //.whenInactive(opMode.commands.lift.stop());
 
         opMode.gamepad1
             .getGamepadButton(DPAD_DOWN)
-            .whenActive(opMode.commands.lift.down());
+            .whenPressed(opMode.commands.lift.down());
+            //.whenInactive(opMode.commands.lift.stop());
     }
 }

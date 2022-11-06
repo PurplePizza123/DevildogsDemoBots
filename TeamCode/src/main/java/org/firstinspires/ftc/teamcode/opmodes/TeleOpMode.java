@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.modules.LiftModule;
 public class TeleOpMode extends OpMode {
     @Override
     public void initialize() {
+        super.initialize();
         new DriveModule(this);
         new LiftModule(this);
         new IntakeModule(this);
