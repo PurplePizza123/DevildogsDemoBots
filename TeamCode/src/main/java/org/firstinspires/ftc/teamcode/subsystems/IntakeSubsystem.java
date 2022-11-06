@@ -1,28 +1,32 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 
+@Config
 public class IntakeSubsystem extends HardwareSubsystem{
+    public static double POWER = 1;
+
     public IntakeSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
     }
 
+    @Override
+    public void periodic() {
+        telemetry.addData("Intake", "%.2f vel", hardware.intake.get())
+    }
+
     public void in() {
-        hardware.intakeFront.setPosition(1);
-        hardware.intakeLeft.setPosition(1);
-        hardware.intakeRight.setPosition(1);
+        hardware.intake.set(POWER);
     }
 
     public void out() {
-        hardware.intakeFront.setPosition(0);
-        hardware.intakeLeft.setPosition(0);
-        hardware.intakeRight.setPosition(0);
-     }
+        hardware.intake.set(-POWER);
+    }
 
     public void stop() {
-        hardware.intakeFront.setPosition(0.5);
-        hardware.intakeLeft.setPosition(0.5);
-        hardware.intakeRight.setPosition(0.5);
+        hardware.intake.set(0);
     }
 }
