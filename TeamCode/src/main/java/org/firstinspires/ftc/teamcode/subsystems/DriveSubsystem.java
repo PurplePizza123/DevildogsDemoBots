@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.VelocityControl;
+import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
+
 import com.acmerobotics.dashboard.config.Config;
+
 import com.arcrobotics.ftclib.command.OdometrySubsystem;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.geometry.Pose2d;
@@ -8,6 +12,7 @@ import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveKinematics;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.MecanumOdometry;
@@ -24,6 +29,8 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static boolean RIGHT_FRONT_INVERT = true;
     public static boolean LEFT_REAR_INVERT = true;
     public static boolean RIGHT_REAR_INVERT = true;
+    public static Motor.RunMode RUN_MODE = VelocityControl;
+    public static Motor.ZeroPowerBehavior ZERO_POWER_BEHAVIOR = BRAKE;
 
     public MecanumDrive mecanum;
     public OdometrySubsystem odometry;
@@ -38,7 +45,8 @@ public class DriveSubsystem extends HardwareSubsystem {
         hardware.driveLeftRear.setInverted(LEFT_REAR_INVERT);
         hardware.driveRightRear.setInverted(RIGHT_REAR_INVERT);
 
-        hardware.drive.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        hardware.drive.setRunMode(RUN_MODE);
+        hardware.drive.setZeroPowerBehavior(ZERO_POWER_BEHAVIOR);
         hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
 
         mecanum = new MecanumDrive(
@@ -60,7 +68,7 @@ public class DriveSubsystem extends HardwareSubsystem {
                 ),
                 new Pose2d(0,0, new Rotation2d()),
                 TRACK_WIDTH,
-                () -> hardware.imu.getHeading(),
+                () -> hardware.imu.getRotation2d(),
                 () -> hardware.driveLeftFront.getVelocity(),
                 () -> hardware.driveRightFront.getVelocity(),
                 () -> hardware.driveLeftRear.getVelocity(),
@@ -71,14 +79,14 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        telemetry.addData("Drive(Heading)","%.2f deg", Math.toDegrees(hardware.imu.getHeading()));
+        telemetry.addData("Drive(Heading)","%.2f deg", hardware.imu.getHeading());
         telemetry.addData("Drive (LF)","%.2f vel, %.2f dist", hardware.driveLeftFront.getVelocity(),hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)","%.2f vel, %.2f dist", hardware.driveRightFront.getVelocity(),hardware.driveRightFront.getDistance());
         telemetry.addData("Drive (LR)","%.2f vel, %.2f dist", hardware.driveLeftRear.getVelocity(),hardware.driveLeftRear.getDistance());
         telemetry.addData("Drive (RR)","%.2f vel, %.2f dist", hardware.driveRightRear.getVelocity(),hardware.driveRightRear.getDistance());
     }
 
-    public void drive(double strafe, double forward, double turn) {
+    public void move(double strafe, double forward, double turn) {
         mecanum.driveRobotCentric(strafe, forward, turn, true);
     }
 }

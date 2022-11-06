@@ -8,10 +8,11 @@ import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveOdometry;
 import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveWheelSpeeds;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 public class MecanumOdometry extends Odometry {
     private MecanumDriveOdometry odometry;
-    private DoubleSupplier gyroAngle;
+    private Supplier<Rotation2d> gyroAngle;
     private DoubleSupplier leftFrontSpeed;
     private DoubleSupplier rightFrontSpeed;
     private DoubleSupplier leftRearSpeed;
@@ -21,14 +22,14 @@ public class MecanumOdometry extends Odometry {
         MecanumDriveKinematics kinematics,
         Pose2d robotPose,
         double trackWidth,
-        DoubleSupplier gyroAngle,
+        Supplier<Rotation2d> gyroAngle,
         DoubleSupplier leftFrontSpeed,
         DoubleSupplier rightFrontSpeed,
         DoubleSupplier leftRearSpeed,
         DoubleSupplier rightRearSpeed
     ) {
         super(robotPose, trackWidth);
-        odometry = new MecanumDriveOdometry(kinematics, new Rotation2d(gyroAngle.getAsDouble()), robotPose);
+        odometry = new MecanumDriveOdometry(kinematics, gyroAngle.get(), robotPose);
         this.gyroAngle = gyroAngle;
         this.leftFrontSpeed = leftFrontSpeed;
         this.rightFrontSpeed = rightFrontSpeed;
@@ -45,7 +46,7 @@ public class MecanumOdometry extends Odometry {
     public void updatePose() {
         robotPose = odometry.updateWithTime(
             System.currentTimeMillis() / 1000d,
-            new Rotation2d(gyroAngle.getAsDouble()),
+            gyroAngle.get(),
             new MecanumDriveWheelSpeeds(
                 leftFrontSpeed.getAsDouble(),
                 rightFrontSpeed.getAsDouble(),
