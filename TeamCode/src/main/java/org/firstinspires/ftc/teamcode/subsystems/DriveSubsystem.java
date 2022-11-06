@@ -53,10 +53,10 @@ public class DriveSubsystem extends HardwareSubsystem {
         odometry = new OdometrySubsystem(
             new MecanumOdometry(
                 new MecanumDriveKinematics(
-                    new Translation2d(6.75,5.25),
-                    new Translation2d(6.75,-5.25),
-                    new Translation2d(-6.75,5.25),
-                    new Translation2d(-6.75,-5.25)
+                    new Translation2d(+TRACK_DEPTH / 2, +TRACK_WIDTH / 2),
+                    new Translation2d(+TRACK_DEPTH / 2, -TRACK_WIDTH / 2),
+                    new Translation2d(-TRACK_DEPTH / 2, +TRACK_WIDTH / 2),
+                    new Translation2d(-TRACK_DEPTH / 2, -TRACK_WIDTH / 2)
                 ),
                 new Pose2d(0,0, new Rotation2d()),
                 TRACK_WIDTH,
