@@ -1,28 +1,29 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.OdometrySubsystem;
-import com.arcrobotics.ftclib.command.PurePursuitCommand;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
-import com.arcrobotics.ftclib.kinematics.Odometry;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveKinematics;
-import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveOdometry;
-import com.arcrobotics.ftclib.purepursuit.waypoints.EndWaypoint;
-import com.arcrobotics.ftclib.purepursuit.waypoints.GeneralWaypoint;
-import com.arcrobotics.ftclib.purepursuit.waypoints.StartWaypoint;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.MecanumOdometry;
 
 @Config
 public class DriveSubsystem extends HardwareSubsystem {
+    public static double PULSE_PER_ROTATION = 537.5;
+    public static double DISTANCE_PER_ROTATION = 3.95 * Math.PI;
+    public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
+    public static double MAX_SPEED = 1;
     public static double TRACK_WIDTH = 13.5;
+    public static double TRACK_DEPTH = 10.5;
+    public static boolean LEFT_FRONT_INVERT = true;
+    public static boolean RIGHT_FRONT_INVERT = true;
+    public static boolean LEFT_REAR_INVERT = true;
+    public static boolean RIGHT_REAR_INVERT = true;
 
     public MecanumDrive mecanum;
     public OdometrySubsystem odometry;
@@ -30,12 +31,24 @@ public class DriveSubsystem extends HardwareSubsystem {
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
 
+        hardware.imu.init();
+
+        hardware.driveLeftFront.setInverted(LEFT_FRONT_INVERT);
+        hardware.driveRightFront.setInverted(RIGHT_FRONT_INVERT);
+        hardware.driveLeftRear.setInverted(LEFT_REAR_INVERT);
+        hardware.driveRightRear.setInverted(RIGHT_REAR_INVERT);
+
+        hardware.drive.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
+
         mecanum = new MecanumDrive(
             hardware.driveLeftFront,
             hardware.driveRightRear,
             hardware.driveLeftRear,
             hardware.driveRightRear
         );
+
+        mecanum.setMaxSpeed(MAX_SPEED);
 
         odometry = new OdometrySubsystem(
             new MecanumOdometry(
