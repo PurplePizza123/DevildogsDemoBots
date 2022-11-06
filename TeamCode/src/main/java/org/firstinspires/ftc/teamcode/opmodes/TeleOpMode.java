@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -21,6 +23,8 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class TeleOpMode extends CommandOpMode {
     @Override
     public void initialize() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         Hardware hardware = new Hardware(this.hardwareMap);
         GamepadEx gamepad1 = new GamepadEx(this.gamepad1);
         GamepadEx gamepad2 = new GamepadEx(this.gamepad2);
