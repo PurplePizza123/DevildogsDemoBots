@@ -7,13 +7,13 @@ import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class IntakeModule {
     public IntakeModule(OpMode opMode) {
-        opMode.gamepad1
-            .getGamepadButton(LEFT_BUMPER)
+        opMode.gamepad1.getGamepadButton(LEFT_BUMPER)
+            .or(opMode.gamepad2.getGamepadButton(LEFT_BUMPER))
             .whenActive(opMode.commands.intake.in())
             .whenInactive(opMode.commands.intake.stop());
 
-        opMode.gamepad1
-            .getGamepadButton(RIGHT_BUMPER)
+        opMode.gamepad1.getGamepadButton(RIGHT_BUMPER)
+            .or(opMode.gamepad2.getGamepadButton(RIGHT_BUMPER))
             .whenActive(opMode.commands.intake.out())
             .whenInactive(opMode.commands.intake.stop());
     }

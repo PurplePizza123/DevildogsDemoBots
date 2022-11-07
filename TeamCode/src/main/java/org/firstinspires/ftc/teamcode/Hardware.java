@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Hardware {
@@ -18,7 +19,7 @@ public class Hardware {
 
     public MotorGroup intake;
 
-    public MotorEx lift;
+    public DcMotor lift;
 
     public Hardware(HardwareMap hardwareMap) {
         imu = new RevIMU(hardwareMap);
@@ -36,6 +37,6 @@ public class Hardware {
             new CRServo(hardwareMap, "intakeRight")
         );
 
-        lift = new MotorEx(hardwareMap, "lift", Motor.GoBILDA.RPM_435);
+        lift = hardwareMap.get(DcMotor.class, "lift");
     }
 }

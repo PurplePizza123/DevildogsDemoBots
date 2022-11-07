@@ -25,12 +25,10 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static double MAX_SPEED = 1;
     public static double TRACK_WIDTH = 13.5;
     public static double TRACK_DEPTH = 10.5;
-    public static boolean LEFT_FRONT_INVERT = true;
-    public static boolean RIGHT_FRONT_INVERT = true;
-    public static boolean LEFT_REAR_INVERT = true;
-    public static boolean RIGHT_REAR_INVERT = true;
     public static Motor.RunMode RUN_MODE = VelocityControl;
     public static Motor.ZeroPowerBehavior ZERO_POWER_BEHAVIOR = BRAKE;
+    public static boolean DRIVE_FIELD_CENTRIC = false;
+    public static boolean SQUARE_INPUTS = true;
 
     public MecanumDrive mecanum;
     public OdometrySubsystem odometry;
@@ -40,11 +38,7 @@ public class DriveSubsystem extends HardwareSubsystem {
 
         hardware.imu.init();
 
-        hardware.driveLeftFront.setInverted(LEFT_FRONT_INVERT);
-        hardware.driveRightFront.setInverted(RIGHT_FRONT_INVERT);
-        hardware.driveLeftRear.setInverted(LEFT_REAR_INVERT);
-        hardware.driveRightRear.setInverted(RIGHT_REAR_INVERT);
-
+        hardware.drive.setInverted(true);
         hardware.drive.setRunMode(RUN_MODE);
         hardware.drive.setZeroPowerBehavior(ZERO_POWER_BEHAVIOR);
         hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
@@ -81,13 +75,17 @@ public class DriveSubsystem extends HardwareSubsystem {
     @Override
     public void periodic() {
         telemetry.addData("Drive (Heading)","%.2f deg", hardware.imu.getHeading());
-        telemetry.addData("Drive (LF)","%.2f vel, %.2f dist", hardware.driveLeftFront.getVelocity(),hardware.driveLeftFront.getDistance());
+        telemetry.addData("Drive (LF)","%.2f vel, %.2f dist", hardware.driveLeftFront.getVelocity(), hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)","%.2f vel, %.2f dist", hardware.driveRightFront.getVelocity(),hardware.driveRightFront.getDistance());
-        telemetry.addData("Drive (LR)","%.2f vel, %.2f dist", hardware.driveLeftRear.getVelocity(),hardware.driveLeftRear.getDistance());
-        telemetry.addData("Drive (RR)","%.2f vel, %.2f dist", hardware.driveRightRear.getVelocity(),hardware.driveRightRear.getDistance());
+        telemetry.addData("Drive (LR)","%.2f vel, %.2f dist", hardware.driveLeftRear.getVelocity(), hardware.driveLeftRear.getDistance());
+        telemetry.addData("Drive (RR)","%.2f vel, %.2f dist", hardware.driveRightRear.getVelocity(), hardware.driveRightRear.getDistance());
     }
 
     public void move(double strafe, double forward, double turn) {
-        mecanum.driveRobotCentric(strafe, forward, turn, true);
+        if (DRIVE_FIELD_CENTRIC) {
+            mecanum.driveFieldCentric(strafe, forward, turn, hardware.imu.getHeading(), SQUARE_INPUTS);
+        } else {
+            mecanum.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
+        }
     }
 }

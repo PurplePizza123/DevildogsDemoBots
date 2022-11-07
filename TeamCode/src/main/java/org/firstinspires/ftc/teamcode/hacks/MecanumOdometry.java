@@ -11,12 +11,12 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 public class MecanumOdometry extends Odometry {
-    private MecanumDriveOdometry odometry;
-    private Supplier<Rotation2d> gyroAngle;
-    private DoubleSupplier leftFrontSpeed;
-    private DoubleSupplier rightFrontSpeed;
-    private DoubleSupplier leftRearSpeed;
-    private DoubleSupplier rightRearSpeed;
+    private final MecanumDriveOdometry odometry;
+    private final Supplier<Rotation2d> gyroAngle;
+    private final DoubleSupplier leftFrontSpeed;
+    private final DoubleSupplier rightFrontSpeed;
+    private final DoubleSupplier leftRearSpeed;
+    private final DoubleSupplier rightRearSpeed;
 
     public MecanumOdometry(
         MecanumDriveKinematics kinematics,

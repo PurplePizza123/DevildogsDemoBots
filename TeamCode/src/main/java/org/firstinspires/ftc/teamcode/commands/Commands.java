@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
+import java.util.Arrays;
+
 public class Commands {
     public static Subsystems subsystems;
     public static DriveCommands drive = new DriveCommands();
     public static LiftCommands lift = new LiftCommands();
     public static IntakeCommands intake = new IntakeCommands();
 
-    public Commands() { }
-
-    public Commands(Subsystems subsystems) {
-        Commands.subsystems = subsystems;
+    public Commands(Subsystems... subsystems) {
+        Commands.subsystems = Arrays.stream(subsystems).findFirst().orElse(null);
     }
 }
