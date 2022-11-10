@@ -45,7 +45,7 @@ public class MecanumOdometry extends Odometry {
     @Override
     public void updatePose() {
         robotPose = odometry.updateWithTime(
-            System.currentTimeMillis() / 1000d,
+            System.nanoTime() / 1E9,
             gyroAngle.get(),
             new MecanumDriveWheelSpeeds(
                 leftFrontSpeed.getAsDouble(),

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.RunCommand;
 
 public class IntakeCommands extends Commands {
     public Command in() {
@@ -14,6 +13,6 @@ public class IntakeCommands extends Commands {
     }
 
     public Command stop() {
-        return new RunCommand(subsystems.intake::stop, subsystems.intake);
+        return new InstantCommand(subsystems.intake::stop, subsystems.intake);
     }
 }

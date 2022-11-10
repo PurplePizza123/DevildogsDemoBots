@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 public class DriveCommands extends Commands {
     public Command input(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
         return new RunCommand(
-            () -> subsystems.drive.move(
+            () -> subsystems.drive.inputs(
                 strafe.getAsDouble(),
                 forward.getAsDouble(),
                 turn.getAsDouble()
@@ -18,7 +18,7 @@ public class DriveCommands extends Commands {
         );
     }
 
-    public PurePursuitCommand to(Waypoint... waypoints) {
+    public PurePursuitCommand move(Waypoint... waypoints) {
         return new PurePursuitCommand(
             subsystems.drive.mecanum,
             subsystems.drive.odometry,

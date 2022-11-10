@@ -13,10 +13,11 @@ public class LiftSubsystem extends HardwareSubsystem {
     public static double LIFT_SPOOL_CIRCUMFERENCE = 4.80315;
     public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
     public static double LIFT_INCHES_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
-    public static double POWER = 1.0;
+    public static double POWER_UP = 1.0;
+    public static double POWER_DOWN = 0.4;
     public static double MIN = 0;
-    public static double MAX = 32;
-    public static double INCREMENT = 8;
+    public static double MAX = 36;
+    public static double INCREMENT = 9;
     private static double HEIGHT = 0;
 
     public LiftSubsystem(Hardware hardware, Telemetry telemetry) {
@@ -24,7 +25,7 @@ public class LiftSubsystem extends HardwareSubsystem {
         hardware.lift.setMode(STOP_AND_RESET_ENCODER);
         hardware.lift.setTargetPosition(0);
         hardware.lift.setMode(RUN_TO_POSITION);
-        hardware.lift.setPower(POWER);
+        hardware.lift.setPower(POWER_UP);
     }
 
     @Override
@@ -34,10 +35,12 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public void up() {
+        hardware.lift.setPower(POWER_UP);
         if (HEIGHT < MAX) to(HEIGHT += INCREMENT);
     }
 
     public void down() {
+        hardware.lift.setPower(POWER_DOWN);
         if (HEIGHT > MIN) to(HEIGHT -= INCREMENT);
     }
 
