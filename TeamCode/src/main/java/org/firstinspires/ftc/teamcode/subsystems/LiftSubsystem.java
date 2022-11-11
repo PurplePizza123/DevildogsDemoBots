@@ -10,13 +10,13 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 @Config
 public class LiftSubsystem extends HardwareSubsystem {
-    public static double LIFT_SPOOL_CIRCUMFERENCE = 4.80315;
+    public static double LIFT_SPOOL_CIRCUMFERENCE = 4.409;
     public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
     public static double LIFT_INCHES_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
     public static double POWER_UP = 1.0;
     public static double POWER_DOWN = 0.4;
-    public static double MIN = 0;
-    public static double MAX = 36;
+    public static double MIN = 2.25;
+    public static double MAX = 37.5;
     public static double INCREMENT = 9;
     private static double HEIGHT = 0;
 
@@ -34,6 +34,16 @@ public class LiftSubsystem extends HardwareSubsystem {
         telemetry.update();
     }
 
+    public enum LiftHeight {
+        GROUND(MIN), LOW(17), MID(27), HIGH(37), INTAKE(7);
+
+        public double inches;
+
+        LiftHeight(double height) {
+            this.inches = height;
+        }
+    }
+
     public void up() {
         hardware.lift.setPower(POWER_UP);
         if (HEIGHT < MAX) to(HEIGHT += INCREMENT);
@@ -47,6 +57,12 @@ public class LiftSubsystem extends HardwareSubsystem {
     public void to(double inches) {
         hardware.lift.setTargetPosition(
             (int)(inches / LIFT_INCHES_PER_PULSE)
+        );
+    }
+
+    public void to(LiftHeight height) {
+        hardware.lift.setTargetPosition(
+                (int)((height.inches - MIN) / LIFT_INCHES_PER_PULSE)
         );
     }
 }
