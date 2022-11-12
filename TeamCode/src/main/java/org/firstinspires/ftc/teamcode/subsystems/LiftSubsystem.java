@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.arcrobotics.ftclib.util.MathUtils.clamp;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 public class LiftSubsystem extends HardwareSubsystem {
     public static double LIFT_SPOOL_CIRCUMFERENCE = 4.409;
     public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
-    public static double LIFT_INCHES_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
+    public static double LIFT_HEIGHT_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
     public static double POWER_UP = 1.0;
     public static double POWER_DOWN = 0.4;
     public static double MIN = 2.25;
@@ -30,39 +31,38 @@ public class LiftSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        telemetry.addData("Lift","%.2f pow, %.2f height", hardware.lift.getPower(), hardware.lift.getCurrentPosition() * LIFT_INCHES_PER_PULSE);
+        telemetry.addData("Lift","%.2f pow, %.2f height", hardware.lift.getPower(), hardware.lift.getCurrentPosition() * LIFT_HEIGHT_PER_PULSE);
         telemetry.update();
     }
 
-    public enum LiftHeight {
+    public enum LiftPosition {
         GROUND(MIN), LOW(17), MID(27), HIGH(37), INTAKE(7);
 
-        public double inches;
+        public double height;
 
-        LiftHeight(double height) {
-            this.inches = height;
+        LiftPosition(double height) {
+            this.height = height;
         }
     }
 
     public void up() {
         hardware.lift.setPower(POWER_UP);
-        if (HEIGHT < MAX) to(HEIGHT += INCREMENT);
+        to(HEIGHT += INCREMENT);
     }
 
     public void down() {
         hardware.lift.setPower(POWER_DOWN);
-        if (HEIGHT > MIN) to(HEIGHT -= INCREMENT);
+        to(HEIGHT -= INCREMENT);
     }
 
-    public void to(double inches) {
-        hardware.lift.setTargetPosition(
-            (int)(inches / LIFT_INCHES_PER_PULSE)
-        );
+    public void to(LiftPosition height) {
+        to(height.height);
     }
 
-    public void to(LiftHeight height) {
+    public void to(double height) {
+        height = clamp(height, MIN, MAX);
         hardware.lift.setTargetPosition(
-                (int)((height.inches - MIN) / LIFT_INCHES_PER_PULSE)
+            (int)((height - MIN) / LIFT_HEIGHT_PER_PULSE)
         );
     }
 }

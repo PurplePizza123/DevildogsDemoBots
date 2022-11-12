@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftHeight.GROUND;
-
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
@@ -16,7 +14,7 @@ public class LiftCommands extends Commands {
         return new InstantCommand(subsystems.lift::down, subsystems.lift);
     }
 
-    public Command to(LiftSubsystem.LiftHeight height) {
+    public Command to(LiftSubsystem.LiftPosition height) {
         return new InstantCommand(() -> subsystems.lift.to(height), subsystems.lift);
     }
 }

@@ -24,7 +24,7 @@ public class IntakeModule {
             .whenActive(opMode.commands.intake.getCone());
 
         opMode.gamepad1.getGamepadButton(B)
-                .or(opMode.gamepad2.getGamepadButton(B))
-                .whenActive(opMode.commands.intake.setCone());
+            .or(opMode.gamepad2.getGamepadButton(B))
+            .whenActive(opMode.commands.intake.setCone());
     }
 }

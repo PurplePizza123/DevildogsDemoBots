@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftHeight.GROUND;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftHeight.INTAKE;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.INTAKE;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class IntakeCommands extends Commands {
     public Command in() {

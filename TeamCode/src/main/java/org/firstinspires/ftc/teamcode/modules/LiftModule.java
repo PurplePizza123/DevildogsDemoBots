@@ -13,22 +13,22 @@ public class LiftModule {
     public LiftModule(OpMode opMode) {
         opMode.gamepad1.getGamepadButton(DPAD_RIGHT)
             .or(opMode.gamepad2.getGamepadButton(DPAD_RIGHT))
-            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftHeight.GROUND));
+            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.GROUND));
 
         opMode.gamepad1.getGamepadButton(DPAD_DOWN)
             .or(opMode.gamepad2.getGamepadButton(DPAD_DOWN))
-            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftHeight.LOW));
+            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.LOW));
 
         opMode.gamepad1.getGamepadButton(DPAD_LEFT)
-                .or(opMode.gamepad2.getGamepadButton(DPAD_LEFT))
-                .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftHeight.MID));
+            .or(opMode.gamepad2.getGamepadButton(DPAD_LEFT))
+            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.MID));
 
         opMode.gamepad1.getGamepadButton(DPAD_UP)
-                .or(opMode.gamepad2.getGamepadButton(DPAD_UP))
-                .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftHeight.HIGH));
+            .or(opMode.gamepad2.getGamepadButton(DPAD_UP))
+            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.HIGH));
 
         opMode.gamepad1.getGamepadButton(X)
-                .or(opMode.gamepad2.getGamepadButton(X))
-                .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftHeight.INTAKE));
+            .or(opMode.gamepad2.getGamepadButton(X))
+            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.INTAKE));
     }
 }
