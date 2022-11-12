@@ -31,15 +31,14 @@ public class DriveCommands extends Commands {
 
     public Command turn(double power, double heading){
         return new FunctionalCommand(
-                () -> subsystems.drive.resetEncoders(),
-                () -> subsystems.drive.turn(power, heading),
-                i -> subsystems.drive.stop(),
-                () -> subsystems.drive.getRemainderLeftToTurn(heading) > -1 ||
-                    subsystems.drive.getRemainderLeftToTurn(heading) < 1,
-                subsystems.drive
+            () -> subsystems.drive.resetEncoders(),
+            () -> subsystems.drive.turn(power, heading),
+            i -> subsystems.drive.stop(),
+            () -> subsystems.drive.getRemainderLeftToTurn(heading) > -1 ||
+                subsystems.drive.getRemainderLeftToTurn(heading) < 1,
+            subsystems.drive
         );
     }
-
 
     public PurePursuitCommand move(Waypoint... waypoints) {
         return new PurePursuitCommand(

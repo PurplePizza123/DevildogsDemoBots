@@ -97,35 +97,29 @@ public class DriveSubsystem extends HardwareSubsystem {
         else mecanum.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
     }
 
-    public void move(double drive, double strafe, double heading, double inches) {
+    public void move(double strafe, double forward, double heading, double distance) {
+        double deceleration = (distance - getDistance()) / 12;
         double remainder = getRemainderLeftToTurn(heading);
-        if (drive != 0)
-            drive = clamp(0.2, drive, (inches - hardware.drive.getDistance()) / (12));
-        if (strafe != 0)
-            strafe = clamp(0.2, strafe, (inches - hardware.drive.getDistance()) / (12));
         double turn = remainder / 45;
-        inputs(drive, strafe, turn);
+        if (strafe != 0) strafe = clamp(0.4, strafe, deceleration);
+        if (forward != 0) forward = clamp(0.4, forward, deceleration);
+        inputs(strafe, forward, turn);
     }
 
     public void turn(double power, double heading) {
         power = Math.abs(power);
-        double remainder = getRemainderLeftToTurn(heading);
-        double turn = clamp(0.2, power, remainder / 45 * power);
-        inputs(0, 0,turn);
+        double turn = clamp(0.4, power, getRemainderLeftToTurn(heading) / 45 * power);
+        inputs(0, 0, turn);
     }
 
-    public void stop(){
+    public void stop() {
         inputs(0,0,0);
     }
 
-    public double getDistance(){
-        return hardware.drive.getDistance();
-    }
-
-    private double clamp(double min, double max, double value) {
-        return value >= 0 ?
-                Math.min(max, Math.max(min, value)) :
-                Math.min(-min, Math.max(-max, value));
+    public double getDistance() {
+        return Math.abs(
+            hardware.drive.getDistance()
+        );
     }
 
     public double getRemainderLeftToTurn(double heading) {
@@ -139,4 +133,9 @@ public class DriveSubsystem extends HardwareSubsystem {
         hardware.drive.resetEncoder();
     }
 
+    private double clamp(double min, double max, double value) {
+        double sign = min < 0 || max < 0 || value < 0 ? -1 : 1;
+        double result = Math.min(Math.abs(max), Math.max(Math.abs(min), Math.abs(value)));
+        return sign * result;
+    }
 }

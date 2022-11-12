@@ -31,10 +31,8 @@ public class IntakeCommands extends Commands {
     public Command setCone() {
         return intake.out().andThen(
             wait.seconds(1),
-            drive.input(() -> 0, () -> -1, () -> 0),
-            wait.seconds(.1),
-            lift.to(INTAKE),
-            drive.input(() -> 0, () -> 0, () -> 0)
+            drive.move(0, -1, 0, 6),
+            lift.to(INTAKE)
         );
     }
 }
