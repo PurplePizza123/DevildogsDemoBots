@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.Direction.REVERSE;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.VelocityControl;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -94,4 +96,47 @@ public class DriveSubsystem extends HardwareSubsystem {
         if (DRIVE_FIELD_CENTRIC) mecanum.driveFieldCentric(strafe, forward, turn, hardware.imu.getHeading(), SQUARE_INPUTS);
         else mecanum.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
     }
+
+    public void move(double drive, double strafe, double heading, double inches) {
+        double remainder = getRemainderLeftToTurn(heading);
+        if (drive != 0)
+            drive = clamp(0.2, drive, (inches - hardware.drive.getDistance()) / (12));
+        if (strafe != 0)
+            strafe = clamp(0.2, strafe, (inches - hardware.drive.getDistance()) / (12));
+        double turn = remainder / 45;
+        inputs(drive, strafe, turn);
+    }
+
+    public void turn(double power, double heading) {
+        power = Math.abs(power);
+        double remainder = getRemainderLeftToTurn(heading);
+        double turn = clamp(0.2, power, remainder / 45 * power);
+        inputs(0, 0,turn);
+    }
+
+    public void stop(){
+        inputs(0,0,0);
+    }
+
+    public double getDistance(){
+        return hardware.drive.getDistance();
+    }
+
+    private double clamp(double min, double max, double value) {
+        return value >= 0 ?
+                Math.min(max, Math.max(min, value)) :
+                Math.min(-min, Math.max(-max, value));
+    }
+
+    public double getRemainderLeftToTurn(double heading) {
+        double remainder = hardware.imu.getHeading() - heading;
+        if (remainder > +180) remainder -= 360;
+        if (remainder < -180) remainder += 360;
+        return remainder;
+    }
+
+    public void resetEncoders() {
+        hardware.drive.resetEncoder();
+    }
+
 }
