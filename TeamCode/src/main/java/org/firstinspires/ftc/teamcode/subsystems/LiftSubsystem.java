@@ -15,11 +15,11 @@ public class LiftSubsystem extends HardwareSubsystem {
     public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
     public static double LIFT_HEIGHT_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
     public static double POWER_UP = 1.0;
-    public static double POWER_DOWN = 0.4;
+    public static double POWER_DOWN = 0.5;
     public static double MIN = 2.25;
-    public static double MAX = 37.5;
-    public static double INCREMENT = 9;
-    private static double HEIGHT = 0;
+    public static double MAX = 34.5; // TODO: Change back to 37.5 when servo wires are lengthened.
+    public static double INCREMENT = 0.5;
+    private static double HEIGHT = MIN;
 
     public LiftSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -46,13 +46,11 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public void up() {
-        hardware.lift.setPower(POWER_UP);
-        to(HEIGHT += INCREMENT);
+        to(HEIGHT + INCREMENT);
     }
 
     public void down() {
-        hardware.lift.setPower(POWER_DOWN);
-        to(HEIGHT -= INCREMENT);
+        to(HEIGHT - INCREMENT);
     }
 
     public void to(LiftPosition height) {
@@ -61,8 +59,9 @@ public class LiftSubsystem extends HardwareSubsystem {
 
     public void to(double height) {
         height = clamp(height, MIN, MAX);
+        hardware.lift.setPower(height > HEIGHT ? POWER_UP : POWER_DOWN);
         hardware.lift.setTargetPosition(
-            (int)((height - MIN) / LIFT_HEIGHT_PER_PULSE)
+            (int)(((HEIGHT = height) - MIN) / LIFT_HEIGHT_PER_PULSE)
         );
     }
 }

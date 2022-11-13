@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.FunctionalCommand;
-import com.arcrobotics.ftclib.command.PurePursuitCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
-import com.arcrobotics.ftclib.purepursuit.Waypoint;
 
 import java.util.function.DoubleSupplier;
 
@@ -19,11 +17,21 @@ public class DriveCommands extends Commands {
         );
     }
 
+    public Command move(double strafe, double forward, double distance){
+        return new FunctionalCommand(
+            () -> subsystems.drive.resetEncoders(),
+            () -> subsystems.drive.move(strafe, forward, distance),
+            i  -> subsystems.drive.stop(),
+            () -> subsystems.drive.getDistance() >= distance,
+            subsystems.drive
+        );
+    }
+
     public Command move(double strafe, double forward, double turn, double distance){
         return new FunctionalCommand(
             () -> subsystems.drive.resetEncoders(),
             () -> subsystems.drive.move(strafe, forward, turn, distance),
-            i -> subsystems.drive.stop(),
+            i  -> subsystems.drive.stop(),
             () -> subsystems.drive.getDistance() >= distance,
             subsystems.drive
         );
@@ -33,18 +41,10 @@ public class DriveCommands extends Commands {
         return new FunctionalCommand(
             () -> subsystems.drive.resetEncoders(),
             () -> subsystems.drive.turn(power, heading),
-            i -> subsystems.drive.stop(),
+            i  -> subsystems.drive.stop(),
             () -> subsystems.drive.getRemainderLeftToTurn(heading) > -1 ||
-                subsystems.drive.getRemainderLeftToTurn(heading) < 1,
+                  subsystems.drive.getRemainderLeftToTurn(heading) < 1,
             subsystems.drive
-        );
-    }
-
-    public PurePursuitCommand move(Waypoint... waypoints) {
-        return new PurePursuitCommand(
-            subsystems.drive.mecanum,
-            subsystems.drive.odometry,
-            waypoints
         );
     }
 }

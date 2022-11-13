@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 @Config
 public class IntakeSubsystem extends HardwareSubsystem{
-    public static double POWER = 1;
+    public static double POWER = 0.25;
 
     public IntakeSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);

@@ -14,7 +14,7 @@ public class AutonomousOpMode extends OpMode {
         super.initialize();
 
         schedule(
-            commands.drive.move(0, 1, 0, 4 * 24)
+            commands.autonomous.blueNorth()
         );
     }
 }

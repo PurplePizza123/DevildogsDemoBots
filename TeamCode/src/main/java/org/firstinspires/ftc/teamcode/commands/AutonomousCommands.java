@@ -1,22 +1,34 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import com.arcrobotics.ftclib.command.Command;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.INTAKE;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.MID;
 
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import com.arcrobotics.ftclib.command.Command;
 
 public class AutonomousCommands extends Commands {
     public Command blueSouth() {
-        // First drive forward about one tile
-        // Second strafe left about half a tile
-        // Third drive forward a quarter tile
-        // Fourth deliver to medium junction
-        // Fifth backup a quarter tile
-        return drive.move( 0, 1, 0, 24).andThen(
-            drive.move( -1, 0, 0, 12),
-            drive.move( 0, 1, 0, 6),
-            lift.to(LiftSubsystem.LiftPosition.MID),
-            intake.setCone()
+        return intake.in().andThen(
+            lift.to(INTAKE),
+            wait.seconds(0.5),
+            drive.move(0, 1, 26),
+            drive.move(-1, 0, 14),
+            lift.to(MID),
+            drive.move(0, .25, 8),
+            intake.setCone(),
+            drive.move(1, 0, 14)
+        );
+    }
+
+    public Command blueNorth() {
+        return intake.in().andThen(
+            lift.to(INTAKE),
+            wait.seconds(0.5),
+            drive.move(0, 1, 26),
+            drive.move(1, 0, 14),
+            lift.to(MID),
+            drive.move(0, .25, 8),
+            intake.setCone(),
+            drive.move(-1, 0, 14)
         );
     }
 }

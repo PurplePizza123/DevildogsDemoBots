@@ -10,6 +10,7 @@ public class Commands {
     public static LiftCommands lift = new LiftCommands();
     public static IntakeCommands intake = new IntakeCommands();
     public static WaitCommands wait = new WaitCommands();
+    public static AutonomousCommands autonomous = new AutonomousCommands();
 
     public Commands(Subsystems... subsystems) {
         Commands.subsystems = Arrays.stream(subsystems).findFirst().orElse(null);
