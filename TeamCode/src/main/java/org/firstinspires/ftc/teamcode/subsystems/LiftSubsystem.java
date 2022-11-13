@@ -32,7 +32,6 @@ public class LiftSubsystem extends HardwareSubsystem {
     @Override
     public void periodic() {
         telemetry.addData("Lift","%.2f pow, %.2f height", hardware.lift.getPower(), hardware.lift.getCurrentPosition() * LIFT_HEIGHT_PER_PULSE);
-        telemetry.update();
     }
 
     public enum LiftPosition {

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
+import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 import java.util.Arrays;
 
@@ -11,6 +12,7 @@ public class Commands {
     public static IntakeCommands intake = new IntakeCommands();
     public static WaitCommands wait = new WaitCommands();
     public static AutonomousCommands autonomous = new AutonomousCommands();
+    public static VisionCommands vision = new VisionCommands();
 
     public Commands(Subsystems... subsystems) {
         Commands.subsystems = Arrays.stream(subsystems).findFirst().orElse(null);

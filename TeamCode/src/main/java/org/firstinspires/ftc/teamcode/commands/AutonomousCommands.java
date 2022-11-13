@@ -6,6 +6,20 @@ import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPositi
 import com.arcrobotics.ftclib.command.Command;
 
 public class AutonomousCommands extends Commands {
+    public Command blueNorth() {
+        return vision.detect().andThen(
+            intake.in(),
+            lift.to(INTAKE),
+            wait.seconds(0.5),
+            drive.move(0, 1, 26),
+            drive.move(1, 0, 14),
+            lift.to(MID),
+            drive.move(0, .25, 8),
+            intake.setCone(),
+            drive.parkBlueNorth()
+        );
+    }
+
     public Command blueSouth() {
         return intake.in().andThen(
             lift.to(INTAKE),
@@ -15,11 +29,25 @@ public class AutonomousCommands extends Commands {
             lift.to(MID),
             drive.move(0, .25, 8),
             intake.setCone(),
-            drive.move(1, 0, 14)
+            drive.parkBlueSouth()
         );
     }
 
-    public Command blueNorth() {
+    public Command redNorth() {
+        return vision.detect().andThen(
+            intake.in(),
+            lift.to(INTAKE),
+            wait.seconds(0.5),
+            drive.move(0, 1, 26),
+            drive.move(-1, 0, 14),
+            lift.to(MID),
+            drive.move(0, .25, 8),
+            intake.setCone(),
+            drive.parkRedNorth()
+        );
+    }
+
+    public Command redSouth() {
         return intake.in().andThen(
             lift.to(INTAKE),
             wait.seconds(0.5),
@@ -28,7 +56,7 @@ public class AutonomousCommands extends Commands {
             lift.to(MID),
             drive.move(0, .25, 8),
             intake.setCone(),
-            drive.move(-1, 0, 14)
+            drive.parkRedSouth()
         );
     }
 }

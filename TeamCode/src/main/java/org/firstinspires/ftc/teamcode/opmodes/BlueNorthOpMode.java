@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.modules.IntakeModule;
 import org.firstinspires.ftc.teamcode.modules.LiftModule;
 
 @Autonomous
-public class AutonomousOpMode extends OpMode {
+public class BlueNorthOpMode extends OpMode {
     @Override
     public void initialize() {
         super.initialize();
