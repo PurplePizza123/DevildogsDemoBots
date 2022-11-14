@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
+
 @Autonomous
 public class RedSouthOpMode extends OpMode {
     @Override
@@ -9,7 +11,7 @@ public class RedSouthOpMode extends OpMode {
         super.initialize();
 
         schedule(
-            commands.autonomous.redSouth()
+            commands.autonomous.execute(AutonomousCommands.Side.LEFT)
         );
     }
 }
