@@ -28,13 +28,11 @@ public abstract class OpMode extends CommandOpMode {
         subsystems = new Subsystems(hardware, telemetry);
         commands = new Commands(subsystems);
 
-        //while (!isStarted()) {
-        //    CommandScheduler.getInstance().run();
-        //    Thread.yield();
-        //}
+        while (!isStarted()) {
+            CommandScheduler.getInstance().run();
+            Thread.yield();
+        }
 
-        //CommandScheduler.getInstance().cancelAll();
-        //CommandScheduler.getInstance().clearButtons();
-        //CommandScheduler.getInstance().reset();
+        CommandScheduler.getInstance().clearButtons();
     }
 }

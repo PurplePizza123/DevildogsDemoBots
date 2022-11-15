@@ -19,11 +19,11 @@ public class AutonomousCommands extends Commands {
 
     public Command scoreStartCone(Side side) {
         return intake.getCone().andThen(
-            drive.move(0, 1, side.adapt(0), 52),
-            drive.turn(0.5, side.adapt(-90)),
-            drive.move(0,1, side.adapt(-90), 34),
-            drive.turn(0.5, side.adapt(-180)).alongWith(lift.to(HIGH)),
-            drive.move(0, .25, side.adapt(-180), 7), // TODO: Change back to 8 if it does not work
+            drive.move(0, 1, 4),
+            drive.move(1, 0, 24),
+            drive.move(0, 1, 24).alongWith(lift.to(HIGH)),
+            drive.turn(1, side.adapt(-45)),
+            drive.move(0, 1, 7),
             intake.setCone()
         );
     }
@@ -31,30 +31,34 @@ public class AutonomousCommands extends Commands {
     public Command scoreStack(Side side, int times) {
         int stackedCones = 5;
 
-        SequentialCommandGroup group = new SequentialCommandGroup();
+        SequentialCommandGroup group = new SequentialCommandGroup(
+            drive.turn(1, 0),
+            drive.move(0, 1, 24),
+            drive.turn(1, side.adapt(90))
+        );
 
         while (--times >= 0) {
             group.addCommands(
-                drive.turn(.5, side.adapt(90)),
-                drive.move(0, 1, side.adapt(90), 63),
+                drive.move(0, 1, 48),
                 intake.getCone(--stackedCones),
-                drive.move(0, -1, side.adapt(90), 62),
-                drive.turn(0.5, side.adapt(180)).alongWith(lift.to(HIGH)),
-                drive.move(0, 1, side.adapt(180), 7), // TODO: change back to 8 if it does not work
-                intake.setCone()
+                drive.move(0, -1, 48).alongWith(lift.to(HIGH)),
+                drive.turn(1, side.adapt(-135)),
+                drive.move(0, 1, 7),
+                intake.setCone(stackedCones),
+                drive.turn(1, side.adapt(90))
             );
         }
 
         return group;
     }
 
-    public Command park(Side side) { // TODO: Parking is not mirrored need to change
+    public Command park(Side side) {
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(1, drive.move(side.adapt(1), 0, side.adapt(180), 60));
-                put(2, drive.move(side.adapt(1), 0, side.adapt(180), 36));
-                put(3, drive.move(side.adapt(1), 0, side.adapt(180), 12));
-            }}, () -> subsystems.vision.getDetectionId() == 0 ? 3 : subsystems.vision.getDetectionId()
+                put(1, drive.move(0, 1, side == Side.LEFT ? 48 : 0));
+                put(2, drive.move(0, 1, 24));
+                put(3, drive.move(0, 1, side == Side.LEFT ? 0 : 48));
+            }}, () -> subsystems.vision.getDetectionId() == 0 ? (side == Side.LEFT ? 3 : 1) : subsystems.vision.getDetectionId()
         );
     }
 
@@ -70,5 +74,9 @@ public class AutonomousCommands extends Commands {
         public double adapt(double value) {
             return this.sign * value;
         }
+    }
+
+    public enum Plan {
+        A, B
     }
 }

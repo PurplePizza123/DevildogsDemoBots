@@ -19,6 +19,6 @@ public class LiftCommands extends Commands {
     }
 
     public Command to(LiftSubsystem.LiftPosition height) {
-        return to(height,0);
+        return to(height, 0);
     }
 }

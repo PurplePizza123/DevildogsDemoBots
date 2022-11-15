@@ -19,6 +19,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static double MIN_POWER = 0.2;
     public static double MAX_POWER = 1.0;
     public static boolean SQUARE_INPUTS = false;
+    private double targetHeading = 0;
 
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -72,12 +73,12 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public void move(double strafe, double forward, double distance) {
-        move(strafe, forward, hardware.imu.getHeading(), distance);
+        move(strafe, forward, targetHeading, distance);
     }
 
     public void move(double strafe, double forward, double heading, double distance) {
         double deceleration = (distance - getDistance()) / 12;
-        double turn = getRemainderLeftToTurn(heading) / 45;
+        double turn = getRemainderLeftToTurn(targetHeading = heading) / 45;
         if (strafe != 0) strafe = clamp(MIN_POWER, strafe, deceleration);
         if (forward != 0) forward = clamp(MIN_POWER, forward, deceleration);
         inputs(strafe, forward, turn);
@@ -85,7 +86,7 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     public void turn(double power, double heading) {
         power = Math.abs(power);
-        double turn = clamp(MIN_POWER, power, getRemainderLeftToTurn(heading) / 45 * power);
+        double turn = clamp(MIN_POWER, power, getRemainderLeftToTurn(targetHeading = heading) / 45 * power);
         inputs(0, 0, turn);
     }
 

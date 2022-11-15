@@ -40,7 +40,7 @@ public class IntakeCommands extends Commands {
         return intake.out().andThen(
             wait.seconds(1),
             intake.stop(),
-            drive.move(0, -1, 7), // TODO: Change back to 8 if it does not work
+            drive.move(0, -1, 7),
             lift.to(INTAKE, offset)
         );
     }

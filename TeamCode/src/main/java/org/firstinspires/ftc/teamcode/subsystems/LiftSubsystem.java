@@ -35,7 +35,7 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public enum LiftPosition {
-        GROUND(MIN), LOW(17), MID(27), HIGH(36), INTAKE(7), STACK(11.5);
+        GROUND(MIN), LOW(17), MID(27), HIGH(MAX), INTAKE(7), STACK(11.5);
 
         public double height;
 

@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvWebcam;
 
@@ -41,6 +40,9 @@ public class Hardware {
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), R.id.cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(
+            hardwareMap.get(WebcamName.class, "Webcam 1"),
+            R.id.cameraMonitorViewId
+        );
     }
 }

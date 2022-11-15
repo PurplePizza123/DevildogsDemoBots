@@ -9,22 +9,22 @@ import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class IntakeModule {
     public IntakeModule(OpMode opMode) {
-        opMode.gamepad1.getGamepadButton(LEFT_BUMPER)
-            .or(opMode.gamepad2.getGamepadButton(LEFT_BUMPER))
+        opMode.gamepad2.getGamepadButton(LEFT_BUMPER)
+            .or(opMode.gamepad1.getGamepadButton(LEFT_BUMPER))
             .whenActive(opMode.commands.intake.in())
             .whenInactive(opMode.commands.intake.stop());
 
-        opMode.gamepad1.getGamepadButton(RIGHT_BUMPER)
-            .or(opMode.gamepad2.getGamepadButton(RIGHT_BUMPER))
+        opMode.gamepad2.getGamepadButton(RIGHT_BUMPER)
+            .or(opMode.gamepad1.getGamepadButton(RIGHT_BUMPER))
             .whenActive(opMode.commands.intake.out())
             .whenInactive(opMode.commands.intake.stop());
 
-        opMode.gamepad1.getGamepadButton(Y)
-            .or(opMode.gamepad2.getGamepadButton(Y))
+        opMode.gamepad2.getGamepadButton(Y)
+            .or(opMode.gamepad1.getGamepadButton(Y))
             .whenActive(opMode.commands.intake.getCone());
 
-        opMode.gamepad1.getGamepadButton(B)
-            .or(opMode.gamepad2.getGamepadButton(B))
+        opMode.gamepad2.getGamepadButton(B)
+            .or(opMode.gamepad1.getGamepadButton(B))
             .whenActive(opMode.commands.intake.setCone());
     }
 }

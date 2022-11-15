@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 @Config
 public class VisionSubsystem extends HardwareSubsystem{
-
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     public static final double FEET_PER_METER = 3.28084;
