@@ -43,6 +43,6 @@ public class LiftModule {
 
         opMode.gamepad1.getGamepadButton(X)
             .or(opMode.gamepad2.getGamepadButton(X))
-            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.SUBSTATION));
+            .whenActive(opMode.commands.lift.to(LiftSubsystem.LiftPosition.INTAKE));
     }
 }
