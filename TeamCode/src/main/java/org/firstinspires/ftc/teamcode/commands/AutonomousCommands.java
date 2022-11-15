@@ -50,7 +50,7 @@ public class AutonomousCommands extends Commands {
         return group;
     }
 
-    public Command park(Side side) {
+    public Command park(Side side) {               //TODO Parking is not mirrored need to change
         return new SelectCommand(
             new HashMap<Object, Command>() {{
                 put(1, drive.move(side.adapt(1), 0, 60));
