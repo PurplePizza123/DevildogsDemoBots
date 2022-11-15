@@ -45,8 +45,8 @@ public class DriveCommands extends Commands {
                 () -> subsystems.drive.resetEncoders(),
                 () -> subsystems.drive.turn(power, heading),
                 i -> subsystems.drive.stop(),
-                () -> subsystems.drive.getRemainderLeftToTurn(heading) > -1 ||
-                        subsystems.drive.getRemainderLeftToTurn(heading) < 1,
+                () -> subsystems.drive.getRemainderLeftToTurn(heading) > -.33 &&
+                        subsystems.drive.getRemainderLeftToTurn(heading) < .33,
                 subsystems.drive
         );
     }

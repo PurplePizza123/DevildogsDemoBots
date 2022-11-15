@@ -14,7 +14,11 @@ public class LiftCommands extends Commands {
         return new InstantCommand(subsystems.lift::down, subsystems.lift);
     }
 
+    public Command to(LiftSubsystem.LiftPosition height, double offset) {
+        return new InstantCommand(() -> subsystems.lift.to(height, offset), subsystems.lift);
+    }
+
     public Command to(LiftSubsystem.LiftPosition height) {
-        return new InstantCommand(() -> subsystems.lift.to(height), subsystems.lift);
+        return to(height,0);
     }
 }

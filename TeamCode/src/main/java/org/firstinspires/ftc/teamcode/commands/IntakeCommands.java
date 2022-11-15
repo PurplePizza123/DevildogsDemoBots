@@ -19,21 +19,29 @@ public class IntakeCommands extends Commands {
         return new InstantCommand(subsystems.intake::stop, subsystems.intake);
     }
 
-    public Command getCone() {
+    public Command getCone(){
+        return getCone(0);
+    }
+
+    public Command getCone(double offset) {
         return intake.in().andThen(
-            lift.to(GROUND),
+            lift.to(GROUND, offset),
             wait.seconds(.5),
-            lift.to(INTAKE),
+            lift.to(INTAKE, offset),
             intake.stop()
         );
     }
 
-    public Command setCone() {
+    public Command setCone(){
+        return setCone(0);
+    }
+
+    public Command setCone(double offset) {
         return intake.out().andThen(
             wait.seconds(1),
             intake.stop(),
-            drive.move(0, -1, 8),
-            lift.to(INTAKE)
+            drive.move(0, -1, 7),      //TODO change back to 8 if it does not work
+            lift.to(INTAKE, offset)
         );
     }
 }

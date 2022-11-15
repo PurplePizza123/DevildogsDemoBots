@@ -17,7 +17,7 @@ public class LiftSubsystem extends HardwareSubsystem {
     public static double POWER_UP = 1.0;
     public static double POWER_DOWN = 0.5;
     public static double MIN = 2.25;
-    public static double MAX = 37.5;
+    public static double MAX = 36;
     public static double INCREMENT = 0.5;
     private static double HEIGHT = MIN;
 
@@ -35,7 +35,7 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public enum LiftPosition {
-        GROUND(MIN), LOW(17), MID(27), HIGH(37), INTAKE(7);
+        GROUND(MIN), LOW(17), MID(27), HIGH(36), INTAKE(11.5);
 
         public double height;
 
@@ -52,8 +52,8 @@ public class LiftSubsystem extends HardwareSubsystem {
         to(HEIGHT - INCREMENT);
     }
 
-    public void to(LiftPosition height) {
-        to(height.height);
+    public void to(LiftPosition height, double offset) {
+        to(height.height + offset);
     }
 
     public void to(double height) {
