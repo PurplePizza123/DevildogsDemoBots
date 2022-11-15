@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Side.LEFT;
 
-import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
-import org.firstinspires.ftc.teamcode.modules.DriveModule;
-import org.firstinspires.ftc.teamcode.modules.IntakeModule;
-import org.firstinspires.ftc.teamcode.modules.LiftModule;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous
 public class BlueNorthOpMode extends OpMode {
@@ -15,7 +11,7 @@ public class BlueNorthOpMode extends OpMode {
         super.initialize();
 
         schedule(
-            commands.autonomous.execute(AutonomousCommands.Side.LEFT)
+            commands.autonomous.execute(LEFT)
         );
     }
 }
