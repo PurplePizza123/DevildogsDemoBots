@@ -35,7 +35,7 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public enum LiftPosition {
-        GROUND(MIN), LOW(17), MID(27), HIGH(36), INTAKE(11.5);
+        GROUND(MIN), LOW(17), MID(27), HIGH(36), INTAKE(11.5); //TODO add intake height for substation at 7
 
         public double height;
 
