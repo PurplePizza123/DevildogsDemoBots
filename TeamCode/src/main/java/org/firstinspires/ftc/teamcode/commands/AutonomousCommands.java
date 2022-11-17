@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.HIGH;
 
 import com.arcrobotics.ftclib.command.Command;
@@ -59,7 +60,7 @@ public class AutonomousCommands extends Commands {
                 put(2, drive.move(0, 1, 24));
                 put(3, drive.move(0, 1, side == Side.LEFT ? 0 : 48));
             }}, () -> subsystems.vision.getDetectionId() == 0 ? (side == Side.LEFT ? 3 : 1) : subsystems.vision.getDetectionId()
-        );
+        ).andThen(lift.to(GROUND));
     }
 
     public enum Side {

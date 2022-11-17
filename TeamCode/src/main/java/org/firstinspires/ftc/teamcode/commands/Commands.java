@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class Commands {
     public static Subsystems subsystems;
+    public static MenuCommands menu = new MenuCommands();
     public static DriveCommands drive = new DriveCommands();
     public static LiftCommands lift = new LiftCommands();
     public static IntakeCommands intake = new IntakeCommands();

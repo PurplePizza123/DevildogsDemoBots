@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.Commands;
+import org.firstinspires.ftc.teamcode.modules.MenuModule;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public abstract class OpMode extends CommandOpMode {
@@ -27,6 +28,8 @@ public abstract class OpMode extends CommandOpMode {
         gamepad2 = new GamepadEx(super.gamepad2);
         subsystems = new Subsystems(hardware, telemetry);
         commands = new Commands(subsystems);
+
+        new MenuModule(this);
 
         while (!isStarted()) {
             CommandScheduler.getInstance().run();

@@ -11,7 +11,7 @@ import java.util.function.DoubleSupplier;
 
 public class DriveCommands extends Commands {
     public Command setDrivePower(DriveSubsystem.DrivePower drivePower){
-        return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower));
+        return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower), subsystems.menu);
     }
 
     public Command input(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
