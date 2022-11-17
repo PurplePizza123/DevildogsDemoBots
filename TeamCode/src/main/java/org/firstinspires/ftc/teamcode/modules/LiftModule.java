@@ -21,33 +21,26 @@ import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 public class LiftModule {
     public LiftModule(OpMode opMode) {
         new Trigger(() ->
-            opMode.gamepad1.getTrigger(LEFT_TRIGGER) > 0.5 ||
             opMode.gamepad2.getTrigger(LEFT_TRIGGER) > 0.5
         ).whileActiveContinuous(opMode.commands.lift.down());
 
         new Trigger(() ->
-            opMode.gamepad1.getTrigger(RIGHT_TRIGGER) > 0.5 ||
             opMode.gamepad2.getTrigger(RIGHT_TRIGGER) > 0.5
         ).whileActiveContinuous(opMode.commands.lift.up());
 
         opMode.gamepad2.getGamepadButton(DPAD_RIGHT)
-            .or(opMode.gamepad1.getGamepadButton(DPAD_RIGHT))
             .whenActive(opMode.commands.lift.to(GROUND));
 
         opMode.gamepad2.getGamepadButton(DPAD_DOWN)
-            .or(opMode.gamepad1.getGamepadButton(DPAD_DOWN))
             .whenActive(opMode.commands.lift.to(LOW));
 
         opMode.gamepad2.getGamepadButton(DPAD_LEFT)
-            .or(opMode.gamepad1.getGamepadButton(DPAD_LEFT))
             .whenActive(opMode.commands.lift.to(MID));
 
         opMode.gamepad2.getGamepadButton(DPAD_UP)
-            .or(opMode.gamepad1.getGamepadButton(DPAD_UP))
             .whenActive(opMode.commands.lift.to(HIGH));
 
         opMode.gamepad2.getGamepadButton(X)
-            .or(opMode.gamepad1.getGamepadButton(X))
             .whenActive(opMode.commands.lift.to(INTAKE));
     }
 }
