@@ -2,11 +2,18 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.FunctionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands extends Commands {
+    public Command setDrivePower(DriveSubsystem.DrivePower drivePower){
+        return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower));
+    }
+
     public Command input(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
         return new RunCommand(
             () -> subsystems.drive.inputs(
