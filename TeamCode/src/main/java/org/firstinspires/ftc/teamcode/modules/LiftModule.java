@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.modules;
 
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
@@ -13,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPositi
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.INTAKE;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.LOW;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.MID;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.STACK;
 
 import com.arcrobotics.ftclib.command.button.Trigger;
 
@@ -42,5 +44,8 @@ public class LiftModule {
 
         opMode.gamepad2.getGamepadButton(X)
             .whenActive(opMode.commands.lift.to(INTAKE));
+
+        opMode.gamepad2.getGamepadButton(A)
+            .whenActive(opMode.commands.lift.to(STACK));
     }
 }

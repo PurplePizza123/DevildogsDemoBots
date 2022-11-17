@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.HIGH;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.STACK;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
@@ -34,7 +35,7 @@ public class AutonomousCommands extends Commands {
 
         SequentialCommandGroup group = new SequentialCommandGroup(
             drive.turn(1, 0),
-            drive.move(0, 1, 24),
+            drive.move(0, 1, 24).alongWith(lift.to(STACK)),
             drive.turn(1, side.adapt(90))
         );
 
