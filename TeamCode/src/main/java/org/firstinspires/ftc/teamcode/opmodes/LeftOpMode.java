@@ -4,8 +4,8 @@ import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Side.LE
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous
-public class RedSouthOpMode extends OpMode {
+@Autonomous(name = "Left")
+public class LeftOpMode extends OpMode {
     @Override
     public void initialize() {
         super.initialize();

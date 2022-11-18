@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.A;
+import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.B;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.HIGH;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.STACK;
@@ -12,31 +14,45 @@ import java.util.HashMap;
 
 public class AutonomousCommands extends Commands {
     public Command execute(Side side) {
+        subsystems.menu.side = side;
         return vision.detect().andThen(
-            autonomous.scoreStartCone(side),
-            autonomous.scoreStack(side, 1),
-            autonomous.park(side)
+            autonomous.scoreStartCone(),
+            autonomous.executeChosenPlan(),
+            autonomous.park()
         );
     }
 
-    public Command scoreStartCone(Side side) {
+    public Command executeChosenPlan() {
+        return new SelectCommand(
+            new HashMap<Object, Command>() {{
+                put(A, autonomous.scoreStack(1));
+                put(B, autonomous.prepareToPark());
+            }}, () -> subsystems.menu.plan
+        );
+    }
+
+    public Command prepareToPark() {
+        return drive.turn(1, adapt(90));
+    }
+
+    public Command scoreStartCone() {
         return intake.getCone().andThen(
             drive.move(0, 1, 4),
-            drive.move(1, 0, 24),
+            drive.move(1, 0, 25),
             drive.move(0, 1, 24).alongWith(lift.to(HIGH)),
-            drive.turn(1, side.adapt(-45)),
-            drive.move(0, 1, 7),
+            drive.turn(1, adapt(-45)),
+            drive.move(0, 1, 10),
             intake.setCone()
         );
     }
 
-    public Command scoreStack(Side side, int times) {
+    public Command scoreStack(int times) {
         int stackedCones = 5;
 
         SequentialCommandGroup group = new SequentialCommandGroup(
             drive.turn(1, 0),
             drive.move(0, 1, 24).alongWith(lift.to(STACK)),
-            drive.turn(1, side.adapt(90))
+            drive.turn(1, adapt(90))
         );
 
         while (--times >= 0) {
@@ -44,24 +60,30 @@ public class AutonomousCommands extends Commands {
                 drive.move(0, 1, 48),
                 intake.getCone(--stackedCones),
                 drive.move(0, -1, 48).alongWith(lift.to(HIGH)),
-                drive.turn(1, side.adapt(-135)),
-                drive.move(0, 1, 7),
+                drive.turn(1, adapt(-135)),
+                drive.move(0, 1, 10),
                 intake.setCone(stackedCones),
-                drive.turn(1, side.adapt(90))
+                drive.turn(1, adapt(90))
             );
         }
 
         return group;
     }
 
-    public Command park(Side side) {
+    public Command park() {
+        boolean isLeft = subsystems.menu.side == Side.LEFT;
+        int detectionId = subsystems.vision.getDetectionId();
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(1, drive.move(0, 1, side == Side.LEFT ? 48 : 0));
+                put(1, drive.move(0, 1, isLeft ? 48 : 0));
                 put(2, drive.move(0, 1, 24));
-                put(3, drive.move(0, 1, side == Side.LEFT ? 0 : 48));
-            }}, () -> subsystems.vision.getDetectionId() == 0 ? (side == Side.LEFT ? 3 : 1) : subsystems.vision.getDetectionId()
+                put(3, drive.move(0, 1, isLeft ? 0 : 48));
+            }}, () -> detectionId == 0 ? (isLeft ? 3 : 1) : detectionId
         ).andThen(lift.to(GROUND));
+    }
+
+    public double adapt(double value) {
+        return subsystems.menu.side.sign * value;
     }
 
     public enum Side {
@@ -71,10 +93,6 @@ public class AutonomousCommands extends Commands {
 
         Side(int sign) {
             this.sign = sign;
-        }
-
-        public double adapt(double value) {
-            return this.sign * value;
         }
     }
 
