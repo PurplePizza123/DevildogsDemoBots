@@ -13,8 +13,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import java.util.HashMap;
 
 public class AutonomousCommands extends Commands {
-    public Command execute(Side side) {
-        subsystems.menu.side = side;
+    public Command execute() {
         return vision.detect().andThen(
             autonomous.scoreStartCone(),
             autonomous.executeChosenPlan(),
@@ -25,7 +24,7 @@ public class AutonomousCommands extends Commands {
     public Command executeChosenPlan() {
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(A, autonomous.scoreStack(1));
+                put(A, autonomous.scoreStack(3));
                 put(B, autonomous.prepareToPark());
             }}, () -> subsystems.menu.plan
         );
@@ -38,10 +37,10 @@ public class AutonomousCommands extends Commands {
     public Command scoreStartCone() {
         return intake.getCone().andThen(
             drive.move(0, 1, 4),
-            drive.move(1, 0, 25),
+            drive.move(adapt(1), 0, 26),
             drive.move(0, 1, 24).alongWith(lift.to(HIGH)),
             drive.turn(1, adapt(-45)),
-            drive.move(0, 1, 10),
+            drive.move(0, 1, 11.5),
             intake.setCone()
         );
     }
@@ -57,11 +56,11 @@ public class AutonomousCommands extends Commands {
 
         while (--times >= 0) {
             group.addCommands(
-                drive.move(0, 1, 48),
+                drive.move(0, 1, 50),
                 intake.getCone(--stackedCones),
-                drive.move(0, -1, 48).alongWith(lift.to(HIGH)),
+                drive.move(0, -1, 50).alongWith(lift.to(HIGH)),
                 drive.turn(1, adapt(-135)),
-                drive.move(0, 1, 10),
+                drive.move(0, 1, 11.5),
                 intake.setCone(stackedCones),
                 drive.turn(1, adapt(90))
             );

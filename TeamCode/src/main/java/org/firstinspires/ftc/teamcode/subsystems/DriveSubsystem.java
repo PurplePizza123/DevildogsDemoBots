@@ -117,11 +117,20 @@ public class DriveSubsystem extends HardwareSubsystem {
         ) / 4d * DISTANCE_PER_PULSE;
     }
 
+    public double getHeading() {
+        return hardware.imu.getHeading();
+    }
+
     public double getRemainderLeftToTurn(double heading) {
-        double remainder = hardware.imu.getHeading() - heading;
-        if (remainder > +180) remainder -= 360;
-        if (remainder < -180) remainder += 360;
-        return remainder;
+        return normalizeHeading(
+            getHeading() - heading
+        );
+    }
+
+    public double normalizeHeading(double heading) {
+        if (heading > +180) heading -= 360;
+        if (heading < -180) heading += 360;
+        return heading;
     }
 
     public void resetEncoders() {
