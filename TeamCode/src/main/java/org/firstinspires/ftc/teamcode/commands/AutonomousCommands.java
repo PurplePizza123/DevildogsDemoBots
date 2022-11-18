@@ -78,7 +78,7 @@ public class AutonomousCommands extends Commands {
                 put(2, drive.move(0, 1, 24));
                 put(3, drive.move(0, 1, isLeft ? 0 : 46));
             }}, () -> detectionId == 0 ? (isLeft ? 3 : 1) : detectionId
-        ).andThen(lift.to(GROUND));
+        ).alongWith(lift.to(GROUND).andThen(wait.seconds(3)));
     }
 
     public double adapt(double value) {
