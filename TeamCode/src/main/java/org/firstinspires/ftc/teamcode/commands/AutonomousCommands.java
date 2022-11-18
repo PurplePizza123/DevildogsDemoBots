@@ -24,7 +24,7 @@ public class AutonomousCommands extends Commands {
     public Command executeChosenPlan() {
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(A, autonomous.scoreStack(3));
+                put(A, autonomous.scoreStack(1));
                 put(B, autonomous.prepareToPark());
             }}, () -> subsystems.menu.plan
         );
@@ -74,9 +74,9 @@ public class AutonomousCommands extends Commands {
         int detectionId = subsystems.vision.getDetectionId();
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(1, drive.move(0, 1, isLeft ? 48 : 0));
+                put(1, drive.move(0, 1, isLeft ? 46 : 0));
                 put(2, drive.move(0, 1, 24));
-                put(3, drive.move(0, 1, isLeft ? 0 : 48));
+                put(3, drive.move(0, 1, isLeft ? 0 : 46));
             }}, () -> detectionId == 0 ? (isLeft ? 3 : 1) : detectionId
         ).andThen(lift.to(GROUND));
     }
