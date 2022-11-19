@@ -11,11 +11,11 @@ public class IntakeModule {
     public IntakeModule(OpMode opMode) {
         opMode.gamepad2.getGamepadButton(LEFT_BUMPER)
             .whenActive(opMode.commands.intake.in())
-            .whenInactive(opMode.commands.intake.stop());
+            .whenInactive(opMode.commands.intake.stop(true));
 
         opMode.gamepad2.getGamepadButton(RIGHT_BUMPER)
             .whenActive(opMode.commands.intake.out())
-            .whenInactive(opMode.commands.intake.stop());
+            .whenInactive(opMode.commands.intake.stop(false));
 
         opMode.gamepad2.getGamepadButton(Y)
             .whenActive(opMode.commands.intake.getCone());

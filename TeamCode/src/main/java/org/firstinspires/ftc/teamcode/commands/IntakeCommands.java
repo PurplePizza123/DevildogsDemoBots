@@ -15,8 +15,8 @@ public class IntakeCommands extends Commands {
         return new InstantCommand(subsystems.intake::out, subsystems.intake);
     }
 
-    public Command stop() {
-        return new InstantCommand(subsystems.intake::stop, subsystems.intake);
+    public Command stop(boolean pulse) {
+        return new InstantCommand(() -> subsystems.intake.stop(pulse), subsystems.intake);
     }
 
     public Command getCone() {
@@ -28,7 +28,7 @@ public class IntakeCommands extends Commands {
             lift.to(GROUND, offset),
             wait.seconds(0.5),
             lift.to(INTAKE, offset),
-            intake.stop()
+            intake.stop(true)
         );
     }
 
@@ -40,7 +40,7 @@ public class IntakeCommands extends Commands {
         return intake.out().andThen(
             wait.seconds(1),
             drive.setHeading(),
-            intake.stop(),
+            intake.stop(false),
             drive.move(0, -1, 11.5),
             lift.to(INTAKE, offset)
         );
