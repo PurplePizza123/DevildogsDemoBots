@@ -67,9 +67,9 @@ public class AutonomousCommands extends Commands {
 
         while (--times >= 0) {
             group.addCommands(
-                drive.move(0, 1, 50),
+                drive.move(0, 1, 49.5),
                 intake.getCone(--stackedCones),
-                drive.move(0, -1, 50).alongWith(lift.to(HIGH)),
+                drive.move(0, -1, 49.5).alongWith(lift.to(HIGH)),
                 drive.turn(1, adapt(-135)),
                 drive.move(0, 1, 11.5),
                 intake.setCone(stackedCones),
