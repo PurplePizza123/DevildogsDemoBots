@@ -20,9 +20,9 @@ public class IntakeSubsystem extends HardwareSubsystem{
     @Override
     public void periodic() {
         telemetry.addData("Intake", "%.2f vel", hardware.intake.get());
-        if (!pulse) return;
-        long mod = System.currentTimeMillis() % PULSE_PERIOD;
-        hardware.intake.set(mod < PULSE_WIDTH ? POWER_IN : 0);
+//        if (!pulse) return;
+//        long mod = System.currentTimeMillis() % PULSE_PERIOD;
+//        hardware.intake.set(mod < PULSE_WIDTH ? POWER_IN : 0);
     }
 
     public void in() {

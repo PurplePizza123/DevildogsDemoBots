@@ -35,7 +35,7 @@ public class AutonomousCommands extends Commands {
     public Command executeChosenPlan() {
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(A, autonomous.scoreStack(1));
+                put(A, autonomous.scoreStack(subsystems.menu.stacks));
                 put(B, autonomous.prepareToPark());
             }}, () -> subsystems.menu.plan
         );
