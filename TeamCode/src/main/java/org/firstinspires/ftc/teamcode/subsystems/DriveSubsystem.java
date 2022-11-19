@@ -19,6 +19,9 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static double MIN_POWER = 0.2;
     public static double MAX_POWER = 1.0;
     public static boolean SQUARE_INPUTS = false;
+    public static double MOVE_DECELERATION = 12;
+    public static double TURN_DECELERATION = 45;
+    public static double TURN_TOLERANCE = 1;
     private double targetHeading = 0;
 
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
@@ -91,8 +94,8 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public void move(double strafe, double forward, double heading, double distance) {
-        double deceleration = (distance - getDistance()) / 12;
-        double turn = getRemainderLeftToTurn(targetHeading = heading) / 45;
+        double deceleration = (distance - getDistance()) / MOVE_DECELERATION;
+        double turn = getRemainderLeftToTurn(targetHeading = heading) / TURN_DECELERATION;
         if (strafe != 0) strafe = clamp(MIN_POWER, strafe, deceleration);
         if (forward != 0) forward = clamp(MIN_POWER, forward, deceleration);
         inputs(strafe, forward, turn);
@@ -100,7 +103,7 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     public void turn(double power, double heading) {
         power = Math.abs(power);
-        double turn = clamp(MIN_POWER, power, getRemainderLeftToTurn(targetHeading = heading) / 45 * power);
+        double turn = clamp(MIN_POWER, power, getRemainderLeftToTurn(targetHeading = heading) / TURN_DECELERATION * power);
         inputs(0, 0, turn);
     }
 

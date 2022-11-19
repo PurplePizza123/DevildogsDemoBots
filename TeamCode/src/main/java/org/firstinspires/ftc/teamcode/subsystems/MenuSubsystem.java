@@ -9,10 +9,11 @@ import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
 
 public class MenuSubsystem extends HardwareSubsystem{
-    public static AutonomousCommands.Side side = RIGHT;
-    public static AutonomousCommands.Plan plan = A;
-    public static double delay = 0;
     public static boolean enabled = true;
+    public static AutonomousCommands.Side side = RIGHT;
+    public AutonomousCommands.Plan plan = A;
+    public double delay = 0;
+    public int stacks = 2;
 
     public MenuSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -20,6 +21,6 @@ public class MenuSubsystem extends HardwareSubsystem{
 
     @Override
     public void periodic() {
-        if (enabled) telemetry.addData("Menu", "%s side, plan %s, %.1f delay", side, plan, delay);
+        if (enabled) telemetry.addData("Menu", "%s side, %s plan, %d stacks, %.1f delay", side, plan, stacks, delay);
     }
 }

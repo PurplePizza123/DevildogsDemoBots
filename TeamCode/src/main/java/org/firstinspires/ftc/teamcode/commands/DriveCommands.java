@@ -49,13 +49,21 @@ public class DriveCommands extends Commands {
             () -> subsystems.drive.resetEncoders(),
             () -> subsystems.drive.turn(power, heading),
             i  -> subsystems.drive.stop(),
-            () -> subsystems.drive.getRemainderLeftToTurn(heading) > -0.33 &&
-                  subsystems.drive.getRemainderLeftToTurn(heading) < +0.33,
+            () -> subsystems.drive.getRemainderLeftToTurn(heading) > -DriveSubsystem.TURN_TOLERANCE &&
+                  subsystems.drive.getRemainderLeftToTurn(heading) < +DriveSubsystem.TURN_TOLERANCE,
             subsystems.drive
         );
     }
 
     public Command setHeading() {
         return new InstantCommand(subsystems.drive::setHeading, subsystems.drive);
+    }
+
+    public Command tune(double moveDeceleration, double turnDeceleration, double turnTolerance){
+        return new InstantCommand(() -> {
+            DriveSubsystem.MOVE_DECELERATION = moveDeceleration;
+            DriveSubsystem.TURN_DECELERATION = turnDeceleration;
+            DriveSubsystem.TURN_TOLERANCE = turnTolerance;
+        });
     }
 }

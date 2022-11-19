@@ -15,11 +15,22 @@ import java.util.HashMap;
 public class AutonomousCommands extends Commands {
     public Command execute() {
         return vision.detect().andThen(
+            autonomous.tuneDrive(),
             autonomous.scoreStartCone(),
             autonomous.executeChosenPlan(),
             autonomous.park()
         );
     }
+
+    public Command tuneDrive(){
+        double detectionId = subsystems.vision.getDetectionId();
+        return subsystems.menu.plan == A && subsystems.menu.stacks == 2 && (
+            (subsystems.menu.side == Side.LEFT && detectionId == 1) ||
+            (subsystems.menu.side == Side.RIGHT && detectionId == 3)
+        ) ? drive.tune(9,30,1) :
+            drive.tune(12, 45, 1);
+    }
+
 
     public Command executeChosenPlan() {
         return new SelectCommand(
