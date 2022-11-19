@@ -54,4 +54,8 @@ public class DriveCommands extends Commands {
             subsystems.drive
         );
     }
+
+    public Command setHeading() {
+        return new InstantCommand(subsystems.drive::setHeading, subsystems.drive);
+    }
 }

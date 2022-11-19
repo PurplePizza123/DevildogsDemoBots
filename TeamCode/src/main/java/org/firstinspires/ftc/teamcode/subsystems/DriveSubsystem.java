@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 @Config
 public class DriveSubsystem extends HardwareSubsystem {
-    public static double PULSE_PER_ROTATION = 537.5;
+    public static double PULSE_PER_ROTATION = 537.7;
     public static double DISTANCE_PER_ROTATION = 3.78 * Math.PI;
     public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
     public static double MIN_POWER = 0.2;
@@ -115,6 +115,10 @@ public class DriveSubsystem extends HardwareSubsystem {
             Math.abs(hardware.driveRightFront.getCurrentPosition()) +
             Math.abs(hardware.driveRightRear.getCurrentPosition())
         ) / 4d * DISTANCE_PER_PULSE;
+    }
+
+    public void setHeading() {
+        targetHeading = getHeading();
     }
 
     public double getHeading() {
