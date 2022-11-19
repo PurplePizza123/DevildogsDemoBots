@@ -6,6 +6,12 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class LiftCommands extends Commands {
+    public Command calibrate() {
+        return new InstantCommand(subsystems.lift::calibrate, subsystems.lift)/*.andThen(
+                wait.until(() -> subsystems.lift.calibrated)
+        ).withTimeout(3000)*/;
+    }
+
     public Command up() {
         return new InstantCommand(subsystems.lift::up, subsystems.lift);
     }

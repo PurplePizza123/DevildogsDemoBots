@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -22,6 +23,9 @@ public class Hardware {
 
     public DcMotor lift;
 
+    public DigitalChannel liftLeftLimit;
+    public DigitalChannel liftRightLimit;
+
     public OpenCvWebcam webcam;
 
     public Hardware(HardwareMap hardwareMap) {
@@ -39,6 +43,9 @@ public class Hardware {
         );
 
         lift = hardwareMap.get(DcMotor.class, "lift");
+
+        liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
+        liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 
         webcam = OpenCvCameraFactory.getInstance().createWebcam(
             hardwareMap.get(WebcamName.class, "Webcam 1"),
