@@ -68,7 +68,7 @@ public class AutonomousCommands extends Commands {
         while (--times >= 0) {
             group.addCommands(
                 drive.move(0, 1, 49.5),
-                intake.getCone(--stackedCones),
+                intake.getCone(--stackedCones).andThen(wait.seconds(0.3)),
                 drive.move(0, -1, 49.5).alongWith(lift.to(HIGH)),
                 drive.turn(1, adapt(-135)),
                 drive.move(0, 1, 11.5),
@@ -99,7 +99,7 @@ public class AutonomousCommands extends Commands {
     public enum Side {
         LEFT(1), RIGHT(-1);
 
-        private int sign;
+        private final int sign;
 
         Side(int sign) {
             this.sign = sign;

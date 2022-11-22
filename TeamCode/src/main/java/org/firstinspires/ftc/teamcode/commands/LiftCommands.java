@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class LiftCommands extends Commands {
     public Command calibrate() {
-        return new InstantCommand(subsystems.lift::calibrate, subsystems.lift)/*.andThen(
-                wait.until(() -> subsystems.lift.calibrated)
-        ).withTimeout(3000)*/;
+        return new InstantCommand(subsystems.lift::calibrate, subsystems.lift).andThen(
+            wait.until(() -> subsystems.lift.calibrated).withTimeout(3000)
+        );
     }
 
     public Command up() {

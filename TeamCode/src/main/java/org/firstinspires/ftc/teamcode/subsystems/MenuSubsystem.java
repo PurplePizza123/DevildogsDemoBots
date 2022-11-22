@@ -1,19 +1,17 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.A;
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Side.LEFT;
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Side.RIGHT;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
 
-public class MenuSubsystem extends HardwareSubsystem{
-    public static boolean enabled = true;
-    public static AutonomousCommands.Side side = RIGHT;
+public class MenuSubsystem extends HardwareSubsystem {
+    public static boolean enabled;
+    public static AutonomousCommands.Side side;
     public AutonomousCommands.Plan plan = A;
-    public double delay = 0;
     public int stacks = 2;
+    public double delay = 0;
 
     public MenuSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);

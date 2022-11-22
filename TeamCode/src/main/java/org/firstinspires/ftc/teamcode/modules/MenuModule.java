@@ -11,8 +11,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class MenuModule {
-    public MenuModule(OpMode opMode){
-
+    public MenuModule(OpMode opMode) {
         opMode.gamepad1.getGamepadButton(A)
             .or(opMode.gamepad2.getGamepadButton(A))
             .whenActive(opMode.commands.menu.setPlan(AutonomousCommands.Plan.A));
@@ -30,12 +29,11 @@ public class MenuModule {
             .whenActive(opMode.commands.menu.changeDelay(+1));
 
         opMode.gamepad1.getGamepadButton(LEFT_BUMPER)
-                .or(opMode.gamepad2.getGamepadButton(LEFT_BUMPER))
-                .whenActive(opMode.commands.menu.changeStacks(-1));
+            .or(opMode.gamepad2.getGamepadButton(LEFT_BUMPER))
+            .whenActive(opMode.commands.menu.changeStacks(-1));
 
         opMode.gamepad1.getGamepadButton(RIGHT_BUMPER)
-                .or(opMode.gamepad2.getGamepadButton(RIGHT_BUMPER))
-                .whenActive(opMode.commands.menu.changeStacks(+1));
-
+            .or(opMode.gamepad2.getGamepadButton(RIGHT_BUMPER))
+            .whenActive(opMode.commands.menu.changeStacks(+1));
     }
 }

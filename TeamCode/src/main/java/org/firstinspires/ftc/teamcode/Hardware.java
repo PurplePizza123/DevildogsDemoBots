@@ -22,7 +22,6 @@ public class Hardware {
     public MotorGroup intake;
 
     public DcMotor lift;
-
     public DigitalChannel liftLeftLimit;
     public DigitalChannel liftRightLimit;
 
@@ -43,7 +42,6 @@ public class Hardware {
         );
 
         lift = hardwareMap.get(DcMotor.class, "lift");
-
         liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
         liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 

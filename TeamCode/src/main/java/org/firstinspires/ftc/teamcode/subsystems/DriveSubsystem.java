@@ -50,17 +50,17 @@ public class DriveSubsystem extends HardwareSubsystem {
         telemetry.addData("Drive (RR)","%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.getPower(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getCurrentPosition() * DISTANCE_PER_PULSE);
     }
 
-    public enum DrivePower{
+    public enum DrivePower {
         LOW(0.25), MEDIUM(0.5), HIGH(1);
 
-        public double power;
+        public final double power;
 
-        DrivePower(double power){
+        DrivePower(double power) {
             this.power = power;
         }
     }
 
-    public void setDrivePower(DrivePower drivePower){
+    public void setDrivePower(DrivePower drivePower) {
         MAX_POWER = drivePower.power;
     }
 

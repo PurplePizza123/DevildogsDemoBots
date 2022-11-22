@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommands extends Commands {
-    public Command setDrivePower(DriveSubsystem.DrivePower drivePower){
+    public Command setDrivePower(DriveSubsystem.DrivePower drivePower) {
         return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower), subsystems.menu);
     }
 
@@ -59,11 +59,11 @@ public class DriveCommands extends Commands {
         return new InstantCommand(subsystems.drive::setHeading, subsystems.drive);
     }
 
-    public Command tune(double moveDeceleration, double turnDeceleration, double turnTolerance){
+    public Command tune(double moveDeceleration, double turnDeceleration, double turnTolerance) {
         return new InstantCommand(() -> {
             DriveSubsystem.MOVE_DECELERATION = moveDeceleration;
             DriveSubsystem.TURN_DECELERATION = turnDeceleration;
             DriveSubsystem.TURN_TOLERANCE = turnTolerance;
-        });
+        }, subsystems.drive);
     }
 }
