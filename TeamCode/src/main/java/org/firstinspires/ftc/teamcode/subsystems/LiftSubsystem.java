@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.PositionControl;
 import static com.arcrobotics.ftclib.util.MathUtils.clamp;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
@@ -24,28 +23,26 @@ public class LiftSubsystem extends HardwareSubsystem {
     private static double HEIGHT = MIN;
     public boolean calibrated = false;
 
-
     public LiftSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
-        hardware.lift.setMode(RUN_USING_ENCODER);
+        hardware.lift.motor.setMode(RUN_USING_ENCODER);
     }
 
     @Override
     public void periodic() {
-        telemetry.addData("Lift","%.2f pow, %.2f height, %b left, %b right", hardware.lift.getPower(), hardware.lift.getCurrentPosition() * LIFT_HEIGHT_PER_PULSE, !hardware.liftLeftLimit.getState(), !hardware.liftRightLimit.getState());
+        telemetry.addData("Lift","%.2f pow, %.2f height, %b left, %b right", hardware.lift.motor.getPower(), hardware.lift.getCurrentPosition() * LIFT_HEIGHT_PER_PULSE, !hardware.liftLeftLimit.getState(), !hardware.liftRightLimit.getState());
 
         if (calibrated) return;
 
         boolean isDown = !hardware.liftLeftLimit.getState() || !hardware.liftRightLimit.getState();
 
         if (isDown) {
-            hardware.lift.setMode(STOP_AND_RESET_ENCODER);
-            hardware.lift.setTargetPosition(0);
-            hardware.lift.setMode(RUN_TO_POSITION);
-            hardware.lift.setPower(POWER_UP);
+            hardware.lift.motor.setMode(STOP_AND_RESET_ENCODER);
+            hardware.lift.motor.setTargetPosition(0);
+            hardware.lift.motor.setMode(RUN_TO_POSITION);
+            hardware.lift.motor.setPower(POWER_UP);
             calibrated = true;
         }
-
     }
 
     public enum LiftPosition {
@@ -60,8 +57,8 @@ public class LiftSubsystem extends HardwareSubsystem {
 
     public void calibrate() {
         calibrated = false;
-        hardware.lift.setMode(RUN_USING_ENCODER);
-        hardware.lift.setPower(-POWER_DOWN);
+        hardware.lift.motor.setMode(RUN_USING_ENCODER);
+        hardware.lift.motor.setPower(-POWER_DOWN);
     }
 
     public void up() {
@@ -78,8 +75,8 @@ public class LiftSubsystem extends HardwareSubsystem {
 
     public void to(double height) {
         height = clamp(height, -MAX, MAX);
-        hardware.lift.setPower(height > HEIGHT ? POWER_UP : POWER_DOWN);
-        hardware.lift.setTargetPosition(
+        hardware.lift.motor.setPower(height > HEIGHT ? POWER_UP : POWER_DOWN);
+        hardware.lift.motor.setTargetPosition(
             (int)(((HEIGHT = height) - MIN) / LIFT_HEIGHT_PER_PULSE)
         );
     }
