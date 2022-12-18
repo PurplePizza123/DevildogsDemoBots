@@ -42,16 +42,15 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
-                new Pose2d(-1.6875, 6.34375 * LATERAL_MULTIPLIER, 0), // left
-                new Pose2d(-1.6875, -6.90625 * LATERAL_MULTIPLIER, 0), // right
-                new Pose2d(-5.21875, -3.1875, Math.toRadians(90)) // front
+            new Pose2d(-1.6875, 6.34375 * LATERAL_MULTIPLIER, 0), // left
+            new Pose2d(-1.6875, -6.90625 * LATERAL_MULTIPLIER, 0), // right
+            new Pose2d(-5.21875, -0.1875, Math.toRadians(90)) // front
         ));
 
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryLeft"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryRight"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryCenter"));
 
-        // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
         leftEncoder.setDirection(Encoder.Direction.REVERSE);
         rightEncoder.setDirection(Encoder.Direction.REVERSE);
         frontEncoder.setDirection(Encoder.Direction.REVERSE);
@@ -66,9 +65,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(leftEncoder.getCurrentPosition()) * X_MULTIPLIER,
-                encoderTicksToInches(rightEncoder.getCurrentPosition()) * X_MULTIPLIER,
-                encoderTicksToInches(frontEncoder.getCurrentPosition()) * Y_MULTIPLIER
+            encoderTicksToInches(leftEncoder.getCurrentPosition()) * X_MULTIPLIER,
+            encoderTicksToInches(rightEncoder.getCurrentPosition()) * X_MULTIPLIER,
+            encoderTicksToInches(frontEncoder.getCurrentPosition()) * Y_MULTIPLIER
         );
     }
 
@@ -78,11 +77,10 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         // TODO: If your encoder velocity can exceed 32767 counts / second (such as the REV Through Bore and other
         //  competing magnetic encoders), change Encoder.getRawVelocity() to Encoder.getCorrectedVelocity() to enable a
         //  compensation method
-
         return Arrays.asList(
-                encoderTicksToInches(leftEncoder.getCorrectedVelocity()),
-                encoderTicksToInches(rightEncoder.getCorrectedVelocity()),
-                encoderTicksToInches(frontEncoder.getCorrectedVelocity())
+            encoderTicksToInches(leftEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
+            encoderTicksToInches(rightEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
+            encoderTicksToInches(frontEncoder.getCorrectedVelocity()) * Y_MULTIPLIER
         );
     }
 }

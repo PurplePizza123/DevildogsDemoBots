@@ -39,7 +39,6 @@ public class IntakeCommands extends Commands {
     public Command setCone(double offset) {
         return intake.out().andThen(
             wait.seconds(.3),
-            drive.setHeading(),
             intake.stop(false),
             drive.move(0, -1, 8),
             lift.to(INTAKE, offset)

@@ -7,18 +7,18 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_BUMPER;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER;
 
-import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
+import org.firstinspires.ftc.teamcode.Game;
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class MenuModule {
     public MenuModule(OpMode opMode) {
         opMode.gamepad1.getGamepadButton(A)
             .or(opMode.gamepad2.getGamepadButton(A))
-            .whenActive(opMode.commands.menu.setPlan(AutonomousCommands.Plan.A));
+            .whenActive(opMode.commands.menu.setPlan(Game.Plan.A));
 
         opMode.gamepad1.getGamepadButton(B)
             .or(opMode.gamepad2.getGamepadButton(B))
-            .whenActive(opMode.commands.menu.setPlan(AutonomousCommands.Plan.B));
+            .whenActive(opMode.commands.menu.setPlan(Game.Plan.B));
 
         opMode.gamepad1.getGamepadButton(DPAD_DOWN)
             .or(opMode.gamepad2.getGamepadButton(DPAD_DOWN))

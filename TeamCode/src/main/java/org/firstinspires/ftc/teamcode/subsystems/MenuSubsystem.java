@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.A;
+import static org.firstinspires.ftc.teamcode.Game.Plan.A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Game;
 import org.firstinspires.ftc.teamcode.Hardware;
-import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
 
 public class MenuSubsystem extends HardwareSubsystem {
     public static boolean enabled;
-    public static AutonomousCommands.Side side;
-    public AutonomousCommands.Plan plan = A;
+    public static Game.Side side;
+    public Game.Plan plan = A;
     public int stacks = 2;
     public double delay = 0;
 

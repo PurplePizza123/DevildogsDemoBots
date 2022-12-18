@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Side.RIGHT;
+import static org.firstinspires.ftc.teamcode.Game.Side.RIGHT;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem;
 
 @Autonomous(name = "Right")
+@SuppressWarnings("unused")
 public class RightOpMode extends AutoOpMode {
     @Override
     public void initialize() {

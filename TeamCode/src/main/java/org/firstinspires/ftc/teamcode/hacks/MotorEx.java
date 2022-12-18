@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+@SuppressWarnings("unused")
 public class MotorEx extends com.arcrobotics.ftclib.hardware.motors.MotorEx {
     public MotorEx(@NonNull HardwareMap hMap, String id) {
         super(hMap, id);

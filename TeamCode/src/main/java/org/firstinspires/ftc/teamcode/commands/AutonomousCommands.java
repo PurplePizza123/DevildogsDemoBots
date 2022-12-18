@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.A;
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.B;
+import static org.firstinspires.ftc.teamcode.Game.Plan.A;
+import static org.firstinspires.ftc.teamcode.Game.Plan.B;
+import static org.firstinspires.ftc.teamcode.Game.Side.LEFT;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.HIGH;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.STACK;
@@ -70,32 +71,19 @@ public class AutonomousCommands extends Commands {
     }
 
     public Command park() {
-        boolean isLeft = subsystems.menu.side == Side.LEFT;
-        int detectionId = subsystems.vision.getDetectionId();
+        boolean isLeft = subsystems.menu.side == LEFT;
+        int detectionId = subsystems.vision.getDetectionId() + 1;
+        String detectionLabel = subsystems.vision.getDetectionLabel();
         return new SelectCommand(
             new HashMap<Object, Command>() {{
                 put(1, drive.move(0, 1, isLeft ? 46 : 0));
                 put(2, drive.move(0, 1, 24));
                 put(3, drive.move(0, 1, isLeft ? 0 : 46));
-            }}, () -> detectionId == 0 ? (isLeft ? 3 : 1) : detectionId
+            }}, () -> detectionLabel == "none" ? (isLeft ? 3 : 1) : detectionId
         ).alongWith(lift.to(GROUND).andThen(wait.seconds(3)));
     }
 
     public double adapt(double value) {
         return subsystems.menu.side.sign * value;
-    }
-
-    public enum Side {
-        LEFT(1), RIGHT(-1);
-
-        private final int sign;
-
-        Side(int sign) {
-            this.sign = sign;
-        }
-    }
-
-    public enum Plan {
-        A, B
     }
 }

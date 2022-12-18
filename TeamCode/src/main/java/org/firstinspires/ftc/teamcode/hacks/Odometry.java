@@ -29,11 +29,9 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -47,12 +45,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Config
+@SuppressWarnings("ALL")
 public class Odometry extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
     public static double LATERAL_MULTIPLIER = 1;
-
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
@@ -64,9 +62,6 @@ public class Odometry extends MecanumDrive {
     private final List<MotorEx> motors;
     private final Hardware hardware;
     private final Telemetry telemetry;
-
-    private BNO055IMU imu;
-    private VoltageSensor batteryVoltageSensor;
 
     public Odometry(Hardware hardware, Telemetry telemetry) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
@@ -104,8 +99,6 @@ public class Odometry extends MecanumDrive {
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
-
-        // TODO: reverse any motors using DcMotor.setDirection()
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
@@ -202,7 +195,7 @@ public class Odometry extends MecanumDrive {
     public void setPIDFCoefficients(DcMotor.RunMode runMode, PIDFCoefficients coefficients) {
         PIDFCoefficients compensatedCoefficients = new PIDFCoefficients(
             coefficients.p, coefficients.i, coefficients.d,
-            coefficients.f * 12 / batteryVoltageSensor.getVoltage()
+            coefficients.f * 12 / hardware.batteryVoltageSensor.getVoltage()
         );
 
         for (MotorEx motor : motors) {
@@ -234,22 +227,14 @@ public class Odometry extends MecanumDrive {
     @Override
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
-
-        for (MotorEx motor : motors) {
-            wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
-        }
-
+        for (MotorEx motor : motors) wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
         return wheelPositions;
     }
 
     @Override
     public List<Double> getWheelVelocities() {
         List<Double> wheelVelocities = new ArrayList<>();
-
-        for (MotorEx motor : motors) {
-            wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
-        }
-
+        for (MotorEx motor : motors) wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
         return wheelVelocities;
     }
 
@@ -263,12 +248,12 @@ public class Odometry extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return imu.getAngularOrientation().firstAngle;
+        return hardware.imu.getAngularOrientation().firstAngle;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return (double) imu.getAngularVelocity().zRotationRate;
+        return (double) hardware.imu.getAngularVelocity().zRotationRate;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {

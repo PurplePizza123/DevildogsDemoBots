@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
+import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
@@ -17,13 +20,11 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static double PULSE_PER_ROTATION = 537.7;
     public static double DISTANCE_PER_ROTATION = 3.78 * Math.PI;
     public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
-    public static double MIN_POWER = 0.2;
     public static double MAX_POWER = 1.0;
-    public static Motor.RunMode RUN_MODE = Motor.RunMode.VelocityControl;
+    public static Motor.RunMode RUN_MODE = RawPower;
     public static boolean DRIVE_FIELD_CENTRIC = false;
     public static boolean SQUARE_INPUTS = false;
     public static boolean AUTO_INVERT = false;
-    private double targetHeading = 0;
 
     private final MecanumDrive drive;
     private final Odometry odometry;
@@ -39,7 +40,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         hardware.driveLeftRear.setInverted(true);
 
         hardware.drive.setRunMode(RUN_MODE);
-        hardware.drive.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        hardware.drive.setZeroPowerBehavior(BRAKE);
         hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
         hardware.drive.resetEncoder();
 
@@ -56,15 +57,16 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
+        odometry.update();
         telemetry.addData("Drive (Heading)", "%.2f deg", getHeading());
-        telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.motor.getPower(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getCurrentPosition() * DISTANCE_PER_PULSE);
-        telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.motor.getPower(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getCurrentPosition() * DISTANCE_PER_PULSE);
-        telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.motor.getPower(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getCurrentPosition() * DISTANCE_PER_PULSE);
-        telemetry.addData("Drive (RR)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.motor.getPower(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getCurrentPosition() * DISTANCE_PER_PULSE);
+        telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
+        telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
+        telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.get(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getDistance());
+        telemetry.addData("Drive (RR)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.get(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getDistance());
     }
 
     public enum DrivePower {
-        LOW(0.25), MEDIUM(0.5), HIGH(1);
+        LOW(0.25), MEDIUM(0.5), HIGH(0.75);
 
         public final double power;
 
@@ -109,10 +111,6 @@ public class DriveSubsystem extends HardwareSubsystem {
         odometry.turnAsync(
             Math.toRadians(heading)
         );
-    }
-
-    public void setHeading() {
-        targetHeading = getHeading();
     }
 
     public double getHeading() {

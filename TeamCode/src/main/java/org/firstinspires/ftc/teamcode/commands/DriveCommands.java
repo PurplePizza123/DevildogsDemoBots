@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
+@SuppressWarnings("unused")
 public class DriveCommands extends Commands {
     public Command setDrivePower(DriveSubsystem.DrivePower drivePower) {
         return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower), subsystems.drive);
@@ -29,10 +30,6 @@ public class DriveCommands extends Commands {
 
     public Command turn(double power, double heading) {
         return complete(() -> subsystems.drive.turn(power, heading));
-    }
-
-    public Command setHeading() {
-        return new InstantCommand(subsystems.drive::setHeading, subsystems.drive);
     }
 
     private Command complete(Runnable runnable) {
