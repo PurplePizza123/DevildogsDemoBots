@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 @Config
 public class LiftSubsystem extends HardwareSubsystem {
     public static double LIFT_SPOOL_CIRCUMFERENCE = 4.409;
-    public static double LIFT_PULSES_PER_REVOLUTION = 537.7;
+    public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
     public static double LIFT_HEIGHT_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
     public static double POWER_UP = 1.0;
     public static double POWER_DOWN = 1.0;

@@ -25,7 +25,7 @@ public class Hardware {
     public DigitalChannel liftLeftLimit;
     public DigitalChannel liftRightLimit;
 
-    public OpenCvWebcam webcam;
+    public OpenCvWebcam signalWebcam;
 
     public Hardware(HardwareMap hardwareMap) {
         imu = new RevIMU(hardwareMap);
@@ -45,7 +45,7 @@ public class Hardware {
         liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
         liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(
+        signalWebcam = OpenCvCameraFactory.getInstance().createWebcam(
             hardwareMap.get(WebcamName.class, "Webcam 1"),
             R.id.cameraMonitorViewId
         );
