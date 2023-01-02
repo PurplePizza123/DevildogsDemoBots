@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
 
+import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.REVERSE;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
@@ -14,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
+import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
 @Config
 public class DriveSubsystem extends HardwareSubsystem {
@@ -51,6 +54,10 @@ public class DriveSubsystem extends HardwareSubsystem {
             hardware.driveRightRear,
             hardware.driveRightFront
         );
+
+        hardware.odometryLeft.setDirection(REVERSE);
+        hardware.odometryRight.setDirection(REVERSE);
+        hardware.odometryCenter.setDirection(REVERSE);
 
         odometry = new Odometry(hardware, telemetry);
     }

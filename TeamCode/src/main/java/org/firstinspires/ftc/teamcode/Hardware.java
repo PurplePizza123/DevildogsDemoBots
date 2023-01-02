@@ -7,12 +7,14 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hacks.MotorEx;
+import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvWebcam;
@@ -27,6 +29,10 @@ public class Hardware {
     public MotorEx driveRightFront;
     public MotorEx driveLeftRear;
     public MotorEx driveRightRear;
+
+    public Encoder odometryLeft;
+    public Encoder odometryRight;
+    public Encoder odometryCenter;
 
     public MotorGroup intake;
 
@@ -53,6 +59,10 @@ public class Hardware {
             driveLeftRear = new MotorEx(hardwareMap, "driveLeftRear", RPM_312),
             driveRightRear = new MotorEx(hardwareMap, "driveRightRear", RPM_312)
         );
+
+        odometryLeft = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryLeft"));
+        odometryRight = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryRight"));
+        odometryCenter = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryCenter"));
 
         intake = new MotorGroup(
             new CRServo(hardwareMap, "intakeFront"),
