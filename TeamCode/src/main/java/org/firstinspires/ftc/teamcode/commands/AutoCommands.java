@@ -13,20 +13,20 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import java.util.HashMap;
 
-public class AutonomousCommands extends Commands {
+public class AutoCommands extends Commands {
     public Command execute() {
         return vision.detect().andThen(
-            autonomous.scoreStartCone(),
-            autonomous.executeChosenPlan(),
-            autonomous.park()
+            auto.scoreStartCone(),
+            auto.executeChosenPlan(),
+            auto.park()
         );
     }
 
     public Command executeChosenPlan() {
         return new SelectCommand(
             new HashMap<Object, Command>() {{
-                put(A, autonomous.scoreStack(subsystems.menu.stacks));
-                put(B, autonomous.prepareToPark());
+                put(A, auto.scoreStack(subsystems.menu.stacks));
+                put(B, auto.prepareToPark());
             }}, () -> subsystems.menu.plan
         );
     }
@@ -79,7 +79,7 @@ public class AutonomousCommands extends Commands {
                 put(1, drive.move(0, 1, isLeft ? 46 : 0));
                 put(2, drive.move(0, 1, 24));
                 put(3, drive.move(0, 1, isLeft ? 0 : 46));
-            }}, () -> detectionLabel == "none" ? (isLeft ? 3 : 1) : detectionId
+            }}, () -> !detectionLabel.equals("none") ? (isLeft ? 3 : 1) : detectionId
         ).alongWith(lift.to(GROUND).andThen(wait.seconds(3)));
     }
 

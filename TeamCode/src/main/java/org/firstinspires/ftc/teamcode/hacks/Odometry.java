@@ -102,7 +102,7 @@ public class Odometry extends MecanumDrive {
         }
 
         setLocalizer(
-                TWO_WHEEL_INSTEAD_OF_THREE ?
+            TWO_WHEEL_INSTEAD_OF_THREE ?
                 new TwoWheelLocalizer(hardware, this) :
                 new ThreeWheelLocalizer(hardware)
         );

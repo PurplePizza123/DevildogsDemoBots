@@ -35,7 +35,7 @@ import java.util.ArrayList;
 @TeleOp
 @Disabled
 @SuppressWarnings("ALL")
-public class AprilTagService
+public class AprilTagDetector
 {
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -62,7 +62,7 @@ public class AprilTagService
 
     public AprilTagDetection detection;
 
-    public AprilTagService(OpenCvWebcam webcam) {
+    public AprilTagDetector(OpenCvWebcam webcam) {
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         webcam.setPipeline(aprilTagDetectionPipeline);

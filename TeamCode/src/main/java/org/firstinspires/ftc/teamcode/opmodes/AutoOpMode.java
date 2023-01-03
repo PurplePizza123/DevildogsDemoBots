@@ -12,7 +12,7 @@ public class AutoOpMode extends OpMode {
         super.initialize();
 
         schedule(
-      //      commands.autonomous.execute()
+            commands.auto.execute()
         );
     }
 }

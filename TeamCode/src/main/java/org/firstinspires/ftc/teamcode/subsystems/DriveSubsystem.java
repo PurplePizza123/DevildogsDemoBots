@@ -16,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
-import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 
 @Config
 public class DriveSubsystem extends HardwareSubsystem {

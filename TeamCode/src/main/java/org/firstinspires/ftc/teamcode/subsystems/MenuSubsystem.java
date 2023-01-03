@@ -19,6 +19,6 @@ public class MenuSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        if (enabled) telemetry.addData("Menu", "%s side, %s plan, %d stacks, %.1f delay", side, plan, stacks, delay);
+        if (enabled) telemetry.addData("Menu", "%s side, %s plan, %d stacks, %.1fs delay", side, plan, stacks, delay);
     }
 }

@@ -11,7 +11,7 @@ public class Commands {
     public static LiftCommands lift = new LiftCommands();
     public static IntakeCommands intake = new IntakeCommands();
     public static WaitCommands wait = new WaitCommands();
-    public static AutonomousCommands autonomous = new AutonomousCommands();
+    public static AutoCommands auto = new AutoCommands();
     public static VisionCommands vision = new VisionCommands();
 
     public Commands(Subsystems... subsystems) {
