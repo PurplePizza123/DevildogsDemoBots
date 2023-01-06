@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.game.Junction;
 
 public class LiftCommands extends Commands {
     public Command calibrate() {
@@ -20,11 +20,15 @@ public class LiftCommands extends Commands {
         return new InstantCommand(subsystems.lift::down, subsystems.lift);
     }
 
-    public Command to(LiftSubsystem.LiftPosition height, double offset) {
-        return new InstantCommand(() -> subsystems.lift.to(height, offset), subsystems.lift);
+    public Command to(double height) {
+        return new InstantCommand(() -> subsystems.lift.to(height), subsystems.lift);
     }
 
-    public Command to(LiftSubsystem.LiftPosition height) {
-        return to(height, 0);
+    public Command toIntake(double offset) {
+        return to(8 + offset);
+    }
+
+    public Command toJunction(Junction junction) {
+        return to(junction.height);
     }
 }

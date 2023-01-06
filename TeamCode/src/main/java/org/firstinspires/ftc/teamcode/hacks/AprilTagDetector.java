@@ -22,8 +22,6 @@
 package org.firstinspires.ftc.teamcode.hacks;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -32,8 +30,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
 
-@TeleOp
-@Disabled
 @SuppressWarnings("ALL")
 public class AprilTagDetector
 {

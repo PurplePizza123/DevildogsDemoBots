@@ -11,12 +11,10 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.LEFT_TRIGGER;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.RIGHT_TRIGGER;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.HIGH;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.INTAKE;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.LOW;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.MID;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.STACK;
+import static org.firstinspires.ftc.teamcode.game.Junction.GROUND;
+import static org.firstinspires.ftc.teamcode.game.Junction.HIGH;
+import static org.firstinspires.ftc.teamcode.game.Junction.LOW;
+import static org.firstinspires.ftc.teamcode.game.Junction.MEDIUM;
 
 import com.arcrobotics.ftclib.command.button.Trigger;
 
@@ -37,21 +35,21 @@ public class LiftModule {
         ).whileActiveContinuous(opMode.commands.lift.up());
 
         opMode.gamepad2.getGamepadButton(DPAD_RIGHT)
-            .whenActive(opMode.commands.lift.to(GROUND));
+            .whenActive(opMode.commands.lift.toJunction(GROUND));
 
         opMode.gamepad2.getGamepadButton(DPAD_DOWN)
-            .whenActive(opMode.commands.lift.to(LOW));
+            .whenActive(opMode.commands.lift.toJunction(LOW));
 
         opMode.gamepad2.getGamepadButton(DPAD_LEFT)
-            .whenActive(opMode.commands.lift.to(MID));
+            .whenActive(opMode.commands.lift.toJunction(MEDIUM));
 
         opMode.gamepad2.getGamepadButton(DPAD_UP)
-            .whenActive(opMode.commands.lift.to(HIGH));
+            .whenActive(opMode.commands.lift.toJunction(HIGH));
 
         opMode.gamepad2.getGamepadButton(X)
-            .whenActive(opMode.commands.lift.to(INTAKE));
+            .whenActive(opMode.commands.lift.toIntake(0));
 
         opMode.gamepad2.getGamepadButton(A)
-            .whenActive(opMode.commands.lift.to(STACK));
+            .whenActive(opMode.commands.lift.toIntake(5));
     }
 }

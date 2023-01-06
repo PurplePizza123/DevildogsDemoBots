@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.Game.Side.RIGHT;
+import static org.firstinspires.ftc.teamcode.game.Side.RIGHT;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 

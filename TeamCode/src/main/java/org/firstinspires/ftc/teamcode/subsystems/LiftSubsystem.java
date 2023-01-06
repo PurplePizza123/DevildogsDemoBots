@@ -12,16 +12,16 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 @Config
 public class LiftSubsystem extends HardwareSubsystem {
-    public static double LIFT_SPOOL_CIRCUMFERENCE = 4.409;
-    public static double LIFT_PULSES_PER_REVOLUTION = 384.5;
-    public static double LIFT_HEIGHT_PER_PULSE = LIFT_SPOOL_CIRCUMFERENCE / LIFT_PULSES_PER_REVOLUTION;
-    public static double POWER_UP = 1.0;
-    public static double POWER_DOWN = 1.0;
-    public static double MIN = 2.25;
-    public static double MAX = 36;
+    public static double SPOOL_CIRCUMFERENCE = 4.409;
+    public static double PULSES_PER_REVOLUTION = 384.5;
+    public static double HEIGHT_PER_PULSE = SPOOL_CIRCUMFERENCE / PULSES_PER_REVOLUTION;
+    public static double POWER = 1.0;
+    public static double MIN = 0;
+    public static double MAX = 33.5;
     public static double INCREMENT = 0.5;
-    private static double HEIGHT = MIN;
+
     public boolean calibrated = false;
+    public double height = MIN;
 
     public LiftSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -30,7 +30,7 @@ public class LiftSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        telemetry.addData("Lift","%.2f pow, %.2f height, %b left, %b right", hardware.lift.motor.getPower(), hardware.lift.getCurrentPosition() * LIFT_HEIGHT_PER_PULSE, !hardware.liftLeftLimit.getState(), !hardware.liftRightLimit.getState());
+        telemetry.addData("Lift","%.2f pow, %.2f height, %b left, %b right", hardware.lift.motor.getPower(), hardware.lift.getCurrentPosition() * HEIGHT_PER_PULSE, !hardware.liftLeftLimit.getState(), !hardware.liftRightLimit.getState());
 
         if (calibrated) return;
 
@@ -40,44 +40,31 @@ public class LiftSubsystem extends HardwareSubsystem {
             hardware.lift.motor.setMode(STOP_AND_RESET_ENCODER);
             hardware.lift.motor.setTargetPosition(0);
             hardware.lift.motor.setMode(RUN_TO_POSITION);
-            hardware.lift.motor.setPower(POWER_UP);
+            hardware.lift.motor.setPower(+POWER);
             calibrated = true;
-        }
-    }
-
-    public enum LiftPosition {
-        GROUND(MIN), LOW(17), MID(27), HIGH(MAX), INTAKE(6.5), STACK(10.5);
-
-        public final double height;
-
-        LiftPosition(double height) {
-            this.height = height;
+            height = MIN;
         }
     }
 
     public void calibrate() {
         calibrated = false;
         hardware.lift.motor.setMode(RUN_USING_ENCODER);
-        hardware.lift.motor.setPower(-POWER_DOWN);
+        hardware.lift.motor.setPower(-POWER);
     }
 
     public void up() {
-        to(HEIGHT + INCREMENT);
+        to(height + INCREMENT);
     }
 
     public void down() {
-        to(HEIGHT - INCREMENT);
-    }
-
-    public void to(LiftPosition height, double offset) {
-        to(height.height + offset);
+        to(height - INCREMENT);
     }
 
     public void to(double height) {
-        height = clamp(height, -MAX, MAX);
-        hardware.lift.motor.setPower(height > HEIGHT ? POWER_UP : POWER_DOWN);
+        height = clamp(height, MIN, MAX);
+        hardware.lift.motor.setPower(height > this.height ? +POWER : -POWER);
         hardware.lift.motor.setTargetPosition(
-            (int)(((HEIGHT = height) - MIN) / LIFT_HEIGHT_PER_PULSE)
+            (int)(((this.height = height) - MIN) / HEIGHT_PER_PULSE)
         );
     }
 }

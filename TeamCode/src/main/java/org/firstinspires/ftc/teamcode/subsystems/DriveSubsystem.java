@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.R
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -16,6 +15,9 @@ import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
+
+import java.util.Arrays;
 
 @Config
 public class DriveSubsystem extends HardwareSubsystem {
@@ -49,9 +51,9 @@ public class DriveSubsystem extends HardwareSubsystem {
         drive = new MecanumDrive(
             AUTO_INVERT,
             hardware.driveLeftFront,
+            hardware.driveRightFront,
             hardware.driveLeftRear,
-            hardware.driveRightRear,
-            hardware.driveRightFront
+            hardware.driveRightRear
         );
 
         hardware.odometryLeft.setDirection(REVERSE);
@@ -64,7 +66,9 @@ public class DriveSubsystem extends HardwareSubsystem {
     @Override
     public void periodic() {
         odometry.update();
-        telemetry.addData("Drive (Heading)", "%.2f deg", getHeading());
+
+        telemetry.addData("Drive (Heading)", "%.2f°", getHeading());
+        telemetry.addData("Drive (Pose)", getPose().toString());
         telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
         telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.get(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getDistance());
@@ -123,14 +127,28 @@ public class DriveSubsystem extends HardwareSubsystem {
         return Math.toDegrees(hardware.imu.getAngularOrientation().firstAngle);
     }
 
+    public Pose2d getPose() {
+        return odometry.getPoseEstimate();
+    }
+
+    public void setPose(Pose2d pose) {
+        odometry.setPoseEstimate(pose);
+    }
+
+    public void to(Pose2d[] poses) {
+        followTrajectoryAsync(
+            builder -> Arrays.stream(poses).forEach(builder::lineToLinearHeading)
+        );
+    }
+
     public boolean isBusy() {
         return odometry.isBusy();
     }
 
-    private void followTrajectoryAsync(Consumer<TrajectoryBuilder> consumer) {
-        Pose2d pose = odometry.getPoseEstimate();
-        TrajectoryBuilder builder = odometry.trajectoryBuilder(pose);
+    private void followTrajectoryAsync(Consumer<TrajectorySequenceBuilder> consumer) {
+        Pose2d current = getPose();
+        TrajectorySequenceBuilder builder = odometry.trajectorySequenceBuilder(current);
         consumer.accept(builder);
-        odometry.followTrajectoryAsync(builder.build());
+        odometry.followTrajectorySequenceAsync(builder.build());
     }
 }

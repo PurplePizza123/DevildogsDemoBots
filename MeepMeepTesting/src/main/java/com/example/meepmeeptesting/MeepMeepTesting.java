@@ -1,12 +1,9 @@
 package com.example.meepmeeptesting;
 
-import static com.example.meepmeeptesting.Game.Alliance.BLUE;
-import static com.example.meepmeeptesting.Game.Alliance.RED;
-import static com.example.meepmeeptesting.Game.Plan.A;
-import static com.example.meepmeeptesting.Game.Plan.B;
-import static com.example.meepmeeptesting.Game.Side.LEFT;
-import static com.example.meepmeeptesting.Game.Side.NORTH;
-import static com.example.meepmeeptesting.Game.Side.SOUTH;
+import static com.example.meepmeeptesting.Alliance.BLUE;
+import static com.example.meepmeeptesting.Alliance.RED;
+import static com.example.meepmeeptesting.Side.NORTH;
+import static com.example.meepmeeptesting.Side.SOUTH;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
@@ -25,12 +22,15 @@ public class MeepMeepTesting {
     private static final double ROBOT_LENGTH = 14;
     private static final double TRACK_WIDTH = 12.82;
     private static final double INTAKE_OFFSET = -7;
+    private static final double MAX_VEL = 45;
+    private static final double MAX_ACCEL = 45;
+    private static final double MAX_ANG_VEL = Math.toRadians(200);
+    private static final double MAX_ANG_ACCEL = Math.toRadians(200);
 
-    private static final Game.Alliance alliance = BLUE;
-    private static final Game.Side side = NORTH;
-    private static final Game.Plan plan = A;
-    private static final int times = 2;
-    private static final int detectionId = 0;
+    public static Alliance alliance = BLUE;
+    public static Side side = SOUTH;
+    public static int stacks = 5;
+    public static int detectionId = 0;
 
     private static MeepMeep meepMeep;
     private static Pose2d current;
@@ -39,52 +39,48 @@ public class MeepMeepTesting {
     public static void main(String[] args) {
         meepMeep = new MeepMeep(600);
 
-        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-            .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)
-            .setConstraints(45, 45, Math.toRadians(200), Math.toRadians(200), TRACK_WIDTH)
-            .setColorScheme(new ColorSchemeRedDark())
-            .followTrajectorySequence(
-                drive -> {
-                    current = getStartPose(alliance, side);
-                    builder = drive.trajectorySequenceBuilder(current);
-                    execute();
-                    builder.waitSeconds(1);
-                    return builder.build();
-                }
-            );
-
         meepMeep
             .setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
             .setDarkMode(true)
             .setBackgroundAlpha(0.95f)
-            .addEntity(myBot)
+            .addEntity(createBot(alliance, side))
             .start();
+    }
+
+    private static RoadRunnerBotEntity createBot(Alliance alliance, Side side) {
+        return new DefaultBotBuilder(meepMeep)
+            .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)
+            .setColorScheme(new ColorSchemeRedDark())
+            .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
+            .followTrajectorySequence(drive -> {
+                current = getStartPose(MeepMeepTesting.alliance = alliance, MeepMeepTesting.side = side);
+                builder = drive.trajectorySequenceBuilder(current);
+                execute();
+                return builder.build();
+            });
     }
 
     public static void execute() {
         scoreStartCone();
-        executeChosenPlan();
+        scoreStack(stacks);
         park();
     }
 
-    public static void executeChosenPlan() {
-        if (plan == A) scoreStack(times);
-        if (plan == B) prepareToPark();
-    }
-
-    public static void prepareToPark() {
-//        return drive.turn(1, adapt(90));
-    }
-
     public static void scoreStartCone() {
-        Pose2d junction = getJunctionPose("W3");
-        Pose2d[] poses = getTransitionPoses(current, junction, INTAKE_OFFSET, false);
-        Arrays.stream(poses).forEach(builder::lineToLinearHeading);
+        toJunction("V1");
+        toStack(alliance, side);
+        toJunction("V2");
+        toStack(alliance, side);
+        toJunction("W1");
+        toStack(alliance, side);
+        toJunction("W1");
+        toStack(alliance, side);
+        toJunction("W1");
+        toStack(alliance, side);
+        toJunction("W2");
     }
 
     public static void scoreStack(int times) {
-//        int stackedCones = 5;
-//
 //        SequentialCommandGroup group = new SequentialCommandGroup(
 //            drive.turn(1, 0),
 //            drive.move(0, 1, 24).alongWith(lift.to(STACK)),
@@ -94,11 +90,11 @@ public class MeepMeepTesting {
 //        while (--times >= 0) {
 //            group.addCommands(
 //                drive.move(0, 1, 49.5),
-//                intake.getCone(--stackedCones).andThen(wait.seconds(0.3)),
+//                intake.getCone(times).andThen(wait.seconds(0.3)),
 //                drive.move(0, -1, 49.5).alongWith(lift.to(HIGH)),
 //                drive.turn(1, adapt(-135)),
 //                drive.move(0, 1, 11.5),
-//                intake.setCone(stackedCones),
+//                intake.setCone(times),
 //                drive.turn(1, adapt(90))
 //            );
 //        }
@@ -119,6 +115,50 @@ public class MeepMeepTesting {
 //        ).alongWith(lift.to(GROUND).andThen(wait.seconds(3)));
     }
 
+    public static void toTile(String label) {
+        toPose(
+            getTilePose(label)
+        );
+    }
+
+    public static void toJunction(String label) {
+        toPose(
+            getJunctionPose(label)
+        );
+    }
+
+    public static void toStack(Alliance alliance, Side side) {
+        toPose(
+            getStackPose(alliance, side)
+        );
+    }
+
+    public static void toSubstation(Alliance alliance, Side side) {
+        toPose(
+            getSubstationPose(alliance, side)
+        );
+    }
+
+    public static void toTerminal(Alliance alliance, Side side) {
+        toPose(
+            getTerminalPose(alliance, side)
+        );
+    }
+
+    public static void toPose(Pose2d pose) {
+        Pose2d[] poses = getTransitionPoses(current, pose, INTAKE_OFFSET, true);
+        Arrays.stream(poses).forEach(builder::lineToLinearHeading);
+        current = poses[poses.length - 1];
+    }
+
+    public static Pose2d getStartPose(Alliance alliance, Side side) {
+        return new Pose2d(
+            side.sign * 1.5 * TILE_WIDTH,
+            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2),
+            alliance.sign * Math.toRadians(-90)
+        );
+    }
+
     public static Pose2d getTilePose(String label) {
         return new Pose2d(
             +(label.charAt(1) - (('3' + '4') / 2d)) * TILE_WIDTH,
@@ -133,11 +173,24 @@ public class MeepMeepTesting {
         );
     }
 
-    public static Pose2d getStartPose(Game.Alliance alliance, Game.Side side) {
+    public static Pose2d getStackPose(Alliance alliance, Side side) {
         return new Pose2d(
-            side.sign * 1.5 * TILE_WIDTH,
-            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2),
-            alliance.sign * Math.toRadians(-90)
+            side.sign * (3 * TILE_WIDTH - 4),
+            alliance.sign * 0.5 * TILE_WIDTH
+        );
+    }
+
+    public static Pose2d getSubstationPose(Alliance alliance, Side side) {
+        return new Pose2d(
+            side.sign * 0.25 * TILE_WIDTH,
+            alliance.sign * 2.75 * TILE_WIDTH
+        );
+    }
+
+    public static Pose2d getTerminalPose(Alliance alliance, Side side) {
+        return new Pose2d(
+            side.sign * 2.75 * TILE_WIDTH,
+            alliance.sign * -side.sign * 2.75 * TILE_WIDTH
         );
     }
 
@@ -157,7 +210,6 @@ public class MeepMeepTesting {
             y1st ? endTile.getY() : startTile.getY()
         );
 
-        double startHeading = start.getHeading();
         double endHeading = Math.atan2(
             end.getY() - endTile.getY(),
             end.getX() - endTile.getX()
@@ -171,20 +223,25 @@ public class MeepMeepTesting {
 
         ArrayList<Pose2d> poses = new ArrayList<>(Collections.singletonList(start));
 
-        for (Pose2d nextPose : Arrays.asList(start, startTile, midTile, endTile)) {
+        for (Pose2d nextPose : Arrays.asList(start, startTile, midTile, endTile, end)) {
             Pose2d lastPose = poses.get(poses.size() - 1);
-            if (lastPose.getX() == nextPose.getX() && lastPose.getY() == nextPose.getY()) poses.remove(lastPose);
+            if (lastPose.getX() == nextPose.getX() &&
+                lastPose.getY() == nextPose.getY())
+                    poses.remove(lastPose);
             poses.add(nextPose);
         }
 
-        updatePoseHeadings(poses, startHeading, endHeading);
+        updatePoseHeadings(poses);
 
         poses.remove(start);
 
         return poses.toArray(new Pose2d[0]);
     }
 
-    public static void updatePoseHeadings(ArrayList<Pose2d> poses, double startHeading, double endHeading) {
+    private static void updatePoseHeadings(ArrayList<Pose2d> poses) {
+        Pose2d start = poses.get(0);
+        Pose2d end = poses.get(poses.size() - 1);
+
         ArrayList<Double> distances = new ArrayList<>();
 
         double totalDistance = 0;
@@ -196,20 +253,20 @@ public class MeepMeepTesting {
             distances.add(
                 totalDistance += Math.hypot(
                     poseA.getX() - poseB.getX(),
-                    poseA.getY() - poseB.getX()
+                    poseA.getY() - poseB.getY()
                 )
             );
         }
 
-        double remainder = (endHeading - startHeading);
-        if (remainder < -180) remainder += 360;
-        if (remainder > +180) remainder -= 360;
+        double remainder = end.getHeading() - start.getHeading();
+        if (remainder > +Math.PI) remainder -= Math.PI * 2;
+        if (remainder < -Math.PI) remainder += Math.PI * 2;
 
         for (int i = 1; i < poses.size(); i++) {
             poses.set(i, new Pose2d(
                 poses.get(i).getX(),
                 poses.get(i).getY(),
-                startHeading + remainder * distances.get(i - 1) / totalDistance
+                start.getHeading() + remainder * distances.get(i - 1) / totalDistance
             ));
         }
     }
