@@ -15,7 +15,9 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class MeepMeepTesting {
     private static final double TILE_WIDTH = 23.5;
@@ -155,8 +157,11 @@ public class MeepMeepTesting {
             y1st ? endTile.getY() : startTile.getY()
         );
 
-        double endHeading = Math.atan2(end.getY() - midTile.getY(), end.getX() - midTile.getX());
-
+        double startHeading = start.getHeading();
+        double endHeading = Math.atan2(
+            end.getY() - endTile.getY(),
+            end.getX() - endTile.getX()
+        );
 
         end = new Pose2d(
             end.getX() + Math.cos(endHeading) * offset,
@@ -164,7 +169,49 @@ public class MeepMeepTesting {
             endHeading
         );
 
-        return new Pose2d[] { midTile, end };
+        ArrayList<Pose2d> poses = new ArrayList<>(Collections.singletonList(start));
+
+        for (Pose2d nextPose : Arrays.asList(start, startTile, midTile, endTile)) {
+            Pose2d lastPose = poses.get(poses.size() - 1);
+            if (lastPose.getX() == nextPose.getX() && lastPose.getY() == nextPose.getY()) poses.remove(lastPose);
+            poses.add(nextPose);
+        }
+
+        updatePoseHeadings(poses, startHeading, endHeading);
+
+        poses.remove(start);
+
+        return poses.toArray(new Pose2d[0]);
+    }
+
+    public static void updatePoseHeadings(ArrayList<Pose2d> poses, double startHeading, double endHeading) {
+        ArrayList<Double> distances = new ArrayList<>();
+
+        double totalDistance = 0;
+
+        for (int i = 1; i < poses.size(); i++) {
+            Pose2d poseA = poses.get(i - 1);
+            Pose2d poseB = poses.get(i);
+
+            distances.add(
+                totalDistance += Math.hypot(
+                    poseA.getX() - poseB.getX(),
+                    poseA.getY() - poseB.getX()
+                )
+            );
+        }
+
+        double remainder = (endHeading - startHeading);
+        if (remainder < -180) remainder += 360;
+        if (remainder > +180) remainder -= 360;
+
+        for (int i = 1; i < poses.size(); i++) {
+            poses.set(i, new Pose2d(
+                poses.get(i).getX(),
+                poses.get(i).getY(),
+                startHeading + remainder * distances.get(i - 1) / totalDistance
+            ));
+        }
     }
 
     private static double nearestTile(double value, double offset) {
