@@ -7,6 +7,7 @@ import static com.example.meepmeeptesting.Side.SOUTH;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
+import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
@@ -43,14 +44,17 @@ public class MeepMeepTesting {
             .setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
             .setDarkMode(true)
             .setBackgroundAlpha(0.95f)
-            .addEntity(createBot(alliance, side))
+            .addEntity(createBot(alliance = BLUE, side = NORTH))
+            .addEntity(createBot(alliance = BLUE, side = SOUTH))
+            .addEntity(createBot(alliance = RED, side = NORTH))
+            .addEntity(createBot(alliance = RED, side = SOUTH))
             .start();
     }
 
     private static RoadRunnerBotEntity createBot(Alliance alliance, Side side) {
         return new DefaultBotBuilder(meepMeep)
             .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)
-            .setColorScheme(new ColorSchemeRedDark())
+            .setColorScheme(alliance == BLUE ? new ColorSchemeBlueDark() : new ColorSchemeRedDark())
             .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
             .followTrajectorySequence(drive -> {
                 current = getStartPose(MeepMeepTesting.alliance = alliance, MeepMeepTesting.side = side);
@@ -67,86 +71,71 @@ public class MeepMeepTesting {
     }
 
     public static void scoreStartCone() {
-        toJunction("V1");
-        toStack(alliance, side);
-        toJunction("V2");
-        toStack(alliance, side);
-        toJunction("W1");
-        toStack(alliance, side);
-        toJunction("W1");
-        toStack(alliance, side);
-        toJunction("W1");
-        toStack(alliance, side);
-        toJunction("W2");
+       String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
+       int outerRow = 3 + side.sign * 2;
+       toJunction(outerColumn + outerRow);
     }
 
     public static void scoreStack(int times) {
-//        SequentialCommandGroup group = new SequentialCommandGroup(
-//            drive.turn(1, 0),
-//            drive.move(0, 1, 24).alongWith(lift.to(STACK)),
-//            drive.turn(1, adapt(90))
-//        );
-//
-//        while (--times >= 0) {
-//            group.addCommands(
-//                drive.move(0, 1, 49.5),
-//                intake.getCone(times).andThen(wait.seconds(0.3)),
-//                drive.move(0, -1, 49.5).alongWith(lift.to(HIGH)),
-//                drive.turn(1, adapt(-135)),
-//                drive.move(0, 1, 11.5),
-//                intake.setCone(times),
-//                drive.turn(1, adapt(90))
-//            );
-//        }
-//
-//        return group;
+        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
+        String innerColumn = String.valueOf((char)('X' - alliance.sign));
+        int outerRow = 3 + side.sign * 2;
+        int innerRow = 3 + side.sign;
+
+        String[] junctions = {
+            outerColumn + innerRow,
+            innerColumn + outerRow,
+            innerColumn + outerRow,
+            innerColumn + outerRow,
+            innerColumn + innerRow
+        };
+
+        while (times > 0) {
+            toStack(alliance, side);
+            toJunction(junctions[5 - times--]);
+        }
     }
 
     public static void park() {
-//        boolean isLeft = subsystems.menu.side == LEFT;
-//        int detectionId = subsystems.vision.getDetectionId() + 1;
-//        String detectionLabel = subsystems.vision.getDetectionLabel();
-//        return new SelectCommand(
-//            new HashMap<Object, Command>() {{
-//                put(1, drive.move(0, 1, isLeft ? 46 : 0));
-//                put(2, drive.move(0, 1, 24));
-//                put(3, drive.move(0, 1, isLeft ? 0 : 46));
-//            }}, () -> detectionLabel == "none" ? (isLeft ? 3 : 1) : detectionId
-//        ).alongWith(lift.to(GROUND).andThen(wait.seconds(3)));
+        String column = alliance == BLUE ? "C" : "D";
+        int start = side == SOUTH ? 1 : 4;
+        if (alliance == BLUE) start += 2;
+        int row = start - alliance.sign * detectionId;
+        toTile(column + row);
     }
 
     public static void toTile(String label) {
         toPose(
-            getTilePose(label)
+            getTilePose(label), 0, true
         );
     }
 
     public static void toJunction(String label) {
         toPose(
-            getJunctionPose(label)
+            getJunctionPose(label), INTAKE_OFFSET, true
         );
     }
 
     public static void toStack(Alliance alliance, Side side) {
         toPose(
-            getStackPose(alliance, side)
+            getStackPose(alliance, side), INTAKE_OFFSET, true
         );
     }
 
     public static void toSubstation(Alliance alliance, Side side) {
         toPose(
-            getSubstationPose(alliance, side)
+            getSubstationPose(alliance, side), INTAKE_OFFSET, true
         );
     }
 
     public static void toTerminal(Alliance alliance, Side side) {
         toPose(
-            getTerminalPose(alliance, side)
+            getTerminalPose(alliance, side), INTAKE_OFFSET, true
         );
     }
 
-    public static void toPose(Pose2d pose) {
-        Pose2d[] poses = getTransitionPoses(current, pose, INTAKE_OFFSET, true);
+    public static void toPose(Pose2d pose, double offset, boolean y1st) {
+        Pose2d[] poses = getTransitionPoses(current, pose, offset, y1st);
         Arrays.stream(poses).forEach(builder::lineToLinearHeading);
         current = poses[poses.length - 1];
     }
