@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
 import static org.firstinspires.ftc.teamcode.game.Junction.GROUND;
 import static org.firstinspires.ftc.teamcode.game.Junction.HIGH;
 import static org.firstinspires.ftc.teamcode.game.Side.LEFT;
+import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
@@ -20,32 +24,36 @@ public class AutoCommands extends Commands {
     }
 
     public Command scoreStartCone() {
+        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
+        int outerRow = 3 + side.sign * 2;
         return intake.getCone().andThen(
-            drive.move(0, 1, 4),
-            drive.move(adapt(1), 0, 26),
-            drive.move(0, 1, 24).alongWith(lift.toJunction(HIGH)),
-            drive.turn(1, adapt(-45)),
-            drive.move(0, 1, 11.5),
+            drive.toJunction(outerColumn + outerRow),
             intake.setCone()
         );
     }
 
     public Command scoreStack(int times) {
-        SequentialCommandGroup group = new SequentialCommandGroup(
-            drive.turn(1, 0),
-            drive.move(0, 1, 24).alongWith(lift.toIntake(times)),
-            drive.turn(1, adapt(90))
-        );
+        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
+        String innerColumn = String.valueOf((char)('X' - alliance.sign));
+        int outerRow = 3 + side.sign * 2;
+        int innerRow = 3 + side.sign;
 
-        while (--times >= 0) {
+        String[] junctions = {
+            outerColumn + innerRow,
+            innerColumn + outerRow,
+            innerColumn + outerRow,
+            innerColumn + outerRow,
+            innerColumn + innerRow
+        };
+
+        SequentialCommandGroup group = new SequentialCommandGroup();
+
+        while (times > 0) {
             group.addCommands(
-                drive.move(0, 1, 49.5),
+                drive.toStack(alliance, side),
                 intake.getCone(times).andThen(wait.seconds(0.3)),
-                drive.move(0, -1, 49.5).alongWith(lift.toJunction(HIGH)),
-                drive.turn(1, adapt(-135)),
-                drive.move(0, 1, 11.5),
-                intake.setCone(times),
-                drive.turn(1, adapt(90))
+                drive.toJunction(junctions[5 - times--]),
+                intake.setCone(times)
             );
         }
 
@@ -53,19 +61,11 @@ public class AutoCommands extends Commands {
     }
 
     public Command park() {
-        boolean isLeft = subsystems.menu.side == LEFT;
-        int detectionId = subsystems.vision.getDetectionId() + 1;
-        String detectionLabel = subsystems.vision.getDetectionLabel();
-        return new SelectCommand(
-            new HashMap<Object, Command>() {{
-                put(1, drive.move(0, 1, isLeft ? 46 : 0));
-                put(2, drive.move(0, 1, 24));
-                put(3, drive.move(0, 1, isLeft ? 0 : 46));
-            }}, () -> !detectionLabel.equals("none") ? (isLeft ? 3 : 1) : detectionId
-        ).alongWith(lift.toJunction(GROUND).andThen(wait.seconds(3)));
-    }
-
-    public double adapt(double value) {
-        return subsystems.menu.side.sign * value;
+        String column = alliance == BLUE ? "C" : "D";
+        int start = side == SOUTH ? 1 : 4;
+        if (alliance == BLUE) start += 2;
+        int detectionId = subsystems.vision.getDetectionId();
+        int row = start - alliance.sign * detectionId;
+        return drive.toTile(column + row);
     }
 }
