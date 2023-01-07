@@ -31,6 +31,14 @@ public abstract class OpMode extends CommandOpMode {
 
         new MenuModule(this);
 
+        // TODO solve for teleOp
+        subsystems.drive.setPose(
+            subsystems.nav.getStartPose(
+                subsystems.menu.alliance,
+                subsystems.menu.side
+            )
+        );
+
         while (!isStarted()) {
             CommandScheduler.getInstance().run();
             Thread.yield();

@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 
 import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Junction;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 
@@ -47,32 +48,28 @@ public class DriveCommands extends Commands {
     }
 
     public Command toTile(String label) {
-        return toPose(
-            subsystems.nav.getTilePose(label)
-        );
+        return toPose(subsystems.nav.getTilePose(label));
     }
 
     public Command toJunction(String label) {
-        return toPose(
-            subsystems.nav.getJunctionPose(label)
+        return toPose(subsystems.nav.getJunctionPose(label)).alongWith(
+            lift.toJunction(Junction.get(label))
         );
     }
 
     public Command toStack(Alliance alliance, Side side) {
-        return toPose(
-            subsystems.nav.getStackPose(alliance, side)
-        );
+        return toPose(subsystems.nav.getStackPose(alliance, side));
     }
 
     public Command toSubstation(Alliance alliance, Side side) {
-        return toPose(
-           subsystems.nav.getSubstationPose(alliance, side)
+        return toPose(subsystems.nav.getSubstationPose(alliance, side)).alongWith(
+                lift.toIntake(0)
         );
     }
 
     public Command toTerminal(Alliance alliance, Side side) {
-        return toPose(
-            subsystems.nav.getTerminalPose(alliance, side)
+        return toPose(subsystems.nav.getTerminalPose(alliance, side)).alongWith(
+                lift.toIntake(0)
         );
     }
 
