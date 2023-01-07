@@ -9,6 +9,7 @@ public class Subsystems {
     public LiftSubsystem lift;
     public IntakeSubsystem intake;
     public VisionSubsystem vision;
+    public NavSubsystem nav;
 
     public Subsystems(Hardware hardware, Telemetry telemetry) {
         menu = new MenuSubsystem(hardware, telemetry);
@@ -16,5 +17,6 @@ public class Subsystems {
         lift = new LiftSubsystem(hardware, telemetry);
         intake = new IntakeSubsystem(hardware, telemetry);
         vision = new VisionSubsystem(hardware, telemetry);
+        nav = new NavSubsystem(hardware, telemetry);
     }
 }
