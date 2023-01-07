@@ -18,7 +18,6 @@ public class LiftSubsystem extends HardwareSubsystem {
     public static double POWER = 1.0;
     public static double MIN = 0;
     public static double MAX = 33.5;
-    public static double INCREMENT = 0.5;
 
     public boolean calibrated = false;
     public double height = MIN;
@@ -52,12 +51,8 @@ public class LiftSubsystem extends HardwareSubsystem {
         hardware.lift.motor.setPower(-POWER);
     }
 
-    public void up() {
-        to(height + INCREMENT);
-    }
-
-    public void down() {
-        to(height - INCREMENT);
+    public void change(double offset) {
+        to(height + offset);
     }
 
     public void to(double height) {

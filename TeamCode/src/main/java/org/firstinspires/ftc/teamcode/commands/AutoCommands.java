@@ -1,24 +1,19 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
-import static org.firstinspires.ftc.teamcode.game.Junction.GROUND;
-import static org.firstinspires.ftc.teamcode.game.Junction.HIGH;
-import static org.firstinspires.ftc.teamcode.game.Side.LEFT;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.stacks;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-
-import java.util.HashMap;
 
 public class AutoCommands extends Commands {
     public Command execute() {
         return vision.detect().andThen(
             auto.scoreStartCone(),
-            auto.scoreStack(subsystems.menu.stacks),
+            auto.scoreStack(stacks),
             auto.park()
         );
     }

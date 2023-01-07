@@ -24,7 +24,6 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static double PULSE_PER_ROTATION = 537.7;
     public static double DISTANCE_PER_ROTATION = 3.78 * Math.PI;
     public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
-    public static double MAX_POWER = 1.0;
     public static Motor.RunMode RUN_MODE = RawPower;
     public static boolean DRIVE_FIELD_CENTRIC = false;
     public static boolean SQUARE_INPUTS = false;
@@ -32,6 +31,8 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     private final MecanumDrive drive;
     private final Odometry odometry;
+    private static Pose2d drivePose = new Pose2d();
+    public static double power = 0.5;
 
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -61,42 +62,28 @@ public class DriveSubsystem extends HardwareSubsystem {
         hardware.odometryCenter.setDirection(REVERSE);
 
         odometry = new Odometry(hardware, telemetry);
+
+        odometry.setPoseEstimate(drivePose);
     }
 
     @Override
     public void periodic() {
         odometry.update();
 
+        drivePose = getPose();
+
         telemetry.addData("Drive (Heading)", "%.2f°", getHeading());
-        telemetry.addData("Drive (Pose)", getPose().toString());
+        telemetry.addData("Drive (Pose)", drivePose.toString());
         telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
         telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.get(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getDistance());
         telemetry.addData("Drive (RR)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.get(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getDistance());
     }
 
-    public enum DrivePower {
-        LOW(0.25), MEDIUM(0.5), HIGH(0.75);
-
-        public final double power;
-
-        DrivePower(double power) {
-            this.power = power;
-        }
-    }
-
-    public void setDrivePower(DrivePower drivePower) {
-        MAX_POWER = drivePower.power;
-    }
-
     public void inputs(double strafe, double forward, double turn) {
+        strafe *= power; forward *= power; turn *= power;
         if (DRIVE_FIELD_CENTRIC) drive.driveFieldCentric(strafe, forward, turn, getHeading(), SQUARE_INPUTS);
         else drive.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
-    }
-
-    public void move(double strafe, double forward, double distance) {
-        if (strafe != 0) strafe(distance);
-        if (forward != 0) forward(distance);
     }
 
     public void strafe(double distance) {
@@ -117,7 +104,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         );
     }
 
-    public void turn(double power, double heading) {
+    public void turn(double heading) {
         odometry.turnAsync(
             Math.toRadians(heading)
         );

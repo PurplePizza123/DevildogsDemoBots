@@ -6,18 +6,19 @@ import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
 
 public class MenuSubsystem extends HardwareSubsystem {
-    public static boolean enabled;
+    public static boolean auto;
     public static Alliance alliance;
     public static Side side;
-    public int stacks = 5;
-    public double delay = 0;
+    public static int stacks;
+    public static double delay;
 
     public MenuSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
+        stacks = 5; delay = 0;
     }
 
     @Override
     public void periodic() {
-        if (enabled) telemetry.addData("Menu", "%s alliance, %s side, %d stacks, %.1fs delay", alliance, side, stacks, delay);
+        if (auto) telemetry.addData("Menu", "%s alliance, %s side, %d stacks, %.1fs delay", alliance, side, stacks, delay);
     }
 }

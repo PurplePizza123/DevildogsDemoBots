@@ -9,4 +9,3 @@ public enum Alliance {
         this.sign = sign;
     }
 }
-

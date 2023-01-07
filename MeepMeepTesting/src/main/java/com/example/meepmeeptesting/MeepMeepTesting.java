@@ -44,10 +44,10 @@ public class MeepMeepTesting {
             .setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
             .setDarkMode(true)
             .setBackgroundAlpha(0.95f)
-            .addEntity(createBot(alliance = BLUE, side = NORTH))
-            .addEntity(createBot(alliance = BLUE, side = SOUTH))
-            .addEntity(createBot(alliance = RED, side = NORTH))
-            .addEntity(createBot(alliance = RED, side = SOUTH))
+            .addEntity(createBot(RED, NORTH))
+            .addEntity(createBot(RED, SOUTH))
+            .addEntity(createBot(BLUE, NORTH))
+            .addEntity(createBot(BLUE, SOUTH))
             .start();
     }
 
@@ -71,9 +71,9 @@ public class MeepMeepTesting {
     }
 
     public static void scoreStartCone() {
-       String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
-       int outerRow = 3 + side.sign * 2;
-       toJunction(outerColumn + outerRow);
+        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
+        int outerRow = 3 + side.sign * 2;
+        toJunction(outerColumn + outerRow);
     }
 
     public static void scoreStack(int times) {

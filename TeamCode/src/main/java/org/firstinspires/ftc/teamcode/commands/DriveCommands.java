@@ -8,16 +8,16 @@ import com.arcrobotics.ftclib.command.RunCommand;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Junction;
 import org.firstinspires.ftc.teamcode.game.Side;
-import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class DriveCommands extends Commands {
     private static final double INTAKE_OFFSET = -7;
 
-    public Command setDrivePower(DriveSubsystem.DrivePower drivePower) {
-        return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower), subsystems.drive);
+    public Command setDrivePower(double power) {
+        return new InstantCommand(() -> subsystems.drive.power = power, subsystems.drive);
     }
 
     public Command input(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
@@ -30,48 +30,61 @@ public class DriveCommands extends Commands {
         );
     }
 
-    public Command move(double strafe, double forward, double distance) {
-        return complete(() -> subsystems.drive.move(strafe, forward, distance));
+    public Command strafe(double distance) {
+        return complete(() -> subsystems.drive.strafe(distance));
     }
 
-    public Command turn(double power, double heading) {
-        return complete(() -> subsystems.drive.turn(power, heading));
+    public Command forward(double distance) {
+        return complete(() -> subsystems.drive.forward(distance));
+    }
+
+    public Command turn(double heading) {
+        return complete(() -> subsystems.drive.turn(heading));
     }
 
     public Command toPose(Pose2d pose, double offset, boolean y1st) {
-        return drive.complete(
-                () -> subsystems.drive.to(
-                 subsystems.nav.getTransitionPoses(
-                     subsystems.drive.getPose(),
-                     pose, offset, y1st
-                 )
+        return complete(
+            () -> subsystems.drive.to(
+                subsystems.nav.getTransitionPoses(
+                    subsystems.drive.getPose(),
+                    pose, offset, y1st
+                )
             )
         );
     }
 
     public Command toTile(String label) {
-        return toPose(subsystems.nav.getTilePose(label), 0, true);
+        Pose2d pose = subsystems.nav.getTilePose(label);
+        return drive.toPose(pose, 0, true);
     }
 
     public Command toJunction(String label) {
-        return toPose(subsystems.nav.getJunctionPose(label), INTAKE_OFFSET, true).alongWith(
+        Pose2d pose = subsystems.nav.getJunctionPose(label);
+        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
             lift.toJunction(Junction.get(label))
         );
     }
 
+    public Command toJunction(Supplier<String> junction) {
+        return toJunction(junction.get());
+    }
+
     public Command toStack(Alliance alliance, Side side) {
-        return toPose(subsystems.nav.getStackPose(alliance, side), INTAKE_OFFSET, true);
+        Pose2d pose = subsystems.nav.getStackPose(alliance, side);
+        return drive.toPose(pose, INTAKE_OFFSET, true);
     }
 
     public Command toSubstation(Alliance alliance, Side side) {
-        return toPose(subsystems.nav.getSubstationPose(alliance, side), INTAKE_OFFSET, true).alongWith(
-                lift.toIntake(0)
+        Pose2d pose = subsystems.nav.getSubstationPose(alliance, side);
+        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+            lift.toIntake(0)
         );
     }
 
     public Command toTerminal(Alliance alliance, Side side) {
-        return toPose(subsystems.nav.getTerminalPose(alliance, side), INTAKE_OFFSET, true).alongWith(
-                lift.toIntake(0)
+        Pose2d pose = subsystems.nav.getTerminalPose(alliance, side);
+        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+            lift.toIntake(0)
         );
     }
 

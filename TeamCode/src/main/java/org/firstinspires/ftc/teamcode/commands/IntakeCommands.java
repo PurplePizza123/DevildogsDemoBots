@@ -37,7 +37,7 @@ public class IntakeCommands extends Commands {
         return intake.out().andThen(
             wait.seconds(0.3),
             intake.stop(false),
-            drive.move(0, -1, 8),
+            drive.forward(-8),
             lift.toIntake(offset)
         );
     }

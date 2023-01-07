@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.auto;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
@@ -31,13 +35,11 @@ public abstract class OpMode extends CommandOpMode {
 
         new MenuModule(this);
 
-        // TODO solve for teleOp
-        subsystems.drive.setPose(
-            subsystems.nav.getStartPose(
-                subsystems.menu.alliance,
-                subsystems.menu.side
-            )
-        );
+        if (auto) {
+            subsystems.drive.setPose(
+                subsystems.nav.getStartPose(alliance, side)
+            );
+        }
 
         while (!isStarted()) {
             CommandScheduler.getInstance().run();

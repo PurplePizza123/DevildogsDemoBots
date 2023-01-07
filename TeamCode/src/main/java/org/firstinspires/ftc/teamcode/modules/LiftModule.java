@@ -28,11 +28,11 @@ public class LiftModule {
 
         new Trigger(() ->
             opMode.gamepad2.getTrigger(LEFT_TRIGGER) > 0.5
-        ).whileActiveContinuous(opMode.commands.lift.down());
+        ).whileActiveContinuous(opMode.commands.lift.change(-0.5));
 
         new Trigger(() ->
             opMode.gamepad2.getTrigger(RIGHT_TRIGGER) > 0.5
-        ).whileActiveContinuous(opMode.commands.lift.up());
+        ).whileActiveContinuous(opMode.commands.lift.change(+0.5));
 
         opMode.gamepad2.getGamepadButton(DPAD_RIGHT)
             .whenActive(opMode.commands.lift.toJunction(GROUND));

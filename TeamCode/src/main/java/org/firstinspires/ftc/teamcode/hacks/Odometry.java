@@ -56,8 +56,8 @@ public class Odometry extends MecanumDrive {
     public static double OMEGA_WEIGHT = 1;
     public static boolean TWO_WHEEL_INSTEAD_OF_THREE = true;
 
-    private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
-    private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
+    private static TrajectoryVelocityConstraint VEL_CONSTRAINT = null;
+    private static TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = null;
 
     private final TrajectorySequenceRunner trajectorySequenceRunner;
     private final List<MotorEx> motors;
@@ -66,6 +66,9 @@ public class Odometry extends MecanumDrive {
 
     public Odometry(Hardware hardware, Telemetry telemetry) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
+
+        VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
+        ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
         this.hardware = hardware;
         this.telemetry = telemetry;
