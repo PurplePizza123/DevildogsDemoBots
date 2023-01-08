@@ -71,28 +71,18 @@ public class MeepMeepTesting {
     }
 
     public static void scoreStartCone() {
-        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
-        int outerRow = 3 + side.sign * 2;
-        toJunction(outerColumn + outerRow);
+        String column = String.valueOf((char)('X' - alliance.sign * 2));
+        int row = 3 + side.sign;
+        toJunction(column + row);
     }
 
     public static void scoreStack(int times) {
-        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
-        String innerColumn = String.valueOf((char)('X' - alliance.sign));
-        int outerRow = 3 + side.sign * 2;
-        int innerRow = 3 + side.sign;
+        String column = String.valueOf((char)('X' - alliance.sign));
+        int row = 3 + side.sign;
 
-        String[] junctions = {
-            outerColumn + innerRow,
-            innerColumn + outerRow,
-            innerColumn + outerRow,
-            innerColumn + outerRow,
-            innerColumn + innerRow
-        };
-
-        while (times > 0) {
+        while (--times > 0) {
             toStack(alliance, side);
-            toJunction(junctions[5 - times--]);
+            toJunction(column + row);
         }
     }
 
@@ -212,7 +202,7 @@ public class MeepMeepTesting {
 
         ArrayList<Pose2d> poses = new ArrayList<>(Collections.singletonList(start));
 
-        for (Pose2d nextPose : Arrays.asList(start, startTile, midTile, endTile, end)) {
+        for (Pose2d nextPose : Arrays.asList(startTile, midTile, endTile, end)) {
             Pose2d lastPose = poses.get(poses.size() - 1);
             if (lastPose.getX() == nextPose.getX() &&
                 lastPose.getY() == nextPose.getY())

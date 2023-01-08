@@ -55,6 +55,9 @@ public class Odometry extends MecanumDrive {
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
     public static boolean TWO_WHEEL_INSTEAD_OF_THREE = true;
+    public static double ADMISSIBLE_XY = 5;
+    public static double ADMISSIBLE_HEADING = 5;
+    public static double ADMISSIBLE_TIMEOUT = 5;
 
     private static TrajectoryVelocityConstraint VEL_CONSTRAINT = null;
     private static TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = null;
@@ -77,8 +80,8 @@ public class Odometry extends MecanumDrive {
             TRANSLATIONAL_PID,
             TRANSLATIONAL_PID,
             HEADING_PID,
-            new Pose2d(0.5, 0.5, Math.toRadians(5.0)),
-            0.5
+            new Pose2d(ADMISSIBLE_XY, ADMISSIBLE_XY, Math.toRadians(ADMISSIBLE_HEADING)),
+            ADMISSIBLE_TIMEOUT
         );
 
         motors = Arrays.asList(

@@ -19,35 +19,24 @@ public class AutoCommands extends Commands {
     }
 
     public Command scoreStartCone() {
-        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
-        int outerRow = 3 + side.sign * 2;
-        return intake.getCone().andThen(
-            drive.toJunction(outerColumn + outerRow),
+        String column = String.valueOf((char)('X' - alliance.sign * 2));
+        int row = 3 + side.sign;
+        return drive.toJunction(column + row).andThen(
             intake.setCone()
         );
     }
 
     public Command scoreStack(int times) {
-        String outerColumn = String.valueOf((char)('X' - alliance.sign * 2));
-        String innerColumn = String.valueOf((char)('X' - alliance.sign));
-        int outerRow = 3 + side.sign * 2;
-        int innerRow = 3 + side.sign;
-
-        String[] junctions = {
-            outerColumn + innerRow,
-            innerColumn + outerRow,
-            innerColumn + outerRow,
-            innerColumn + outerRow,
-            innerColumn + innerRow
-        };
+        String column = String.valueOf((char)('X' - alliance.sign));
+        int row = 3 + side.sign;
 
         SequentialCommandGroup group = new SequentialCommandGroup();
 
-        while (times > 0) {
+        while (times-- > 0) {
             group.addCommands(
                 drive.toStack(alliance, side),
-                intake.getCone(times).andThen(wait.seconds(0.3)),
-                drive.toJunction(junctions[5 - times--]),
+                intake.getCone(times),
+                drive.toJunction(column + row),
                 intake.setCone(times)
             );
         }

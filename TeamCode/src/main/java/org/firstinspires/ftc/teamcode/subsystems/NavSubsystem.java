@@ -43,7 +43,7 @@ public class NavSubsystem extends HardwareSubsystem {
 
     public Pose2d getStackPose(Alliance alliance, Side side) {
         return new Pose2d(
-            side.sign * (3 * TILE_WIDTH - 2),
+            side.sign * (3 * TILE_WIDTH - 2.5),
             alliance.sign * 0.5 * TILE_WIDTH
         );
     }
@@ -91,7 +91,7 @@ public class NavSubsystem extends HardwareSubsystem {
 
         ArrayList<Pose2d> poses = new ArrayList<>(Collections.singletonList(start));
 
-        for (Pose2d nextPose : Arrays.asList(start, startTile, midTile, endTile, end)) {
+        for (Pose2d nextPose : Arrays.asList(startTile, midTile, endTile, end)) {
             Pose2d lastPose = poses.get(poses.size() - 1);
             if (lastPose.getX() == nextPose.getX() &&
                 lastPose.getY() == nextPose.getY())

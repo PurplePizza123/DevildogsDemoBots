@@ -10,6 +10,8 @@ import org.firstinspires.ftc.teamcode.hacks.AprilTagDetector;
 public class VisionSubsystem extends HardwareSubsystem {
     private final AprilTagDetector detector;
 
+    private boolean disabled = false;
+
     public VisionSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
         this.detector = new AprilTagDetector(hardware.visionWebcam);
@@ -17,14 +19,14 @@ public class VisionSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        this.detector.update();
+        if (!disabled) this.detector.update();
 
         telemetry.addData(
             "Vision", "%s, %.1f fps, %d oms, %d pms",
             getDetectionLabel(),
-            hardware.visionWebcam.getFps(),
-            hardware.visionWebcam.getOverheadTimeMs(),
-            hardware.visionWebcam.getPipelineTimeMs()
+            detector.webcam.getFps(),
+            detector.webcam.getOverheadTimeMs(),
+            detector.webcam.getPipelineTimeMs()
         );
 
         telemetry.update();
@@ -36,5 +38,10 @@ public class VisionSubsystem extends HardwareSubsystem {
 
     public String getDetectionLabel() {
         return this.detector.detection == null ? "none" : String.valueOf(this.detector.detection.id + 1);
+    }
+
+    public void disable() {
+        detector.webcam.stopRecordingPipeline();
+        disabled = true;
     }
 }

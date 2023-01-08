@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class DriveCommands extends Commands {
-    private static final double INTAKE_OFFSET = -7;
+    private static final double INTAKE_OFFSET = -6;
 
     public Command setDrivePower(double power) {
         return new InstantCommand(() -> subsystems.drive.power = power, subsystems.drive);
@@ -58,15 +58,15 @@ public class DriveCommands extends Commands {
         return drive.toPose(pose, 0, true);
     }
 
+    public Command toTile(Supplier<String> supplier) {
+        return drive.toTile(supplier.get());
+    }
+
     public Command toJunction(String label) {
         Pose2d pose = subsystems.nav.getJunctionPose(label);
         return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
             lift.toJunction(Junction.get(label))
         );
-    }
-
-    public Command toJunction(Supplier<String> junction) {
-        return toJunction(junction.get());
     }
 
     public Command toStack(Alliance alliance, Side side) {

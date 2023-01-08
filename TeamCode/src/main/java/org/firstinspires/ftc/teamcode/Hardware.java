@@ -40,7 +40,7 @@ public class Hardware {
     public DigitalChannel liftLeftLimit;
     public DigitalChannel liftRightLimit;
 
-    public OpenCvWebcam visionWebcam;
+    public WebcamName visionWebcam;
 
     public Hardware(HardwareMap hardwareMap) {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
@@ -74,9 +74,6 @@ public class Hardware {
         liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
         liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 
-        visionWebcam = OpenCvCameraFactory.getInstance().createWebcam(
-            hardwareMap.get(WebcamName.class, "Webcam 1"),
-            R.id.cameraMonitorViewId
-        );
+        visionWebcam = hardwareMap.get(WebcamName.class, "Webcam 1");
     }
 }
