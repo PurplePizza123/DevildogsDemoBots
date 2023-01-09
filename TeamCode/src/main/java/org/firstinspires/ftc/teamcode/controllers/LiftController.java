@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules;
+package org.firstinspires.ftc.teamcode.controllers;
 
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
@@ -20,8 +20,8 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
-public class LiftModule {
-    public LiftModule(OpMode opMode) {
+public class LiftController {
+    public LiftController(OpMode opMode) {
         opMode.gamepad2.getGamepadButton(LEFT_STICK_BUTTON)
             .and(opMode.gamepad2.getGamepadButton(RIGHT_STICK_BUTTON))
             .whenActive(opMode.commands.lift.calibrate());

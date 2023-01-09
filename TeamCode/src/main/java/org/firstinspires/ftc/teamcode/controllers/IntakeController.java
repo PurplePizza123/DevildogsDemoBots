@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules;
+package org.firstinspires.ftc.teamcode.controllers;
 
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_BUMPER;
@@ -7,8 +7,8 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.Y;
 
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
-public class IntakeModule {
-    public IntakeModule(OpMode opMode) {
+public class IntakeController {
+    public IntakeController(OpMode opMode) {
         opMode.gamepad2.getGamepadButton(LEFT_BUMPER)
             .whenActive(opMode.commands.intake.in())
             .whenInactive(opMode.commands.intake.stop(true));

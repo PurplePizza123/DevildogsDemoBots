@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.modules;
+package org.firstinspires.ftc.teamcode.controllers;
 
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
@@ -7,8 +7,8 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
-public class DriveModule {
-    public DriveModule(OpMode opMode) {
+public class DriveController {
+    public DriveController(OpMode opMode) {
         opMode.subsystems.drive.setDefaultCommand(
             opMode.commands.drive.input(
                 () -> opMode.gamepad1.getLeftX(),
