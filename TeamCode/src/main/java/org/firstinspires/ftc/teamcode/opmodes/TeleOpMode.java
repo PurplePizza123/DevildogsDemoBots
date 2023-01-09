@@ -16,6 +16,10 @@ public class TeleOpMode extends OpMode {
 
         super.initialize();
 
+        schedule(
+            commands.lift.calibrate()
+        );
+
         new DriveModule(this);
         new LiftModule(this);
         new IntakeModule(this);

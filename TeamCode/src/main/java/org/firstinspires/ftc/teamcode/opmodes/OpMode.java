@@ -47,9 +47,5 @@ public abstract class OpMode extends CommandOpMode {
         }
 
         CommandScheduler.getInstance().clearButtons();
-
-        schedule(
-            commands.lift.calibrate()
-        );
     }
 }

@@ -7,11 +7,13 @@ import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.stacks;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 public class AutoCommands extends Commands {
     public Command execute() {
-        return vision.detect().andThen(
+        return lift.calibrate().andThen(
+            vision.detect(),
             auto.scoreStartCone(),
             auto.scoreStack(stacks),
             auto.park()
@@ -45,11 +47,17 @@ public class AutoCommands extends Commands {
     }
 
     public Command park() {
-        String column = alliance == BLUE ? "C" : "D";
-        int start = side == SOUTH ? 1 : 4;
-        if (alliance == BLUE) start += 2;
-        int detectionId = subsystems.vision.getDetectionId();
-        int row = start - alliance.sign * detectionId;
-        return drive.toTile(column + row);
+        return new SelectCommand(
+            () -> {
+                String column = alliance == BLUE ? "C" : "D";
+                int start = side == SOUTH ? 1 : 4;
+                if (alliance == BLUE) start += 2;
+                int detectionId = subsystems.vision.getDetectionId();
+                int row = start - alliance.sign * detectionId;
+                return drive.toTile(column + row).alongWith(
+                    lift.to(0)
+                );
+            }
+        );
     }
 }
