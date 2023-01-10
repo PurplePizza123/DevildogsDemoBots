@@ -8,7 +8,7 @@ public class Subsystems {
     public DriveSubsystem drive;
     public LiftSubsystem lift;
     public IntakeSubsystem intake;
-    public VisionSubsystem vision;
+    public RandomizationSubsystem randomization;
     public NavSubsystem nav;
 
     public Subsystems(Hardware hardware, Telemetry telemetry) {
@@ -16,7 +16,7 @@ public class Subsystems {
         drive = new DriveSubsystem(hardware, telemetry);
         lift = new LiftSubsystem(hardware, telemetry);
         intake = new IntakeSubsystem(hardware, telemetry);
-        vision = new VisionSubsystem(hardware, telemetry);
+        randomization = new RandomizationSubsystem(hardware, telemetry);
         nav = new NavSubsystem(hardware, telemetry);
     }
 }

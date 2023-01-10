@@ -9,14 +9,14 @@ import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.AprilTagDetector;
 
 @Config
-public class VisionSubsystem extends HardwareSubsystem {
+public class RandomizationSubsystem extends HardwareSubsystem {
     private final AprilTagDetector detector;
 
     private boolean disabled = false;
 
-    public VisionSubsystem(Hardware hardware, Telemetry telemetry) {
+    public RandomizationSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
-        this.detector = new AprilTagDetector(hardware.visionWebcam);
+        this.detector = new AprilTagDetector(hardware.frontWebcam);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class VisionSubsystem extends HardwareSubsystem {
         if (!disabled) this.detector.update();
 
         telemetry.addData(
-            "Vision", "%s, %.1f fps, %d oms, %d pms",
+            "Randomization", "%s, %.1f fps, %d oms, %d pms",
             getDetectionLabel(),
             detector.webcam.getFps(),
             detector.webcam.getOverheadTimeMs(),

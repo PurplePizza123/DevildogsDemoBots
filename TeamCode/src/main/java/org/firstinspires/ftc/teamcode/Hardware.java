@@ -41,7 +41,7 @@ public class Hardware {
     public DigitalChannel liftLeftLimit;
     public DigitalChannel liftRightLimit;
 
-    public WebcamName visionWebcam;
+    public WebcamName frontWebcam;
     public WebcamName rearWebcam;
 
     public Hardware(HardwareMap hardwareMap) {
@@ -77,7 +77,7 @@ public class Hardware {
         liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
         liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 
-        visionWebcam = hardwareMap.get(WebcamName.class, "Webcam 1");
+        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
         rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
     }
 }

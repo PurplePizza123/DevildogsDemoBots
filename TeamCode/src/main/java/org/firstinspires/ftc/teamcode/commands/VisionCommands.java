@@ -8,11 +8,11 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 public class VisionCommands extends Commands {
     public Command detect() {
         return wait.until(
-            () -> !subsystems.vision.getDetectionLabel().equals("none")
+            () -> !subsystems.randomization.getDetectionLabel().equals("none")
         ).withTimeout(3000).alongWith(
             wait.seconds(config.delay)
         ).andThen(
-            new InstantCommand(subsystems.vision::disable)
+            new InstantCommand(subsystems.randomization::disable)
         );
     }
 }
