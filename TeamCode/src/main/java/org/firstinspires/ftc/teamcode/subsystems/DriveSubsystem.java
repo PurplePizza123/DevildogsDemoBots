@@ -4,6 +4,7 @@ import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
+import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.mmPerInch;
 import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.REVERSE;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
+import org.firstinspires.ftc.teamcode.hacks.VuforiaFieldNavigation;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 @Config
@@ -40,6 +42,9 @@ public class DriveSubsystem extends HardwareSubsystem {
     private static Pose2d drivePose = new Pose2d();
     private YawPitchRollAngles angles;
     private AngularVelocity angularVelocities;
+
+    private final VuforiaFieldNavigation vuforia;
+    private Pose2d navPose = new Pose2d();
 
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -76,6 +81,8 @@ public class DriveSubsystem extends HardwareSubsystem {
         odometry = new Odometry(hardware, telemetry);
 
         odometry.setPoseEstimate(drivePose);
+
+        vuforia = new VuforiaFieldNavigation(hardware.rearWebcam);
     }
 
     @Override
@@ -100,6 +107,20 @@ public class DriveSubsystem extends HardwareSubsystem {
         telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
         telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.get(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getDistance());
         telemetry.addData("Drive (RR)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.get(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getDistance());
+
+        vuforia.update();
+
+        if (vuforia.targetVisible) {
+            navPose = new Pose2d(
+                vuforia.translation.get(0) / mmPerInch,
+                vuforia.translation.get(1) / mmPerInch,
+                vuforia.rotation.thirdAngle
+            );
+        }
+
+         telemetry.addData("Nav (Target)", vuforia.targetName);
+         telemetry.addData("Nav (Count)", vuforia.targetCount);
+         telemetry.addData("Nav (Pose)", navPose);
     }
 
     public void inputs(double strafe, double forward, double turn) {

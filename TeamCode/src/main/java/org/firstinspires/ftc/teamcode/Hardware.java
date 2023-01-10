@@ -42,6 +42,7 @@ public class Hardware {
     public DigitalChannel liftRightLimit;
 
     public WebcamName visionWebcam;
+    public WebcamName rearWebcam;
 
     public Hardware(HardwareMap hardwareMap) {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
@@ -77,5 +78,6 @@ public class Hardware {
         liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 
         visionWebcam = hardwareMap.get(WebcamName.class, "Webcam 1");
+        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
     }
 }
