@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.junction;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.arcrobotics.ftclib.command.SelectCommand;
 
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Junction;
@@ -66,6 +69,14 @@ public class DriveCommands extends Commands {
         Pose2d pose = subsystems.nav.getJunctionPose(label);
         return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
             lift.toJunction(Junction.get(label))
+        ).andThen(
+            drive.setDrivePower(0.25)
+        );
+    }
+
+    public Command toJunction() {
+        return new SelectCommand(
+            () -> drive.toJunction(junction)
         );
     }
 

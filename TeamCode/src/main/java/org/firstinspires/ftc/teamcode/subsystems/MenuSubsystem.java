@@ -11,14 +11,16 @@ public class MenuSubsystem extends HardwareSubsystem {
     public static Side side;
     public static int stacks;
     public static double delay;
+    public static String junction;
 
     public MenuSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
-        stacks = 1; delay = 0;
+        stacks = 1; delay = 0; junction = "X3";
     }
 
     @Override
     public void periodic() {
         if (auto) telemetry.addData("Menu", "%s alliance, %s side, %d stacks, %.1fs delay", alliance, side, stacks, delay);
+        else telemetry.addData("Menu", "%s junction", junction);
     }
 }

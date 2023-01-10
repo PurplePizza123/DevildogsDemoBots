@@ -81,6 +81,8 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public void inputs(double strafe, double forward, double turn) {
+        if (strafe + forward + turn != 0) odometry.followTrajectorySequenceAsync(null);
+        else if (odometry.isBusy()) return;
         strafe *= power; forward *= power; turn *= power;
         if (DRIVE_FIELD_CENTRIC) drive.driveFieldCentric(strafe, forward, turn, getHeading(), SQUARE_INPUTS);
         else drive.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);

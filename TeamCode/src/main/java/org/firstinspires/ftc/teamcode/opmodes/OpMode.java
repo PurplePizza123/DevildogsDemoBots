@@ -45,7 +45,5 @@ public abstract class OpMode extends CommandOpMode {
             CommandScheduler.getInstance().run();
             Thread.yield();
         }
-
-        CommandScheduler.getInstance().clearButtons();
     }
 }

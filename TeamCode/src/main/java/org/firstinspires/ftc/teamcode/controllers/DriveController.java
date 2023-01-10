@@ -1,10 +1,17 @@
 package org.firstinspires.ftc.teamcode.controllers;
 
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.Y;
 
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.junction;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
+
+import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class DriveController {
@@ -26,5 +33,11 @@ public class DriveController {
 
         opMode.gamepad1.getGamepadButton(DPAD_UP)
             .whenActive(opMode.commands.drive.setDrivePower(0.75));
+
+        opMode.gamepad1.getGamepadButton(A)
+            .whenActive(opMode.commands.drive.toSubstation(alliance, side));
+
+        opMode.gamepad1.getGamepadButton(Y)
+            .whenActive(opMode.commands.drive.toJunction());
     }
 }
