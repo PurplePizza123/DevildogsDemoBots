@@ -86,9 +86,13 @@ public class DriveCommands extends Commands {
     }
 
     public Command toSubstation(Alliance alliance, Side side) {
-        Pose2d pose = subsystems.nav.getSubstationPose(alliance, side);
-        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
-            lift.toIntake(0)
+        return new SelectCommand(
+            () -> {
+                Pose2d pose = subsystems.nav.getSubstationPose(alliance, side);
+                return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+                    lift.toIntake(0)
+                );
+            }
         );
     }
 
