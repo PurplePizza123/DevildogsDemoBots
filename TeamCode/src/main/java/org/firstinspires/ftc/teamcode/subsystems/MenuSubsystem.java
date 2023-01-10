@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Junction;
 import org.firstinspires.ftc.teamcode.game.Side;
+
+import java.util.Arrays;
 
 public class MenuSubsystem extends HardwareSubsystem {
     public static boolean auto;
@@ -21,6 +24,6 @@ public class MenuSubsystem extends HardwareSubsystem {
     @Override
     public void periodic() {
         if (auto) telemetry.addData("Menu", "%s alliance, %s side, %d stacks, %.1fs delay", alliance, side, stacks, delay);
-        else telemetry.addData("Menu", "%s junction", junction);
+        else Arrays.stream(Junction.lines(junction)).forEach(line -> telemetry.addLine("<font face=\"monospace\">" + line.replace(" ", "&nbsp;") + "</font>"));
     }
 }

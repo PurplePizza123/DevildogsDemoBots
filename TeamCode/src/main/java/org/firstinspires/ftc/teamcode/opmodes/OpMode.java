@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static org.firstinspires.ftc.robotcore.external.Telemetry.DisplayFormat.HTML;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.auto;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
@@ -26,6 +27,8 @@ public abstract class OpMode extends CommandOpMode {
 
     @Override
     public void initialize() {
+        super.telemetry.setDisplayFormat(HTML);
+
         telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(super.hardwareMap);
         gamepad1 = new GamepadEx(super.gamepad1);

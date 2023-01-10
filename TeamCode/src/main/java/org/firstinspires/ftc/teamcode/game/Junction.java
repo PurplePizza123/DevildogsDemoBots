@@ -25,4 +25,29 @@ public enum Junction {
     public static Junction get(String label) {
         return map.get(label);
     }
+    
+    private static String legend = "VWXYZ12345";
+
+    private static String[][] characters = {
+        { " ##    ## ", " ##     ## ", " ##   ## ", " ##    ## ", " ####### ", "  ## ", " ######  ", " ######  ", " ##   ## ", " ####### " },
+        { " ##    ## ", " ##     ## ", "  ## ##  ", "  ##  ##  ", "    ###  ", " ### ", "      ## ", "      ## ", " ##   ## ", " ##      " },
+        { " ##    ## ", " ##  #  ## ", "   ###   ", "   ####   ", "   ###   ", "  ## ", "  #####  ", "  #####  ", " ####### ", " ####### " },
+        { "  ##  ##  ", " ## ### ## ", "  ## ##  ", "    ##    ", "  ###    ", "  ## ", " ##      ", "      ## ", "      ## ", "      ## " },
+        { "   ####   ", "  ### ###  ", " ##   ## ", "    ##    ", " ####### ", "  ## ", " ####### ", " ######  ", "      ## ", " ####### " }
+    };
+
+    public static String[] lines (String junction) {
+        String[] lines = new String[6];
+        Arrays.fill(lines, "");
+
+        for (int i = 0; i < characters.length; i++) {
+            for (int j = 0; j < junction.length(); j++) {
+                char character = junction.charAt(j);
+                int index = legend.indexOf(character);
+                lines[i] += characters[i][index];
+            }
+        }
+
+        return lines;
+    }
 }
