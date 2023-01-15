@@ -63,7 +63,7 @@ public class AprilTagDetector
     public AprilTagDetection detection;
 
     public AprilTagDetector(WebcamName webcam) {
-        this.webcam = OpenCvCameraFactory.getInstance().createWebcam(webcam, R.id.cameraMonitorViewId);
+        this.webcam = OpenCvCameraFactory.getInstance().createWebcam(webcam);
 
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
@@ -82,8 +82,6 @@ public class AprilTagDetector
 
             }
         });
-
-        FtcDashboard.getInstance().startCameraStream(this.webcam, 0);
     }
 
     public void update()
