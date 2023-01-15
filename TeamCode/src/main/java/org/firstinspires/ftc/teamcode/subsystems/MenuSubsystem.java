@@ -18,7 +18,7 @@ public class MenuSubsystem extends HardwareSubsystem {
 
     public MenuSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
-        stacks = 1; delay = 0; junction = "X3";
+        stacks = 2; delay = 0; junction = "X3";
     }
 
     @Override

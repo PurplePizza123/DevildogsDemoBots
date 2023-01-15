@@ -151,7 +151,7 @@ public class MeepMeepTesting {
             Pose2d prev = poses[i - 1];
             Pose2d curr = poses[i];
 
-            double remainder = curr.getHeading() - current.getHeading();
+            double remainder = curr.getHeading() - prev.getHeading();
             if (remainder > +Math.PI) remainder -= Math.PI * 2;
             if (remainder < -Math.PI) remainder += Math.PI * 2;
 

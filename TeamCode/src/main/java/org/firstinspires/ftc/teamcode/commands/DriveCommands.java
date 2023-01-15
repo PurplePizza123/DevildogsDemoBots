@@ -83,7 +83,7 @@ public class DriveCommands extends Commands {
     }
 
     public Command toJunctionAuto(String label) {
-        return toJunction(label, -0.15);
+        return toJunction(label, -0.2);
     }
 
     public Command toJunction() {
@@ -102,7 +102,7 @@ public class DriveCommands extends Commands {
     }
 
     public Command toStackAuto(Alliance alliance, Side side) {
-        return toStack(alliance, side, -0.15);
+        return toStack(alliance, side, -0.2);
     }
 
     public Command toSubstation(Alliance alliance, Side side) {
