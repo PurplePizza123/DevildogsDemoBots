@@ -34,13 +34,30 @@ public class AutoCommands extends Commands {
 
         SequentialCommandGroup group = new SequentialCommandGroup();
 
-        while (times-- > 0) {
-            group.addCommands(
-                drive.toStack(alliance, side),
-                intake.getCone(times),
-                drive.toJunction(column + row),
-                intake.setCone(times)
-            );
+        group.addCommands(
+            drive.toStack(alliance, side),
+            intake.getCone(times--)
+        );
+
+        while (--times >= 0) {
+            if (times == 0) {
+                group.addCommands(
+                    drive.toJunctionAuto(column + (row - side.sign)),
+                    intake.setCone()
+                );
+            } else {
+                group.addCommands(
+                    drive.toJunctionAuto(column + row),
+                    intake.setCone()
+                );
+            }
+
+            if (times > 0) {
+                group.addCommands(
+                    drive.toStackAuto(alliance, side),
+                    intake.getCone(times)
+                );
+            }
         }
 
         return group;

@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.R
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -126,7 +127,30 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     public void to(Pose2d[] poses) {
         followTrajectoryAsync(
-            builder -> Arrays.stream(poses).forEach(builder::lineToLinearHeading)
+            builder -> {
+                for (int i = 1; i < poses.length; i++) {
+                    Pose2d prev = poses[i - 1];
+                    Pose2d curr = poses[i];
+
+                    double remainder = curr.getHeading() - getHeading();
+                    if (remainder > +Math.PI) remainder -= Math.PI * 2;
+                    if (remainder < -Math.PI) remainder += Math.PI * 2;
+
+                    if (remainder > +Math.PI * 0.8 || remainder < -Math.PI * 0.8) {
+                        builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
+                    } else {
+                        builder.lineToLinearHeading(
+                            new Pose2d(
+                                prev.getX() * 1.0001,
+                                prev.getY() * 1.0001,
+                                curr.getHeading()
+                            )
+                        );
+
+                        builder.lineToLinearHeading(curr);
+                    }
+                }
+            }
         );
     }
 
