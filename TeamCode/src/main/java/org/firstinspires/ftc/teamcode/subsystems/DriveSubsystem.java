@@ -118,6 +118,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public Pose2d getPose() {
+        odometry.update();
         return odometry.getPoseEstimate();
     }
 
@@ -136,7 +137,7 @@ public class DriveSubsystem extends HardwareSubsystem {
                     if (remainder > +Math.PI) remainder -= Math.PI * 2;
                     if (remainder < -Math.PI) remainder += Math.PI * 2;
 
-                    if (remainder > +Math.PI * 0.8 || remainder < -Math.PI * 0.8) {
+                    if (remainder > +Math.PI * 0.9 || remainder < -Math.PI * 0.9) {
                         builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
                     } else {
                         builder.lineToLinearHeading(

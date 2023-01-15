@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.controllers;
 
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
@@ -39,5 +40,8 @@ public class DriveController {
 
         opMode.gamepad1.getGamepadButton(Y)
             .whenActive(opMode.commands.drive.toJunction());
+
+        opMode.gamepad1.getGamepadButton(B)
+            .whenActive(opMode.commands.drive.toStack(alliance, side));
     }
 }
