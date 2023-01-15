@@ -218,34 +218,22 @@ public class MeepMeepTesting {
     }
 
     private static void updatePoseHeadings(ArrayList<Pose2d> poses) {
-        Pose2d start = poses.get(0);
-        Pose2d end = poses.get(poses.size() - 1);
 
-        ArrayList<Double> distances = new ArrayList<>();
+//        double remainder = end.getHeading() - start.getHeading();
+//        if (remainder > +Math.PI) remainder -= Math.PI * 2;
+//        if (remainder < -Math.PI) remainder += Math.PI * 2;
 
-        double totalDistance = 0;
-
-        for (int i = 1; i < poses.size(); i++) {
-            Pose2d poseA = poses.get(i - 1);
-            Pose2d poseB = poses.get(i);
-
-            distances.add(
-                totalDistance += Math.hypot(
-                    poseA.getX() - poseB.getX(),
-                    poseA.getY() - poseB.getY()
-                )
-            );
-        }
-
-        double remainder = end.getHeading() - start.getHeading();
-        if (remainder > +Math.PI) remainder -= Math.PI * 2;
-        if (remainder < -Math.PI) remainder += Math.PI * 2;
 
         for (int i = 1; i < poses.size(); i++) {
+            Pose2d prev = poses.get(i - 1);
+            Pose2d curr = poses.get(i);
             poses.set(i, new Pose2d(
-                poses.get(i).getX(),
-                poses.get(i).getY(),
-                start.getHeading() + remainder * distances.get(i - 1) / totalDistance
+                curr.getX(),
+                curr.getY(),
+                Math.atan2(
+                    curr.getY() - prev.getY(),
+                    curr.getX() - prev.getX()
+                )
             ));
         }
     }
