@@ -11,9 +11,12 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
@@ -38,9 +41,11 @@ public class DriveSubsystem extends HardwareSubsystem {
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         hardware.imu.initialize(parameters);
+
 
         hardware.driveLeftFront.setInverted(true);
         hardware.driveLeftRear.setInverted(true);
@@ -114,7 +119,9 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public double getHeading() {
-        return Math.toDegrees(hardware.imu.getAngularOrientation().firstAngle);
+        return Math.toDegrees(
+            hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)
+        );
     }
 
     public Pose2d getPose() {

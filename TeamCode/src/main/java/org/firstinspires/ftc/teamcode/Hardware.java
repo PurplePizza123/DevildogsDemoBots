@@ -7,9 +7,11 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -22,7 +24,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class Hardware {
 
     public VoltageSensor batteryVoltageSensor;
-    public BNO055IMU imu;
+    public IMU imu;
 
     public MotorGroup drive;
     public MotorEx driveLeftFront;
@@ -51,7 +53,7 @@ public class Hardware {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "imu");
 
         drive = new MotorGroup(
             driveLeftFront = new MotorEx(hardwareMap, "driveLeftFront", RPM_312),
