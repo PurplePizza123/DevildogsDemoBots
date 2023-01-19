@@ -1,17 +1,26 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.junction;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.FunctionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.arcrobotics.ftclib.command.SelectCommand;
 
-import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Junction;
+import org.firstinspires.ftc.teamcode.game.Side;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class DriveCommands extends Commands {
-    public Command setDrivePower(DriveSubsystem.DrivePower drivePower) {
-        return new InstantCommand(() -> subsystems.drive.setDrivePower(drivePower), subsystems.drive);
+    private static final double INTAKE_OFFSET = -6;
+
+    public Command setDrivePower(double power) {
+        return new InstantCommand(() -> subsystems.drive.power = power, subsystems.drive);
     }
 
     public Command input(DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
@@ -24,46 +33,79 @@ public class DriveCommands extends Commands {
         );
     }
 
-    public Command move(double strafe, double forward, double distance) {
-        return new FunctionalCommand(
-            () -> subsystems.drive.resetEncoders(),
-            () -> subsystems.drive.move(strafe, forward, distance),
-            i  -> subsystems.drive.stop(),
-            () -> subsystems.drive.getDistance() >= distance,
-            subsystems.drive
+    public Command strafe(double distance) {
+        return complete(() -> subsystems.drive.strafe(distance));
+    }
+
+    public Command forward(double distance) {
+        return complete(() -> subsystems.drive.forward(distance));
+    }
+
+    public Command turn(double heading) {
+        return complete(() -> subsystems.drive.turn(heading));
+    }
+
+    public Command toPose(Pose2d pose, double offset, boolean y1st) {
+        return complete(
+            () -> subsystems.drive.to(
+                subsystems.nav.getTransitionPoses(
+                    subsystems.drive.getPose(),
+                    pose, offset, y1st
+                )
+            )
         );
     }
 
-    public Command move(double strafe, double forward, double heading, double distance) {
-        return new FunctionalCommand(
-            () -> subsystems.drive.resetEncoders(),
-            () -> subsystems.drive.move(strafe, forward, heading, distance),
-            i  -> subsystems.drive.stop(),
-            () -> subsystems.drive.getDistance() >= distance,
-            subsystems.drive
+    public Command toTile(String label) {
+        Pose2d pose = subsystems.nav.getTilePose(label);
+        return drive.toPose(pose, 0, true);
+    }
+
+    public Command toTile(Supplier<String> supplier) {
+        return drive.toTile(supplier.get());
+    }
+
+    public Command toJunction(String label) {
+        Pose2d pose = subsystems.nav.getJunctionPose(label);
+        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+            lift.toJunction(Junction.get(label))
+        ).andThen(
+            drive.setDrivePower(0.25)
         );
     }
 
-    public Command turn(double power, double heading) {
-        return new FunctionalCommand(
-            () -> subsystems.drive.resetEncoders(),
-            () -> subsystems.drive.turn(power, heading),
-            i  -> subsystems.drive.stop(),
-            () -> subsystems.drive.getRemainderLeftToTurn(heading) > -DriveSubsystem.TURN_TOLERANCE &&
-                  subsystems.drive.getRemainderLeftToTurn(heading) < +DriveSubsystem.TURN_TOLERANCE,
-            subsystems.drive
+    public Command toJunction() {
+        return new SelectCommand(
+            () -> drive.toJunction(junction)
         );
     }
 
-    public Command setHeading() {
-        return new InstantCommand(subsystems.drive::setHeading, subsystems.drive);
+    public Command toStack(Alliance alliance, Side side) {
+        Pose2d pose = subsystems.nav.getStackPose(alliance, side);
+        return drive.toPose(pose, INTAKE_OFFSET, true);
     }
 
-    public Command tune(double moveDeceleration, double turnDeceleration, double turnTolerance) {
-        return new InstantCommand(() -> {
-            DriveSubsystem.MOVE_DECELERATION = moveDeceleration;
-            DriveSubsystem.TURN_DECELERATION = turnDeceleration;
-            DriveSubsystem.TURN_TOLERANCE = turnTolerance;
-        }, subsystems.drive);
+    public Command toSubstation(Alliance alliance, Side side) {
+        return new SelectCommand(
+            () -> {
+                Pose2d pose = subsystems.nav.getSubstationPose(alliance, side);
+                return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+                    lift.toIntake(0)
+                );
+            }
+        );
+    }
+
+    public Command toTerminal(Alliance alliance, Side side) {
+        Pose2d pose = subsystems.nav.getTerminalPose(alliance, side);
+        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+            lift.toIntake(0)
+        );
+    }
+
+    private Command complete(Runnable runnable) {
+        return new InstantCommand(runnable, subsystems.drive).andThen(
+            wait.until(() -> !subsystems.drive.isBusy())
+        );
     }
 }

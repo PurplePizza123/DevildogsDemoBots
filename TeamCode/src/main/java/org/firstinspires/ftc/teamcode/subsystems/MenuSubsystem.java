@@ -1,24 +1,29 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.commands.AutonomousCommands.Plan.A;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
-import org.firstinspires.ftc.teamcode.commands.AutonomousCommands;
+import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Junction;
+import org.firstinspires.ftc.teamcode.game.Side;
+
+import java.util.Arrays;
 
 public class MenuSubsystem extends HardwareSubsystem {
-    public static boolean enabled;
-    public static AutonomousCommands.Side side;
-    public AutonomousCommands.Plan plan = A;
-    public int stacks = 2;
-    public double delay = 0;
+    public static boolean auto;
+    public static Alliance alliance;
+    public static Side side;
+    public static int stacks;
+    public static double delay;
+    public static String junction;
 
     public MenuSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
+        stacks = 1; delay = 0; junction = "X3";
     }
 
     @Override
     public void periodic() {
-        if (enabled) telemetry.addData("Menu", "%s side, %s plan, %d stacks, %.1f delay", side, plan, stacks, delay);
+        if (auto) telemetry.addData("Menu", "%s alliance, %s side, %d stacks, %.1fs delay", alliance, side, stacks, delay);
+        else Arrays.stream(Junction.lines(junction)).forEach(line -> telemetry.addLine("<font face=\"monospace\">" + line.replace(" ", "&nbsp;") + "</font>"));
     }
 }

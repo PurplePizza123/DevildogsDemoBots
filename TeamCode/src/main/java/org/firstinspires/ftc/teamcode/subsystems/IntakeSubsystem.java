@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 @Config
 public class IntakeSubsystem extends HardwareSubsystem {
-    public static double POWER_IN = 0.25;
+    public static double POWER_IN = 1.00;
     public static double POWER_OUT = 1.00;
     public static boolean PULSE_ENABLED = false;
     public static long PULSE_WIDTH = 500;

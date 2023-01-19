@@ -1,17 +1,21 @@
 package com.example.meepmeeptesting;
 
-public class Game {
-    public enum Side {
-        LEFT(1), RIGHT(-1), NORTH(1), SOUTH(-1);
+enum Alliance {
+    BLUE(+1), RED(-1);
 
-        public final int sign;
+    public final int sign;
 
-        Side(int sign) {
-            this.sign = sign;
-        }
+    Alliance(int sign) {
+        this.sign = sign;
     }
+}
 
-    public enum Plan {
-        A, B
+enum Side {
+    NORTH(+1), SOUTH(-1);
+
+    public final int sign;
+
+    Side(int sign) {
+        this.sign = sign;
     }
 }

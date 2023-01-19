@@ -22,20 +22,19 @@
 package org.firstinspires.ftc.teamcode.hacks;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.R;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
 
-@TeleOp
-@Disabled
 @SuppressWarnings("ALL")
-public class AprilTagService
+public class AprilTagDetector
 {
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -60,18 +59,21 @@ public class AprilTagService
     final float THRESHOLD_HIGH_DECIMATION_RANGE_METERS = 1.0f;
     final int THRESHOLD_NUM_FRAMES_NO_DETECTION_BEFORE_LOW_DECIMATION = 4;
 
+    public OpenCvWebcam webcam;
     public AprilTagDetection detection;
 
-    public AprilTagService(OpenCvWebcam webcam) {
+    public AprilTagDetector(WebcamName webcam) {
+        this.webcam = OpenCvCameraFactory.getInstance().createWebcam(webcam);
+
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        webcam.setPipeline(aprilTagDetectionPipeline);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        this.webcam.setPipeline(aprilTagDetectionPipeline);
+        this.webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                AprilTagDetector.this.webcam.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -80,8 +82,6 @@ public class AprilTagService
 
             }
         });
-
-        FtcDashboard.getInstance().startCameraStream(webcam, 0);
     }
 
     public void update()

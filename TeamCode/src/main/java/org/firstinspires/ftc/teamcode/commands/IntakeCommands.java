@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.GROUND;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftPosition.INTAKE;
-
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
@@ -25,9 +22,9 @@ public class IntakeCommands extends Commands {
 
     public Command getCone(double offset) {
         return intake.in().andThen(
-            lift.to(GROUND, offset),
+            lift.to(offset),
             wait.seconds(0.5),
-            lift.to(INTAKE, offset),
+            lift.toIntake(offset),
             intake.stop(true)
         );
     }
@@ -38,11 +35,12 @@ public class IntakeCommands extends Commands {
 
     public Command setCone(double offset) {
         return intake.out().andThen(
-            wait.seconds(.3),
-            drive.setHeading(),
+            lift.change(-3),
+            wait.seconds(0.5),
+            lift.change(+3),
             intake.stop(false),
-            drive.move(0, -1, 8),
-            lift.to(INTAKE, offset)
+            drive.forward(-8),
+            lift.toIntake(offset)
         );
     }
 }

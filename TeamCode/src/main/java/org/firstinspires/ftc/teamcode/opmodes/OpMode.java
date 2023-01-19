@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static org.firstinspires.ftc.robotcore.external.Telemetry.DisplayFormat.HTML;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.auto;
+import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
@@ -9,7 +14,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.Commands;
-import org.firstinspires.ftc.teamcode.modules.MenuModule;
+import org.firstinspires.ftc.teamcode.controllers.MenuController;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public abstract class OpMode extends CommandOpMode {
@@ -22,6 +27,8 @@ public abstract class OpMode extends CommandOpMode {
 
     @Override
     public void initialize() {
+        super.telemetry.setDisplayFormat(HTML);
+
         telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(super.hardwareMap);
         gamepad1 = new GamepadEx(super.gamepad1);
@@ -29,17 +36,17 @@ public abstract class OpMode extends CommandOpMode {
         subsystems = new Subsystems(hardware, telemetry);
         commands = new Commands(subsystems);
 
-        new MenuModule(this);
+        new MenuController(this);
+
+        if (auto) {
+            subsystems.drive.setPose(
+                subsystems.nav.getStartPose(alliance, side)
+            );
+        }
 
         while (!isStarted()) {
             CommandScheduler.getInstance().run();
             Thread.yield();
         }
-
-        CommandScheduler.getInstance().clearButtons();
-
-        schedule(
-            commands.lift.calibrate()
-        );
     }
 }
