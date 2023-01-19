@@ -78,7 +78,9 @@ public class DriveSubsystem extends HardwareSubsystem {
 
         drivePose = getPose();
 
-        telemetry.addData("Drive (Heading)", "%.2f°", getHeading());
+        telemetry.addData("IMU (Heading)", "%.2f°", getHeading());
+        telemetry.addData("IMU (Pitch)", "%.2f°", getPitch());
+        telemetry.addData("IMU (Roll)", "%.2f°", getRoll());
         telemetry.addData("Drive (Pose)", drivePose.toString());
         telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
@@ -123,6 +125,19 @@ public class DriveSubsystem extends HardwareSubsystem {
             hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)
         );
     }
+
+    public double getPitch() {
+        return Math.toDegrees(
+            hardware.imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.RADIANS)
+        );
+    }
+
+    public double getRoll() {
+        return Math.toDegrees(
+            hardware.imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.RADIANS)
+        );
+    }
+
 
     public Pose2d getPose() {
         odometry.update();
