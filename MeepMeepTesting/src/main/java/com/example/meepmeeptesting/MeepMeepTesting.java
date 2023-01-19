@@ -6,6 +6,7 @@ import static com.example.meepmeeptesting.Side.NORTH;
 import static com.example.meepmeeptesting.Side.SOUTH;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
@@ -22,7 +23,7 @@ public class MeepMeepTesting {
     private static final double ROBOT_WIDTH = 14.75;
     private static final double ROBOT_LENGTH = 14;
     private static final double TRACK_WIDTH = 12.82;
-    private static final double INTAKE_OFFSET = -7;
+    private static final double INTAKE_OFFSET = -6;
     private static final double MAX_VEL = 45;
     private static final double MAX_ACCEL = 45;
     private static final double MAX_ANG_VEL = Math.toRadians(200);
@@ -78,11 +79,14 @@ public class MeepMeepTesting {
 
     public static void scoreStack(int times) {
         String column = String.valueOf((char)('X' - alliance.sign));
-        int row = 3 + side.sign;
+        int row = 3 + side.sign * 2;
 
-        while (--times > 0) {
-            toStack(alliance, side);
-            toJunction(column + row);
+        toStack(alliance, side);
+
+        while (--times >= 0) {
+            if (times == 0) toJunctionAuto(column + (row - side.sign));
+            else toJunctionAuto(column + row);
+            if (times > 0) toStackAuto(alliance, side);
         }
     }
 
@@ -106,9 +110,21 @@ public class MeepMeepTesting {
         );
     }
 
+    public static void toJunctionAuto(String label) {
+        toPose(
+            getJunctionPose(label), -0.15, INTAKE_OFFSET, true
+        );
+    }
+
     public static void toStack(Alliance alliance, Side side) {
         toPose(
-            getStackPose(alliance, side), INTAKE_OFFSET, true
+            getStackPose(alliance, side),  INTAKE_OFFSET, true
+        );
+    }
+
+    public static void toStackAuto(Alliance alliance, Side side) {
+        toPose(
+            getStackPose(alliance, side), -0.15,  INTAKE_OFFSET, true
         );
     }
 
@@ -125,9 +141,36 @@ public class MeepMeepTesting {
     }
 
     public static void toPose(Pose2d pose, double offset, boolean y1st) {
-        Pose2d[] poses = getTransitionPoses(current, pose, offset, y1st);
-        Arrays.stream(poses).forEach(builder::lineToLinearHeading);
-        current = poses[poses.length - 1];
+        toPose(pose, 0, offset, y1st);
+    }
+
+    public static void toPose(Pose2d pose, double stxo, double offset, boolean y1st) {
+        Pose2d[] poses = getTransitionPoses(current, pose, stxo, offset, y1st);
+
+        for (int i = 1; i < poses.length; i++) {
+            Pose2d prev = poses[i - 1];
+            Pose2d curr = poses[i];
+
+            double remainder = curr.getHeading() - prev.getHeading();
+            if (remainder > +Math.PI) remainder -= Math.PI * 2;
+            if (remainder < -Math.PI) remainder += Math.PI * 2;
+
+            if (remainder > +Math.PI * 0.8 || remainder < -Math.PI * 0.8) {
+                builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
+            } else {
+                builder.lineToLinearHeading(
+                    new Pose2d(
+                        prev.getX() * 1.0001,
+                        prev.getY() * 1.0001,
+                        curr.getHeading()
+                    )
+                );
+
+                builder.lineToLinearHeading(curr);
+            }
+
+            current = curr;
+        }
     }
 
     public static Pose2d getStartPose(Alliance alliance, Side side) {
@@ -173,9 +216,9 @@ public class MeepMeepTesting {
         );
     }
 
-    public static Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, double offset, boolean y1st) {
+    public static Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, double stxo, double offset, boolean y1st) {
         Pose2d startTile = new Pose2d(
-            nearestTile(start.getX(), 0.5),
+            nearestTile(start.getX(), 0.5 + stxo),
             nearestTile(start.getY(), 0.5)
         );
 
@@ -212,40 +255,21 @@ public class MeepMeepTesting {
 
         updatePoseHeadings(poses);
 
-        poses.remove(start);
-
         return poses.toArray(new Pose2d[0]);
     }
 
     private static void updatePoseHeadings(ArrayList<Pose2d> poses) {
-        Pose2d start = poses.get(0);
-        Pose2d end = poses.get(poses.size() - 1);
-
-        ArrayList<Double> distances = new ArrayList<>();
-
-        double totalDistance = 0;
-
         for (int i = 1; i < poses.size(); i++) {
-            Pose2d poseA = poses.get(i - 1);
-            Pose2d poseB = poses.get(i);
+            Pose2d prev = poses.get(i - 1);
+            Pose2d curr = poses.get(i);
 
-            distances.add(
-                totalDistance += Math.hypot(
-                    poseA.getX() - poseB.getX(),
-                    poseA.getY() - poseB.getY()
-                )
-            );
-        }
-
-        double remainder = end.getHeading() - start.getHeading();
-        if (remainder > +Math.PI) remainder -= Math.PI * 2;
-        if (remainder < -Math.PI) remainder += Math.PI * 2;
-
-        for (int i = 1; i < poses.size(); i++) {
             poses.set(i, new Pose2d(
-                poses.get(i).getX(),
-                poses.get(i).getY(),
-                start.getHeading() + remainder * distances.get(i - 1) / totalDistance
+                curr.getX(),
+                curr.getY(),
+                Math.atan2(
+                    curr.getY() - prev.getY(),
+                    curr.getX() - prev.getX()
+                )
             ));
         }
     }

@@ -46,11 +46,15 @@ public class DriveCommands extends Commands {
     }
 
     public Command toPose(Pose2d pose, double offset, boolean y1st) {
+        return toPose(pose, 0, offset, y1st);
+    }
+
+    public Command toPose(Pose2d pose, double stxo, double offset, boolean y1st) {
         return complete(
             () -> subsystems.drive.to(
                 subsystems.nav.getTransitionPoses(
                     subsystems.drive.getPose(),
-                    pose, offset, y1st
+                    pose, stxo, offset, y1st
                 )
             )
         );
@@ -65,13 +69,21 @@ public class DriveCommands extends Commands {
         return drive.toTile(supplier.get());
     }
 
-    public Command toJunction(String label) {
+    public Command toJunction(String label, double stxo) {
         Pose2d pose = subsystems.nav.getJunctionPose(label);
-        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+        return drive.toPose(pose, stxo, INTAKE_OFFSET, true).alongWith(
             lift.toJunction(Junction.get(label))
         ).andThen(
             drive.setDrivePower(0.25)
         );
+    }
+
+    public Command toJunction(String label) {
+        return toJunction(label, 0);
+    }
+
+    public Command toJunctionAuto(String label) {
+        return toJunction(label, -0.2);
     }
 
     public Command toJunction() {
@@ -80,9 +92,17 @@ public class DriveCommands extends Commands {
         );
     }
 
-    public Command toStack(Alliance alliance, Side side) {
+    public Command toStack(Alliance alliance, Side side, double stxo) {
         Pose2d pose = subsystems.nav.getStackPose(alliance, side);
-        return drive.toPose(pose, INTAKE_OFFSET, true);
+        return drive.toPose(pose, stxo, INTAKE_OFFSET, true);
+    }
+
+    public Command toStack(Alliance alliance, Side side) {
+        return toStack(alliance, side, 0);
+    }
+
+    public Command toStackAuto(Alliance alliance, Side side) {
+        return toStack(alliance, side, -0.2);
     }
 
     public Command toSubstation(Alliance alliance, Side side) {

@@ -62,9 +62,9 @@ public class NavSubsystem extends HardwareSubsystem {
         );
     }
 
-    public Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, double offset, boolean y1st) {
+    public Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, double stxo, double offset, boolean y1st) {
         Pose2d startTile = new Pose2d(
-            nearestTile(start.getX(), 0.5),
+            nearestTile(start.getX(), 0.5 + stxo),
             nearestTile(start.getY(), 0.5)
         );
 
@@ -101,40 +101,21 @@ public class NavSubsystem extends HardwareSubsystem {
 
         updatePoseHeadings(poses);
 
-        poses.remove(start);
-
         return poses.toArray(new Pose2d[0]);
     }
 
     private static void updatePoseHeadings(ArrayList<Pose2d> poses) {
-        Pose2d start = poses.get(0);
-        Pose2d end = poses.get(poses.size() - 1);
-
-        ArrayList<Double> distances = new ArrayList<>();
-
-        double totalDistance = 0;
-
         for (int i = 1; i < poses.size(); i++) {
-            Pose2d poseA = poses.get(i - 1);
-            Pose2d poseB = poses.get(i);
+            Pose2d prev = poses.get(i - 1);
+            Pose2d curr = poses.get(i);
 
-            distances.add(
-                totalDistance += Math.hypot(
-                    poseA.getX() - poseB.getX(),
-                    poseA.getY() - poseB.getY()
-                )
-            );
-        }
-
-        double remainder = end.getHeading() - start.getHeading();
-        if (remainder > +Math.PI) remainder -= Math.PI * 2;
-        if (remainder < -Math.PI) remainder += Math.PI * 2;
-
-        for (int i = 1; i < poses.size(); i++) {
             poses.set(i, new Pose2d(
-                poses.get(i).getX(),
-                poses.get(i).getY(),
-                start.getHeading() + remainder * distances.get(i - 1) / totalDistance
+                curr.getX(),
+                curr.getY(),
+                Math.atan2(
+                    curr.getY() - prev.getY(),
+                    curr.getX() - prev.getX()
+                )
             ));
         }
     }

@@ -30,17 +30,36 @@ public class AutoCommands extends Commands {
 
     public Command scoreStack(int times) {
         String column = String.valueOf((char)('X' - alliance.sign));
-        int row = 3 + side.sign;
+        int row = 3 + side.sign * 2;
 
         SequentialCommandGroup group = new SequentialCommandGroup();
 
-        while (times-- > 0) {
-            group.addCommands(
-                drive.toStack(alliance, side),
-                intake.getCone(times),
-                drive.toJunction(column + row),
-                intake.setCone(times)
-            );
+        int stacks = 5;
+
+        group.addCommands(
+            drive.toStack(alliance, side),
+            intake.getCone(--stacks)
+        );
+
+        while (--times >= 0) {
+            if (times == 0) {
+                group.addCommands(
+                    drive.toJunctionAuto(column + (row - side.sign)),
+                    intake.setCone()
+                );
+            } else {
+                group.addCommands(
+                    drive.toJunctionAuto(column + row),
+                    intake.setCone()
+                );
+            }
+
+            if (times > 0) {
+                group.addCommands(
+                    drive.toStackAuto(alliance, side),
+                    intake.getCone(--stacks)
+                );
+            }
         }
 
         return group;
