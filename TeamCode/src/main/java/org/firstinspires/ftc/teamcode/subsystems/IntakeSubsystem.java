@@ -16,6 +16,8 @@ public class IntakeSubsystem extends HardwareSubsystem {
 
     public IntakeSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
+        hardware.intakeFrontRight.setInverted(true);
+        hardware.intakeRearLeft.setInverted(true);
     }
 
     @Override

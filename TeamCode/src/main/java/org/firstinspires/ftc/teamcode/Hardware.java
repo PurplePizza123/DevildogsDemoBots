@@ -37,6 +37,10 @@ public class Hardware {
     public Encoder odometryCenter;
 
     public MotorGroup intake;
+    public CRServo intakeFrontLeft;
+    public CRServo intakeFrontRight;
+    public CRServo intakeRearLeft;
+    public CRServo intakeRearRight;
 
     public MotorEx lift;
     public DigitalChannel liftLeftLimit;
@@ -67,9 +71,10 @@ public class Hardware {
         odometryCenter = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryCenter"));
 
         intake = new MotorGroup(
-            new CRServo(hardwareMap, "intakeFront"),
-            new CRServo(hardwareMap, "intakeLeft"),
-            new CRServo(hardwareMap, "intakeRight")
+            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
+            intakeFrontRight = new CRServo(hardwareMap, "intakeFrontRight"),
+            intakeRearLeft = new CRServo(hardwareMap, "intakeRearLeft"),
+            intakeRearRight = new CRServo(hardwareMap, "intakeRearRight")
         );
 
         lift = new MotorEx(hardwareMap, "lift", RPM_435);

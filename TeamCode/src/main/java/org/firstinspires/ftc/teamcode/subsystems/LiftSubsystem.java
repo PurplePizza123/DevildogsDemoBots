@@ -41,7 +41,7 @@ public class LiftSubsystem extends HardwareSubsystem {
             hardware.lift.motor.setMode(RUN_TO_POSITION);
             hardware.lift.motor.setPower(+POWER);
             calibrated = true;
-            height = MIN;
+            to(height = MIN);
         }
     }
 
@@ -56,7 +56,7 @@ public class LiftSubsystem extends HardwareSubsystem {
     }
 
     public void to(double height) {
-        height = clamp(height, MIN, MAX);
+        height = clamp(height, MIN + 0.25, MAX);
         hardware.lift.motor.setPower(height > this.height ? +POWER : -POWER);
         hardware.lift.motor.setTargetPosition(
             (int)(((this.height = height) - MIN) / HEIGHT_PER_PULSE)

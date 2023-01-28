@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class DriveCommands extends Commands {
-    private static final double INTAKE_OFFSET = -5.5;
+    private static final double INTAKE_OFFSET = -4.75;
 
     public Command setDrivePower(double power) {
         return new InstantCommand(() -> subsystems.drive.power = power, subsystems.drive);
