@@ -169,14 +169,7 @@ public class DriveSubsystem extends HardwareSubsystem {
                         curr = poses[i] = new Pose2d(curr.getX(), curr.getY(), prev.getHeading());
                         builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
                     } else {
-                        builder.lineToLinearHeading(
-                            new Pose2d(
-                                prev.getX() * 1.0001,
-                                prev.getY() * 1.0001,
-                                curr.getHeading()
-                            )
-                        );
-
+                        builder.turn(remainder);
                         builder.lineToLinearHeading(curr);
                     }
                 }
