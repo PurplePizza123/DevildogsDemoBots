@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.junction;
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
@@ -94,7 +94,7 @@ public class DriveCommands extends Commands {
 
     public Command toJunction() {
         return new SelectCommand(
-            () -> drive.toJunction(junction)
+            () -> drive.toJunction(config.junction)
         );
     }
 

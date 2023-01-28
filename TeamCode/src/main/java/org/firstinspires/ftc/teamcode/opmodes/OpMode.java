@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.robotcore.external.Telemetry.DisplayFormat.HTML;
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.auto;
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -39,10 +36,10 @@ public abstract class OpMode extends CommandOpMode {
 
         new MenuController(this);
 
-        if (auto) {
+        if (config.auto) {
             subsystems.drive.setPose(
                 //new Pose2d()
-                subsystems.nav.getStartPose(alliance, side)
+                subsystems.nav.getStartPose(config.alliance, config.side)
             );
         }
 

@@ -23,11 +23,11 @@ public class MeepMeepTesting {
     private static final double ROBOT_WIDTH = 14.75;
     private static final double ROBOT_LENGTH = 14;
     private static final double TRACK_WIDTH = 12.82;
-    private static final double INTAKE_OFFSET = -6;
-    private static final double MAX_VEL = 45;
-    private static final double MAX_ACCEL = 45;
+    private static final double INTAKE_OFFSET = -4.75;
+    private static final double MAX_VEL = 35;
+    private static final double MAX_ACCEL = MAX_VEL;
     private static final double MAX_ANG_VEL = Math.toRadians(200);
-    private static final double MAX_ANG_ACCEL = Math.toRadians(200);
+    private static final double MAX_ANG_ACCEL = MAX_ANG_VEL;
 
     public static Alliance alliance = BLUE;
     public static Side side = SOUTH;
@@ -156,16 +156,10 @@ public class MeepMeepTesting {
             if (remainder < -Math.PI) remainder += Math.PI * 2;
 
             if (remainder > +Math.PI * 0.8 || remainder < -Math.PI * 0.8) {
+                curr = poses[i] = new Pose2d(curr.getX(), curr.getY(), prev.getHeading());
                 builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
             } else {
-                builder.lineToLinearHeading(
-                    new Pose2d(
-                        prev.getX() * 1.0001,
-                        prev.getY() * 1.0001,
-                        curr.getHeading()
-                    )
-                );
-
+                builder.turn(remainder);
                 builder.lineToLinearHeading(curr);
             }
 

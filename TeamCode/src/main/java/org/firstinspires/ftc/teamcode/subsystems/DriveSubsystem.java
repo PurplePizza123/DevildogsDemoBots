@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.REVERSE;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -10,18 +11,17 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
-
-import java.util.Arrays;
 
 @Config
 public class DriveSubsystem extends HardwareSubsystem {
@@ -33,19 +33,25 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static boolean SQUARE_INPUTS = false;
     public static boolean AUTO_INVERT = false;
 
+    public double power = 0.5;
+
     private final MecanumDrive drive;
     private final Odometry odometry;
-    private static Pose2d drivePose = new Pose2d();
-    public static double power = 0.5;
+    private Pose2d drivePose = new Pose2d();
+    private YawPitchRollAngles angles;
+    private AngularVelocity angularVelocities;
 
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
 
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-        hardware.imu.initialize(parameters);
-
+        hardware.imu.initialize(
+            new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                )
+            )
+        );
 
         hardware.driveLeftFront.setInverted(true);
         hardware.driveLeftRear.setInverted(true);
@@ -78,9 +84,12 @@ public class DriveSubsystem extends HardwareSubsystem {
 
         drivePose = getPose();
 
-        telemetry.addData("IMU (Heading)", "%.2f°", getHeading());
-        telemetry.addData("IMU (Pitch)", "%.2f°", getPitch());
-        telemetry.addData("IMU (Roll)", "%.2f°", getRoll());
+        angles = hardware.imu.getRobotYawPitchRollAngles();
+        angularVelocities = hardware.imu.getRobotAngularVelocity(DEGREES);
+
+        telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", getRoll(), getRollRate());
+        telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", getPitch(), getPitchRate());
+        telemetry.addData("IMU (Yaw)", "%.2f°, %.2f°/s", getYaw(), getYawRate());
         telemetry.addData("Drive (Pose)", drivePose.toString());
         telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
@@ -92,7 +101,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         if (strafe + forward + turn != 0) odometry.followTrajectorySequenceAsync(null);
         else if (odometry.isBusy()) return;
         strafe *= power; forward *= power; turn *= power;
-        if (DRIVE_FIELD_CENTRIC) drive.driveFieldCentric(strafe, forward, turn, getHeading(), SQUARE_INPUTS);
+        if (DRIVE_FIELD_CENTRIC) drive.driveFieldCentric(strafe, forward, turn, getYaw(), SQUARE_INPUTS);
         else drive.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
     }
 
@@ -120,24 +129,29 @@ public class DriveSubsystem extends HardwareSubsystem {
         );
     }
 
-    public double getHeading() {
-        return Math.toDegrees(
-            hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)
-        );
+    public double getRoll() {
+        return angles.getRoll(DEGREES);
     }
 
     public double getPitch() {
-        return Math.toDegrees(
-            hardware.imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.RADIANS)
-        );
+        return angles.getPitch(DEGREES);
     }
 
-    public double getRoll() {
-        return Math.toDegrees(
-            hardware.imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.RADIANS)
-        );
+    public double getYaw() {
+        return angles.getYaw(AngleUnit.RADIANS);
     }
 
+    public double getRollRate() {
+        return angularVelocities.xRotationRate;
+    }
+
+    public double getPitchRate() {
+        return angularVelocities.yRotationRate;
+    }
+
+    public double getYawRate() {
+        return angularVelocities.zRotationRate;
+    }
 
     public Pose2d getPose() {
         odometry.update();

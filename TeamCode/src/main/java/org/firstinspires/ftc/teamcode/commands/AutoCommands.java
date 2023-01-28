@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.stacks;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -18,37 +15,37 @@ public class AutoCommands extends Commands {
             //drive.toPose2(subsystems.nav.getStartPose(subsystems.menu.alliance, subsystems.menu.side)),
             wait.seconds(3),
             auto.scoreStartCone(),
-            auto.scoreStack(stacks),
+            auto.scoreStack(config.stacks),
             auto.park()
             //drive.toPose2(new Pose2d())
         );
     }
 
     public Command scoreStartCone() {
-        String column = String.valueOf((char)('X' - alliance.sign * 2));
-        int row = 3 + side.sign;
+        String column = String.valueOf((char)('X' - config.alliance.sign * 2));
+        int row = 3 + config.side.sign;
         return drive.toJunction(column + row).andThen(
             intake.setCone()
         );
     }
 
     public Command scoreStack(int times) {
-        String column = String.valueOf((char)('X' - alliance.sign));
-        int row = 3 + side.sign * 2;
+        String column = String.valueOf((char)('X' - config.alliance.sign));
+        int row = 3 + config.side.sign * 2;
 
         SequentialCommandGroup group = new SequentialCommandGroup();
 
         int stacks = 5;
 
         group.addCommands(
-            drive.toStack(alliance, side),
+            drive.toStack(config.alliance, config.side),
             intake.getCone(--stacks)
         );
 
         while (--times >= 0) {
             if (times == 0) {
                 group.addCommands(
-                    drive.toJunctionAuto(column + (row - side.sign)),
+                    drive.toJunctionAuto(column + (row - config.side.sign)),
                     intake.setCone()
                 );
             } else {
@@ -60,7 +57,7 @@ public class AutoCommands extends Commands {
 
             if (times > 0) {
                 group.addCommands(
-                    drive.toStackAuto(alliance, side),
+                    drive.toStackAuto(config.alliance, config.side),
                     intake.getCone(--stacks)
                 );
             }
@@ -72,11 +69,11 @@ public class AutoCommands extends Commands {
     public Command park() {
         return new SelectCommand(
             () -> {
-                String column = alliance == BLUE ? "C" : "D";
-                int start = side == SOUTH ? 1 : 4;
-                if (alliance == BLUE) start += 2;
+                String column = config.alliance == BLUE ? "C" : "D";
+                int start = config.side == SOUTH ? 1 : 4;
+                if (config.alliance == BLUE) start += 2;
                 int detectionId = subsystems.vision.getDetectionId();
-                int row = start - alliance.sign * detectionId;
+                int row = start - config.alliance.sign * detectionId;
                 return drive.toTile(column + row).alongWith(
                     lift.to(0)
                 );

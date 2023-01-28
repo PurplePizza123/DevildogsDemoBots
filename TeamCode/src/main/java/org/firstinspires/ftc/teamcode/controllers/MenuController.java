@@ -5,7 +5,7 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_BUMPER;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER;
 
-import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.auto;
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.arcrobotics.ftclib.command.button.Trigger;
 
@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class MenuController {
     public MenuController(OpMode opMode) {
-        if (auto) {
+        if (config.auto) {
             opMode.gamepad1.getGamepadButton(DPAD_DOWN)
                 .or(opMode.gamepad2.getGamepadButton(DPAD_DOWN))
                 .whenActive(opMode.commands.menu.changeDelay(-1));
