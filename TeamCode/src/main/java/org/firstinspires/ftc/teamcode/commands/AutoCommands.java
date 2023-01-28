@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.alliance;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
 import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.stacks;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -14,9 +15,12 @@ public class AutoCommands extends Commands {
     public Command execute() {
         return lift.calibrate().andThen(
             vision.detect(),
+            //drive.toPose2(subsystems.nav.getStartPose(subsystems.menu.alliance, subsystems.menu.side)),
+            wait.seconds(3),
             auto.scoreStartCone(),
             auto.scoreStack(stacks),
             auto.park()
+            //drive.toPose2(new Pose2d())
         );
     }
 

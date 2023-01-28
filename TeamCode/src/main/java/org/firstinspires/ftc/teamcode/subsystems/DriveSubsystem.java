@@ -148,6 +148,12 @@ public class DriveSubsystem extends HardwareSubsystem {
         odometry.setPoseEstimate(pose);
     }
 
+    public void to2(Pose2d pose) {
+        followTrajectoryAsync(
+            builder -> builder.lineToLinearHeading(pose)
+        );
+    }
+
     public void to(Pose2d[] poses) {
         followTrajectoryAsync(
             builder -> {
@@ -160,6 +166,7 @@ public class DriveSubsystem extends HardwareSubsystem {
                     if (remainder < -Math.PI) remainder += Math.PI * 2;
 
                     if (remainder > +Math.PI * 0.9 || remainder < -Math.PI * 0.9) {
+                        curr = poses[i] = new Pose2d(curr.getX(), curr.getY(), prev.getHeading());
                         builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
                     } else {
                         builder.lineToLinearHeading(

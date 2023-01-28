@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.MenuSubsystem.side;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -40,6 +41,7 @@ public abstract class OpMode extends CommandOpMode {
 
         if (auto) {
             subsystems.drive.setPose(
+                //new Pose2d()
                 subsystems.nav.getStartPose(alliance, side)
             );
         }

@@ -56,9 +56,9 @@ public class Odometry extends MecanumDrive {
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
     public static boolean TWO_WHEEL_INSTEAD_OF_THREE = true;
-    public static double ADMISSIBLE_XY = 5;
-    public static double ADMISSIBLE_HEADING = 5;
-    public static double ADMISSIBLE_TIMEOUT = 5;
+    public static double ADMISSIBLE_XY = 0.2;
+    public static double ADMISSIBLE_HEADING = 2;
+    public static double ADMISSIBLE_TIMEOUT = 0.25;
 
     private static TrajectoryVelocityConstraint VEL_CONSTRAINT = null;
     private static TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = null;
