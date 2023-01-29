@@ -97,10 +97,11 @@ public class ConceptVuforiaFieldNavigationWebcam extends LinearOpMode {
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
     private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = 6 * mmPerInch;          // the height of the center of the target image above the floor
-    private static final float halfField        = 72 * mmPerInch;
-    private static final float halfTile         = 12 * mmPerInch;
-    private static final float oneAndHalfTile   = 36 * mmPerInch;
+    private static final float FULL_FEILD_WIDTH = 141.1875f * mmPerInch;
+    private static final float HALF_FEILD_WIDTH = FULL_FEILD_WIDTH / 2;
+    private static final float TARGET_DX = HALF_FEILD_WIDTH;
+    private static final float TARGET_DY = HALF_FEILD_WIDTH - (33.5f * mmPerInch);
+    private static final float TARGET_DZ = 5.75f * mmPerInch;
 
     // Class Members
     private OpenGLMatrix lastLocation   = null;
@@ -112,7 +113,7 @@ public class ConceptVuforiaFieldNavigationWebcam extends LinearOpMode {
 
     @Override public void runOpMode() {
         // Connect to the camera we are to use.  This name must match what is set up in Robot Configuration
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 2");
 
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -162,10 +163,10 @@ public class ConceptVuforiaFieldNavigationWebcam extends LinearOpMode {
          */
 
         // Name and locate each trackable object
-        identifyTarget(0, "Red Audience Wall",   -halfField,  -oneAndHalfTile, mmTargetHeight, 90, 0,  90);
-        identifyTarget(1, "Red Rear Wall",        halfField,  -oneAndHalfTile, mmTargetHeight, 90, 0, -90);
-        identifyTarget(2, "Blue Audience Wall",  -halfField,   oneAndHalfTile, mmTargetHeight, 90, 0,  90);
-        identifyTarget(3, "Blue Rear Wall",       halfField,   oneAndHalfTile, mmTargetHeight, 90, 0, -90);
+        identifyTarget(0, "Red Audience Wall",   -TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0,  90);
+        identifyTarget(1, "Red Rear Wall",       +TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0, -90);
+        identifyTarget(2, "Blue Audience Wall",  -TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0,  90);
+        identifyTarget(3, "Blue Rear Wall",      +TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0, -90);
 
         /*
          * Create a transformation matrix describing where the camera is on the robot.
@@ -187,13 +188,13 @@ public class ConceptVuforiaFieldNavigationWebcam extends LinearOpMode {
          *      In this example, it is centered on the robot (left-to-right and front-to-back), and 6 inches above ground level.
          */
 
-        final float CAMERA_FORWARD_DISPLACEMENT  = 0.0f * mmPerInch;   // eg: Enter the forward distance from the center of the robot to the camera lens
-        final float CAMERA_VERTICAL_DISPLACEMENT = 6.0f * mmPerInch;   // eg: Camera is 6 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT     = 0.0f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
+        final float CAMERA_FORWARD_DISPLACEMENT  = -5.5f * mmPerInch;   // eg: Enter the forward distance from the center of the robot to the camera lens
+        final float CAMERA_VERTICAL_DISPLACEMENT = 9.5f * mmPerInch;   // eg: Camera is 6 Inches above ground
+        final float CAMERA_LEFT_DISPLACEMENT     = 3/8f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
 
         OpenGLMatrix cameraLocationOnRobot = OpenGLMatrix
                     .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                    .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XZY, DEGREES, 90, 90, 0));
+                    .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XZY, DEGREES, 90, -90, -12.5f));
 
         /**  Let all the trackable listeners know where the camera is.  */
         for (VuforiaTrackable trackable : allTrackables) {
