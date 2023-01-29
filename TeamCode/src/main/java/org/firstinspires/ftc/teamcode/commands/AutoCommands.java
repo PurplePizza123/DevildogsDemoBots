@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -12,12 +13,14 @@ public class AutoCommands extends Commands {
     public Command execute() {
         return lift.calibrate().andThen(
             vision.detect(),
-            //drive.toPose2(subsystems.nav.getStartPose(subsystems.menu.alliance, subsystems.menu.side)),
-            wait.seconds(3),
+            drive.toPose2(subsystems.nav.getStartPose(config.alliance, config.side)),
+            wait.seconds(5),
+            drive.toPose2(new Pose2d()),
+            wait.seconds(300),
             auto.scoreStartCone(),
             auto.scoreStack(config.stacks),
-            auto.park()
-            //drive.toPose2(new Pose2d())
+            auto.park(),
+            drive.toPose2(new Pose2d())
         );
     }
 
