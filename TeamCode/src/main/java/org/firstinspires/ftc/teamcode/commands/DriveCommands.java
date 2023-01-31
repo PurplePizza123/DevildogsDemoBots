@@ -45,12 +45,6 @@ public class DriveCommands extends Commands {
         return complete(() -> subsystems.drive.turn(heading));
     }
 
-    public Command toPose2(Pose2d pose) {
-        return complete(
-            () -> subsystems.drive.to2(pose)
-        );
-    }
-
     public Command toPose(Pose2d pose, double offset, boolean y1st) {
         return toPose(pose, 0, offset, y1st);
     }

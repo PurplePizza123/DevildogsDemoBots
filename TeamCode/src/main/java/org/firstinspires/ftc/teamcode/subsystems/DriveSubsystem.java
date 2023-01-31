@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.REVERSE;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Hardware;
@@ -32,12 +31,13 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static boolean DRIVE_FIELD_CENTRIC = false;
     public static boolean SQUARE_INPUTS = false;
     public static boolean AUTO_INVERT = false;
+    public static double ALLOWABLE_TILT = 10;
 
     public double power = 0.5;
 
     private final MecanumDrive drive;
     private final Odometry odometry;
-    private Pose2d drivePose = new Pose2d();
+    private static Pose2d drivePose = new Pose2d();
     private YawPitchRollAngles angles;
     private AngularVelocity angularVelocities;
 
@@ -85,11 +85,13 @@ public class DriveSubsystem extends HardwareSubsystem {
         drivePose = getPose();
 
         angles = hardware.imu.getRobotYawPitchRollAngles();
-        angularVelocities = hardware.imu.getRobotAngularVelocity(DEGREES);
+        angularVelocities = hardware.imu.getRobotAngularVelocity(RADIANS);
 
-        telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", getRoll(), getRollRate());
-        telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", getPitch(), getPitchRate());
-        telemetry.addData("IMU (Yaw)", "%.2f°, %.2f°/s", getYaw(), getYawRate());
+        if (isTilted()) odometry.followTrajectorySequenceAsync(null);
+
+        telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
+        telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate()));
+        telemetry.addData("IMU (Yaw)", "%.2f°, %.2f°/s", Math.toDegrees(getYaw()), Math.toDegrees(getYawRate()));
         telemetry.addData("Drive (Pose)", drivePose.toString());
         telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
         telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
@@ -98,6 +100,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public void inputs(double strafe, double forward, double turn) {
+        if (isTilted()) strafe = forward = turn = 0;
         if (strafe + forward + turn != 0) odometry.followTrajectorySequenceAsync(null);
         else if (odometry.isBusy()) return;
         strafe *= power; forward *= power; turn *= power;
@@ -130,15 +133,15 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public double getRoll() {
-        return angles.getRoll(DEGREES);
+        return angles.getRoll(RADIANS);
     }
 
     public double getPitch() {
-        return angles.getPitch(DEGREES);
+        return angles.getPitch(RADIANS);
     }
 
     public double getYaw() {
-        return angles.getYaw(AngleUnit.RADIANS);
+        return angles.getYaw(RADIANS);
     }
 
     public double getRollRate() {
@@ -153,6 +156,10 @@ public class DriveSubsystem extends HardwareSubsystem {
         return angularVelocities.zRotationRate;
     }
 
+    private boolean isTilted() {
+        return Math.abs(getRoll()) + Math.abs(getPitch()) >= Math.toRadians(ALLOWABLE_TILT);
+    }
+
     public Pose2d getPose() {
         odometry.update();
         return odometry.getPoseEstimate();
@@ -160,12 +167,6 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     public void setPose(Pose2d pose) {
         odometry.setPoseEstimate(pose);
-    }
-
-    public void to2(Pose2d pose) {
-        followTrajectoryAsync(
-            builder -> builder.lineToLinearHeading(pose)
-        );
     }
 
     public void to(Pose2d[] poses) {

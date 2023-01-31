@@ -58,6 +58,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(4, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);
 
+    public static boolean TWO_WHEEL_INSTEAD_OF_THREE_WHEEL = true;
+
     public static double LATERAL_MULTIPLIER = 1;
 
     public static double VX_WEIGHT = 1;
@@ -120,7 +122,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
-            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
+            setPIDFCoefficients();
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
@@ -128,11 +130,14 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
-
-        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, this));
+        if (TWO_WHEEL_INSTEAD_OF_THREE_WHEEL) setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, this));
+        else setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
+    }
+
+    public void setPIDFCoefficients() {
+        setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {

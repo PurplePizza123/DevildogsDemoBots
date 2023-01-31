@@ -29,7 +29,9 @@ public class ThreeWheelLocalizer extends ThreeTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
     public static double WHEEL_RADIUS = 0.68897638; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
-    public static double LATERAL_MULTIPLIER = 0.9813331844;
+    public static double LATERAL_DISTANCE = 13.2500; // in; distance between the left and right wheels
+    public static double LATERAL_MULTIPLIER = LATERAL_DISTANCE / 13.3126;
+    public static double FORWARD_OFFSET = -5.0000; // in; offset of the lateral wheel
     public static double X_MULTIPLIER = 1.0121242485738; // Multiplier in the X direction
     public static double Y_MULTIPLIER = 1.01830557524067; // Multiplier in the Y direction
 
@@ -37,9 +39,9 @@ public class ThreeWheelLocalizer extends ThreeTrackingWheelLocalizer {
 
     public ThreeWheelLocalizer(Hardware hardware) {
         super(Arrays.asList(
-            new Pose2d(-1.6875, 6.34375 * LATERAL_MULTIPLIER, 0), // left
-            new Pose2d(-1.6875, -6.90625 * LATERAL_MULTIPLIER, 0), // right
-            new Pose2d(-5.21875, -0.1875, Math.toRadians(90)) // front
+            new Pose2d(-1.5000, +6.4375 * LATERAL_MULTIPLIER, 0), // left
+            new Pose2d(-1.5000, -6.8125 * LATERAL_MULTIPLIER, 0), // right
+            new Pose2d(-5.0000, -0.0625, Math.toRadians(90)) // perpendicular
         ));
 
         this.hardware = hardware;

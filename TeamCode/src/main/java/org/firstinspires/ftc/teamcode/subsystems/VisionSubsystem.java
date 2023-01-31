@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.arcrobotics.ftclib.util.MathUtils.clamp;
+
 import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -33,7 +35,7 @@ public class VisionSubsystem extends HardwareSubsystem {
     }
 
     public int getDetectionId() {
-        return this.detector.detection == null ? 0 : this.detector.detection.id;
+        return this.detector.detection == null ? 0 : clamp(this.detector.detection.id, 0, 2);
     }
 
     public String getDetectionLabel() {

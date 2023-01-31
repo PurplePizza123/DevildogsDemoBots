@@ -21,10 +21,7 @@
 
 package org.firstinspires.ftc.teamcode.hacks;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.R;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;

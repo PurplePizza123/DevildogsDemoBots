@@ -5,9 +5,7 @@ import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -18,11 +16,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hacks.MotorEx;
 import org.firstinspires.ftc.teamcode.roadrunner.util.Encoder;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Hardware {
-
     public VoltageSensor batteryVoltageSensor;
     public IMU imu;
 

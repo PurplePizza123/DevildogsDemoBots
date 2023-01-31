@@ -24,13 +24,13 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 @Config
 @Autonomous(group = "drive")
 public class FollowerPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 48; // in
+    public static double TILE_WIDTH = 23.5; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0);
+        Pose2d startPose = new Pose2d(-TILE_WIDTH, -TILE_WIDTH, 0);
 
         drive.setPoseEstimate(startPose);
 
@@ -38,18 +38,21 @@ public class FollowerPIDTuner extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        while (!isStopRequested()) {
-            TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .forward(DISTANCE)
-                    .turn(Math.toRadians(90))
-                    .forward(DISTANCE)
-                    .turn(Math.toRadians(90))
-                    .forward(DISTANCE)
-                    .turn(Math.toRadians(90))
-                    .forward(DISTANCE)
+        for (int j = 0 ; !isStopRequested() && j < 10; j++) {
+            Pose2d lastPose = startPose;
+
+            for (int i = 0; i < 4; i++) {
+                drive.setPIDFCoefficients();
+
+                TrajectorySequence sequence = drive.trajectorySequenceBuilder(lastPose)
+                    .forward(TILE_WIDTH * 2)
                     .turn(Math.toRadians(90))
                     .build();
-            drive.followTrajectorySequence(trajSeq);
+
+                lastPose = sequence.end();
+
+                drive.followTrajectorySequence(sequence);
+            }
         }
     }
 }
