@@ -87,7 +87,10 @@ public class DriveSubsystem extends HardwareSubsystem {
         angles = hardware.imu.getRobotYawPitchRollAngles();
         angularVelocities = hardware.imu.getRobotAngularVelocity(RADIANS);
 
-        if (isTilted()) odometry.followTrajectorySequenceAsync(null);
+        if (isTilted()) {
+            odometry.followTrajectorySequenceAsync(null);
+            inputs(0,0,0);
+        }
 
         telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
         telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate()));
@@ -156,7 +159,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         return angularVelocities.zRotationRate;
     }
 
-    private boolean isTilted() {
+    public boolean isTilted() {
         return Math.abs(getRoll()) + Math.abs(getPitch()) >= Math.toRadians(ALLOWABLE_TILT);
     }
 
