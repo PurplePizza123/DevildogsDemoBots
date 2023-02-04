@@ -19,6 +19,14 @@ public class NavSubsystem extends HardwareSubsystem {
         super(hardware, telemetry);
     }
 
+    public Pose2d getStartJunction(Alliance alliance, Side side) {
+        return new Pose2d(
+            side.sign * 1 * TILE_WIDTH,
+            alliance.sign * 2 * TILE_WIDTH,
+            alliance.sign * Math.toRadians(-90) + side.sign * Math.toRadians(90)
+        );
+    }
+
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
             side.sign * 1.5 * TILE_WIDTH,

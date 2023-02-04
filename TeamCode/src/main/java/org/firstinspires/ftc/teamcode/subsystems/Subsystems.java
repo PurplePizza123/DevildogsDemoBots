@@ -11,6 +11,7 @@ public class Subsystems {
     public LiftSubsystem lift;
     public IntakeSubsystem intake;
     public RandSubsystem rand;
+    public ObjectsSubsystem objects;
     public NavSubsystem nav;
     public LightSubsystem light;
     public PeriodicSubsystem periodic;
@@ -25,6 +26,7 @@ public class Subsystems {
         rand = new RandSubsystem(hardware, telemetry);
         nav = new NavSubsystem(hardware, telemetry);
         light = new LightSubsystem(hardware, telemetry);
+        objects = new ObjectsSubsystem(hardware, telemetry);
         periodic = new PeriodicSubsystem(hardware, telemetry);
     }
 }

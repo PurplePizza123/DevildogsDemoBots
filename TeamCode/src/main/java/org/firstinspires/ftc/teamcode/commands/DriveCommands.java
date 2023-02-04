@@ -95,12 +95,6 @@ public class DriveCommands extends Commands {
         );
     }
 
-    public Command toStack(Alliance alliance, Side side, double stxo) {
-        Pose2d pose = subsystems.nav.getStackPose(alliance, side);
-        return drive.toPose(pose, stxo, INTAKE_OFFSET, true).alongWith(
-            lift.toIntake(0)
-        );
-    }
 
     public Command toStackRight() {
         return toStack(config.alliance, config.alliance == RED ? NORTH : SOUTH);
@@ -110,19 +104,31 @@ public class DriveCommands extends Commands {
         return toStack(config.alliance, config.alliance == RED ? SOUTH : NORTH);
     }
 
+    public Command toStack() {
+        return toStack(config.alliance, config.side);
+    }
 
     public Command toStack(Alliance alliance, Side side) {
         return toStack(alliance, side, 0);
     }
 
-    public Command toStackAuto(Alliance alliance, Side side) {
-        return toStack(alliance, side, -0.2);
-    }
-
-    public Command toSubstation(Alliance alliance, Side side) {
+    public Command toStack(Alliance alliance, Side side, double stxo) {
         return new SelectCommand(
             () -> {
-                Pose2d pose = subsystems.nav.getSubstationPose(alliance, side);
+                Pose2d pose = subsystems.nav.getStackPose(alliance, side);
+                return drive.toPose(pose, stxo, INTAKE_OFFSET, true);
+            }
+        );
+    }
+
+    public Command toStackAuto() {
+        return toStack(config.alliance, config.side, 0.2);
+    }
+
+    public Command toSubstation() {
+        return new SelectCommand(
+            () -> {
+                Pose2d pose = subsystems.nav.getSubstationPose(config.alliance, config.side);
                 return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
                     lift.toIntake(0)
                 );

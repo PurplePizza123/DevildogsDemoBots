@@ -40,7 +40,7 @@ public class AutoCommands extends Commands {
         group.addCommands(
             drive.toTile(tileColumn + tileRow),
             drive.forward(6),
-            drive.toStack(config.alliance, config.side),
+            drive.toStack(),
             intake.getCone(--stacks)
         );
 
@@ -59,7 +59,7 @@ public class AutoCommands extends Commands {
 
             if (times > 0) {
                 group.addCommands(
-                    drive.toStackAuto(config.alliance, config.side),
+                    drive.toStackAuto(),
                     intake.getCone(--stacks)
                 );
             }

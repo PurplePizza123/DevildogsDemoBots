@@ -9,8 +9,6 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.Y;
 
-import static org.firstinspires.ftc.teamcode.game.Config.config;
-
 import org.firstinspires.ftc.teamcode.opmodes.OpMode;
 
 public class DriveController {
@@ -34,7 +32,7 @@ public class DriveController {
             .whenActive(opMode.commands.drive.setDrivePower(0.75));
 
         opMode.gamepad1.getGamepadButton(A)
-            .whenActive(opMode.commands.drive.toSubstation(config.alliance, config.side));
+            .whenActive(opMode.commands.drive.toSubstation());
 
         opMode.gamepad1.getGamepadButton(Y)
             .whenActive(opMode.commands.drive.toJunction());
