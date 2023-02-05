@@ -8,11 +8,11 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.Commands;
-import org.firstinspires.ftc.teamcode.controllers.MenuController;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public abstract class OpMode extends CommandOpMode {
@@ -34,14 +34,10 @@ public abstract class OpMode extends CommandOpMode {
         subsystems = new Subsystems(hardware, telemetry);
         commands = new Commands(subsystems);
 
-        new MenuController(this);
+        config.auto = this.getClass().isAnnotationPresent(Autonomous.class);
+    }
 
-        if (config.auto) {
-            subsystems.drive.setPose(
-                subsystems.nav.getStartPose(config.alliance, config.side)
-            );
-        }
-
+    public void waitForStart() {
         while (!isStarted()) {
             CommandScheduler.getInstance().run();
             Thread.yield();

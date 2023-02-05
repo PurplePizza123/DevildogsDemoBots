@@ -21,13 +21,4 @@ public class MenuCommands extends Commands {
             subsystems.menu
         );
     }
-
-    public Command changeJunction(int column, int row) {
-        return new InstantCommand(
-            () -> config.junction = "" +
-                (char)clamp(config.junction.charAt(0) + column, 'V', 'Z') +
-                (char)clamp(config.junction.charAt(1) + row, '1', '5'),
-            subsystems.menu
-        );
-    }
 }

@@ -69,7 +69,7 @@ public class AutoCommands extends Commands {
                 String column = config.alliance == BLUE ? "C" : "D";
                 int start = config.side == SOUTH ? 1 : 4;
                 if (config.alliance == BLUE) start += 2;
-                int detectionId = subsystems.randomization.getDetectionId();
+                int detectionId = subsystems.rand.getDetectionId();
                 int row = start - config.alliance.sign * detectionId;
                 return drive.toTile(column + row).alongWith(
                     lift.to(0)

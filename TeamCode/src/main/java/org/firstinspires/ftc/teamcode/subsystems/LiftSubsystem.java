@@ -29,7 +29,11 @@ public class LiftSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        telemetry.addData("Lift","%.2f pow, %.2f height", hardware.lift.motor.getPower(), hardware.lift.getCurrentPosition() * HEIGHT_PER_PULSE);
+        telemetry.addData(
+            "Lift","%.2f pow, %.2f height",
+            hardware.lift.motor.getPower(),
+            hardware.lift.getCurrentPosition() * HEIGHT_PER_PULSE
+        );
 
         if (calibrated) return;
 

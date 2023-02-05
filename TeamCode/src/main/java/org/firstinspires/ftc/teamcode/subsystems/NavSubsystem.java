@@ -19,6 +19,11 @@ public class NavSubsystem extends HardwareSubsystem {
         super(hardware, telemetry);
     }
 
+    @Override
+    public void periodic() {
+        telemetry.update();
+    }
+
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
             side.sign * 1.5 * TILE_WIDTH,
