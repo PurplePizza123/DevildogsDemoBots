@@ -12,7 +12,7 @@ public class Commands {
     public static IntakeCommands intake = new IntakeCommands();
     public static WaitCommands wait = new WaitCommands();
     public static AutoCommands auto = new AutoCommands();
-    public static VisionCommands vision = new VisionCommands();
+    public static RandCommands rand = new RandCommands();
     public static JunctionCommands junction = new JunctionCommands();
 
     public Commands(Subsystems... subsystems) {

@@ -11,7 +11,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 public class AutoCommands extends Commands {
     public Command execute() {
         return lift.calibrate().andThen(
-            vision.detect(),
+            rand.detect(),
             auto.scoreStartCone(),
             auto.scoreStack(config.stacks),
             auto.park()
@@ -38,8 +38,8 @@ public class AutoCommands extends Commands {
             drive.toStack(config.alliance, config.side),
             intake.getCone(--stacks)
         );
-
-        while (--times >= 0) {
+//&& config.timer.seconds() <
+        while (--times >= 0 ) {
             if (times == 0) {
                 group.addCommands(
                     drive.toJunctionAuto(column + (row - config.side.sign)),
