@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
+import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
@@ -94,8 +97,19 @@ public class DriveCommands extends Commands {
 
     public Command toStack(Alliance alliance, Side side, double stxo) {
         Pose2d pose = subsystems.nav.getStackPose(alliance, side);
-        return drive.toPose(pose, stxo, INTAKE_OFFSET, true);
+        return drive.toPose(pose, stxo, INTAKE_OFFSET, true).alongWith(
+            lift.toIntake(0)
+        );
     }
+
+    public Command toStackRight() {
+        return toStack(config.alliance, config.alliance == RED ? NORTH : SOUTH);
+    }
+
+    public Command toStackLeft() {
+        return toStack(config.alliance, config.alliance == RED ? SOUTH : NORTH);
+    }
+
 
     public Command toStack(Alliance alliance, Side side) {
         return toStack(alliance, side, 0);

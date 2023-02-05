@@ -14,7 +14,7 @@ public class LightSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        if (config.timer.seconds() >= 85) config.lightingDefault = RED;
+        if (config.timer.seconds() >= 80) config.lightingDefault = RED;
         hardware.lights.setPattern(
             config.lightingCurrent == BLACK ?
                 config.lightingDefault :
