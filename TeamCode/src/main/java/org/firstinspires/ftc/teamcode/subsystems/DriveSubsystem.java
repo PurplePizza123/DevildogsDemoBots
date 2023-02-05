@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
+import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.GREEN;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.mmPerInch;
@@ -13,6 +15,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -99,7 +102,6 @@ public class DriveSubsystem extends HardwareSubsystem {
             inputs(0,0,0);
         }
 
-
         if (isTilted()) odometry.followTrajectorySequenceAsync(null);
 
         telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
@@ -121,7 +123,17 @@ public class DriveSubsystem extends HardwareSubsystem {
                 vuforia.rotation.thirdAngle
             );
 
-            if (isStill()) odometry.setPoseEstimate(navPose);
+            if (config.auto && !config.started) {
+                config.alliance = vuforia.targetAlliance;
+                config.side = vuforia.targetSide;
+            }
+
+            if (isStill()) {
+                odometry.setPoseEstimate(navPose);
+                config.lightingCurrent = GREEN;
+            }
+        } else {
+            config.lightingCurrent = BLACK;
         }
 
          telemetry.addData("Nav (Target)", vuforia.targetName);

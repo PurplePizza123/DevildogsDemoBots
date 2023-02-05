@@ -42,5 +42,8 @@ public abstract class OpMode extends CommandOpMode {
             CommandScheduler.getInstance().run();
             Thread.yield();
         }
+
+        config.timer.reset();
+        config.started = true;
     }
 }

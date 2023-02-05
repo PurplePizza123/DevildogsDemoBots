@@ -34,6 +34,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADI
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XZY;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
+import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
+import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
+import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -44,9 +48,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Junction;
+import org.firstinspires.ftc.teamcode.game.Side;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This OpMode illustrates using the Vuforia localizer to determine positioning and orientation of
@@ -104,9 +113,13 @@ public class VuforiaFieldNavigation {
     private VuforiaLocalizer vuforia    = null;
     private VuforiaTrackables targets   = null;
     private List<VuforiaTrackable> allTrackables = null;
+    private static final Map<String, Alliance> targetAlliances = new HashMap<>();
+    private static final Map<String, Side> targetSides = new HashMap<>();
 
     public boolean targetVisible       = false;
     public String targetName = "None";
+    public Alliance targetAlliance = null;
+    public Side targetSide = null;
     public int targetCount = 0;
     public VectorF translation = null;
     public Orientation rotation = null;
@@ -159,10 +172,10 @@ public class VuforiaFieldNavigation {
          */
 
         // Name and locate each trackable object
-        identifyTarget(0, "Red Audience Wall",   -TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0,  90);
-        identifyTarget(1, "Red Rear Wall",       +TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0, -90);
-        identifyTarget(2, "Blue Audience Wall",  -TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0,  90);
-        identifyTarget(3, "Blue Rear Wall",      +TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0, -90);
+        identifyTarget(0, "Red Audience Wall",   -TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0,  90, RED, SOUTH);
+        identifyTarget(1, "Red Rear Wall",       +TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0, -90, RED, NORTH);
+        identifyTarget(2, "Blue Audience Wall",  -TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0,  90, BLUE, SOUTH);
+        identifyTarget(3, "Blue Rear Wall",      +TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0, -90, BLUE, NORTH);
 
         /*
          * Create a transformation matrix describing where the camera is on the robot.
@@ -225,6 +238,8 @@ public class VuforiaFieldNavigation {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                 targetVisible = true;
                 targetName = trackable.getName();
+                targetAlliance = targetAlliances.get(targetName);
+                targetSide = targetSides.get(targetName);
                 targetCount++;
 
                 // getUpdatedRobotLocation() will return null if no new information is available since
@@ -254,10 +269,12 @@ public class VuforiaFieldNavigation {
      * @param dx, dy, dz  Target offsets in x,y,z axes
      * @param rx, ry, rz  Target rotations in x,y,z axes
      */
-    void    identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz) {
+    void    identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz, Alliance alliance, Side side) {
         VuforiaTrackable aTarget = targets.get(targetIndex);
         aTarget.setName(targetName);
         aTarget.setLocation(OpenGLMatrix.translation(dx, dy, dz)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, rx, ry, rz)));
+        targetAlliances.put(targetName, alliance);
+        targetSides.put(targetName, side);
     }
 }

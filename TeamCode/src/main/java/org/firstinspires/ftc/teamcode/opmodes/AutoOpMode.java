@@ -2,16 +2,19 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 
-import org.firstinspires.ftc.teamcode.controllers.MenuController;
-import org.firstinspires.ftc.teamcode.game.Alliance;
-import org.firstinspires.ftc.teamcode.game.Side;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.controllers.MenuController;
+
+@Autonomous(name = "Autonomous")
+@SuppressWarnings("unused")
 public class AutoOpMode extends OpMode {
-    public void initialize(Alliance alliance, Side side) {
+    @Override
+    public void initialize() {
         super.initialize();
 
-        config.alliance = alliance;
-        config.side = side;
+        config.stacks = 2;
+        config.delay = 0;
 
         new MenuController(this);
 

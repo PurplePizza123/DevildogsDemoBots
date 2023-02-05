@@ -6,6 +6,7 @@ import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -45,6 +46,8 @@ public class Hardware {
     public WebcamName frontWebcam;
     public WebcamName rearWebcam;
 
+    public RevBlinkinLedDriver lights;
+
     public Hardware(HardwareMap hardwareMap) {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
@@ -80,5 +83,8 @@ public class Hardware {
 
         frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
         rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
+
+        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
+
     }
 }
