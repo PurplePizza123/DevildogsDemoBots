@@ -38,7 +38,7 @@ public class AutoCommands extends Commands {
             drive.toStack(config.alliance, config.side),
             intake.getCone(--stacks)
         );
-//&& config.timer.seconds() <
+
         while (--times >= 0 ) {
             if (times == 0) {
                 group.addCommands(

@@ -49,7 +49,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.game.Alliance;
-import org.firstinspires.ftc.teamcode.game.Junction;
 import org.firstinspires.ftc.teamcode.game.Side;
 
 import java.util.ArrayList;
@@ -80,10 +79,8 @@ import java.util.Map;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-
 @SuppressWarnings("ALL")
 public class VuforiaFieldNavigation {
-
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -96,12 +93,11 @@ public class VuforiaFieldNavigation {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY =
-            "ARamgZ3/////AAABmb/8COrlYkzjkpr2MsKcDJpcbuv0xKXvLyTMSLb4kAcVeN8A560evWWup58hT12DOf5dGmaTtmR9OZaXZLgR41YJOte87AcvnY409wWEO3qp1y8iMpzVKDPZl6vXN+C9+8EnwojYg4ZcNsbCYQsu79Ghetb/Kji0CYUG/3HEvNkbd669uiL6zFWW+zllIh9x0ceLZLxKqIVGQGpamxt26UU8wYO2FqVoSo+DIZcofulZkv/MGNkAXdisHuclym2IjfW8yAEgLcJOgW2PKGNkLMj7lPYMNhK/5cpDM/zsTSW+SdPACaUzvmfK+h5iqreD569EpTk2P5tnZeo8e5hnbzWsA1CGGtvA5Z/ZhKjRjtqk";
+    private static final String VUFORIA_KEY = "ARamgZ3/////AAABmb/8COrlYkzjkpr2MsKcDJpcbuv0xKXvLyTMSLb4kAcVeN8A560evWWup58hT12DOf5dGmaTtmR9OZaXZLgR41YJOte87AcvnY409wWEO3qp1y8iMpzVKDPZl6vXN+C9+8EnwojYg4ZcNsbCYQsu79Ghetb/Kji0CYUG/3HEvNkbd669uiL6zFWW+zllIh9x0ceLZLxKqIVGQGpamxt26UU8wYO2FqVoSo+DIZcofulZkv/MGNkAXdisHuclym2IjfW8yAEgLcJOgW2PKGNkLMj7lPYMNhK/5cpDM/zsTSW+SdPACaUzvmfK+h5iqreD569EpTk2P5tnZeo8e5hnbzWsA1CGGtvA5Z/ZhKjRjtqk";
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
+    private static final float mmPerInch = 25.4f;
     private static final float FULL_FEILD_WIDTH = 141.1875f * mmPerInch;
     private static final float HALF_FEILD_WIDTH = FULL_FEILD_WIDTH / 2;
     private static final float TARGET_DX = HALF_FEILD_WIDTH;
@@ -109,14 +105,14 @@ public class VuforiaFieldNavigation {
     private static final float TARGET_DZ = 5.75f * mmPerInch;
 
     // Class Members
-    private OpenGLMatrix lastLocation   = null;
-    private VuforiaLocalizer vuforia    = null;
-    private VuforiaTrackables targets   = null;
+    private OpenGLMatrix lastLocation = null;
+    private VuforiaLocalizer vuforia = null;
+    private VuforiaTrackables targets = null;
     private List<VuforiaTrackable> allTrackables = null;
     private static final Map<String, Alliance> targetAlliances = new HashMap<>();
     private static final Map<String, Side> targetSides = new HashMap<>();
 
-    public boolean targetVisible       = false;
+    public boolean targetVisible = false;
     public String targetName = "None";
     public Alliance targetAlliance = null;
     public Side targetSide = null;
@@ -172,10 +168,10 @@ public class VuforiaFieldNavigation {
          */
 
         // Name and locate each trackable object
-        identifyTarget(0, "Red Audience Wall",   -TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0,  90, RED, SOUTH);
-        identifyTarget(1, "Red Rear Wall",       +TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0, -90, RED, NORTH);
-        identifyTarget(2, "Blue Audience Wall",  -TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0,  90, BLUE, SOUTH);
-        identifyTarget(3, "Blue Rear Wall",      +TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0, -90, BLUE, NORTH);
+        identifyTarget(0, "Red Audience Wall",  -TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0, +90,  RED, SOUTH);
+        identifyTarget(1, "Red Rear Wall",      +TARGET_DX,  -TARGET_DY, +TARGET_DZ, 90, 0, -90,  RED, NORTH);
+        identifyTarget(2, "Blue Audience Wall", -TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0, +90, BLUE, SOUTH);
+        identifyTarget(3, "Blue Rear Wall",     +TARGET_DX,  +TARGET_DY, +TARGET_DZ, 90, 0, -90, BLUE, NORTH);
 
         /*
          * Create a transformation matrix describing where the camera is on the robot.
@@ -197,13 +193,14 @@ public class VuforiaFieldNavigation {
          *      In this example, it is centered on the robot (left-to-right and front-to-back), and 6 inches above ground level.
          */
 
-        final float CAMERA_FORWARD_DISPLACEMENT  = -5.5f * mmPerInch;   // eg: Enter the forward distance from the center of the robot to the camera lens
-        final float CAMERA_VERTICAL_DISPLACEMENT = 9.5f * mmPerInch;   // eg: Camera is 6 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT     = 3/8f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
+        final float CAMERA_FORWARD_DISPLACEMENT  = -5.750f * mmPerInch; // eg: Enter the forward distance from the center of the robot to the camera lens
+        final float CAMERA_VERTICAL_DISPLACEMENT = +9.813f * mmPerInch; // eg: Camera is 6 Inches above ground
+        final float CAMERA_LEFT_DISPLACEMENT     = +0.625f * mmPerInch; // eg: Enter the left distance from the center of the robot to the camera lens
 
-        OpenGLMatrix cameraLocationOnRobot = OpenGLMatrix
-                    .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                    .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XZY, DEGREES, 90, -90, -12.5f));
+        OpenGLMatrix cameraLocationOnRobot =
+            OpenGLMatrix
+                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XZY, DEGREES, 90, -90, -4.2f));
 
         /**  Let all the trackable listeners know where the camera is.  */
         for (VuforiaTrackable trackable : allTrackables) {
@@ -231,7 +228,6 @@ public class VuforiaFieldNavigation {
     }
 
     public void update() {
-
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
@@ -269,11 +265,10 @@ public class VuforiaFieldNavigation {
      * @param dx, dy, dz  Target offsets in x,y,z axes
      * @param rx, ry, rz  Target rotations in x,y,z axes
      */
-    void    identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz, Alliance alliance, Side side) {
+    void identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz, Alliance alliance, Side side) {
         VuforiaTrackable aTarget = targets.get(targetIndex);
         aTarget.setName(targetName);
-        aTarget.setLocation(OpenGLMatrix.translation(dx, dy, dz)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, rx, ry, rz)));
+        aTarget.setLocation(OpenGLMatrix.translation(dx, dy, dz).multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, rx, ry, rz)));
         targetAlliances.put(targetName, alliance);
         targetSides.put(targetName, side);
     }
