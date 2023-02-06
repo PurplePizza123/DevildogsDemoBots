@@ -17,6 +17,8 @@ public class ConfigSubsystem extends HardwareSubsystem {
     private static final String fileName = "config.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+    private static Thread thread;
+
     public ConfigSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
         File file = AppUtil.getInstance().getSettingsFile(fileName);
@@ -28,12 +30,16 @@ public class ConfigSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        new Thread() {
+        if (thread != null && thread.isAlive()) return;
+
+        thread = new Thread() {
             @Override public void run() {
                 String json = gson.toJson(config);
                 File file = AppUtil.getInstance().getSettingsFile(fileName);
                 ReadWriteFile.writeFile(file, json);
             }
-        }.start();
+        };
+
+        thread.start();
     }
 }
