@@ -12,7 +12,7 @@ public class Config {
     public transient boolean started;
     public Alliance alliance;
     public Side side;
-    public int stacks = 2;
+    public int stacks = 1;
     public double delay = 0;
     public String junction = "X3";
     public Pose2d pose = new Pose2d();

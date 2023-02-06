@@ -13,7 +13,7 @@ public class AutoOpMode extends OpMode {
     public void initialize() {
         super.initialize();
 
-        config.stacks = 2;
+        config.stacks = 1;
         config.delay = 0;
 
         new MenuController(this);
