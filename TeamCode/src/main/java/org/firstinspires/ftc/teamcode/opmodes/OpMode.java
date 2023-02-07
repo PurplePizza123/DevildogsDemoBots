@@ -25,6 +25,10 @@ public abstract class OpMode extends CommandOpMode {
 
     @Override
     public void initialize() {
+        CommandScheduler.getInstance().cancelAll();
+        CommandScheduler.getInstance().disable();
+        CommandScheduler.getInstance().reset();
+
         super.telemetry.setDisplayFormat(HTML);
 
         telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
