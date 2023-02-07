@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 
 import com.arcrobotics.ftclib.command.Command;
@@ -27,14 +28,18 @@ public class AutoCommands extends Commands {
     }
 
     public Command scoreStack(int times) {
-        String column = String.valueOf((char)('X' - config.alliance.sign));
-        int row = 3 + config.side.sign * 2;
+        String tileColumn = config.alliance == BLUE ? "C" : "D";
+        int tileRow = config.side == NORTH ? 5 : 2;
+        String junctionColumn = String.valueOf((char)('X' - config.alliance.sign));
+        int junctionRow = 3 + config.side.sign * 2;
 
         SequentialCommandGroup group = new SequentialCommandGroup();
 
         int stacks = 5;
 
         group.addCommands(
+            drive.toTile(tileColumn + tileRow),
+            drive.forward(6),
             drive.toStack(config.alliance, config.side),
             intake.getCone(--stacks)
         );
@@ -42,12 +47,12 @@ public class AutoCommands extends Commands {
         while (--times >= 0 ) {
             if (times == 0) {
                 group.addCommands(
-                    drive.toJunctionAuto(column + (row - config.side.sign)),
+                    drive.toJunctionAuto(junctionColumn + (junctionRow - config.side.sign)),
                     intake.setCone()
                 );
             } else {
                 group.addCommands(
-                    drive.toJunctionAuto(column + row),
+                    drive.toJunctionAuto(junctionColumn + junctionRow),
                     intake.setCone()
                 );
             }
