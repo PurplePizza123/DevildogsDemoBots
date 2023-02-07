@@ -13,6 +13,7 @@ public class Subsystems {
     public RandSubsystem rand;
     public NavSubsystem nav;
     public LightSubsystem light;
+    public PeriodicSubsystem periodic;
 
     public Subsystems(Hardware hardware, Telemetry telemetry) {
         config = new ConfigSubsystem(hardware, telemetry);
@@ -24,5 +25,6 @@ public class Subsystems {
         rand = new RandSubsystem(hardware, telemetry);
         nav = new NavSubsystem(hardware, telemetry);
         light = new LightSubsystem(hardware, telemetry);
+        periodic = new PeriodicSubsystem(hardware, telemetry);
     }
 }
