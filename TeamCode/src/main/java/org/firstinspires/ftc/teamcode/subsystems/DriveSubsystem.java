@@ -46,7 +46,9 @@ public class DriveSubsystem extends HardwareSubsystem {
     private AngularVelocity angularVelocities;
 
     private final VuforiaFieldNavigation vuforia;
-    private Pose2d navPose = new Pose2d();
+    private Pose2d navPoseRaw = new Pose2d();
+    private Pose2d navPoseAvg = new Pose2d();
+    private double[] navPoseSum = new double[4];
 
     public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -89,8 +91,6 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        odometry.update();
-
         config.pose = getPose();
 
         angles = hardware.imu.getRobotYawPitchRollAngles();
@@ -119,7 +119,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         vuforia.update();
 
         if (vuforia.targetVisible) {
-            navPose = new Pose2d(
+            navPoseRaw = new Pose2d(
                 vuforia.translation.get(0) / mmPerInch,
                 vuforia.translation.get(1) / mmPerInch,
                 vuforia.rotation.thirdAngle
@@ -131,16 +131,33 @@ public class DriveSubsystem extends HardwareSubsystem {
             }
 
             if (isStill()) {
-                odometry.setPoseEstimate(navPose);
-                config.lightingCurrent = GREEN;
+                navPoseSum[0] += navPoseRaw.getX();
+                navPoseSum[1] += navPoseRaw.getY();
+                navPoseSum[2] += navPoseRaw.getHeading();
+                navPoseSum[3]++;
+
+                if (navPoseSum[3] >= config.navSamples) {
+                    odometry.setPoseEstimate(
+                        config.pose = navPoseAvg = new Pose2d(
+                            navPoseSum[0] / navPoseSum[3],
+                            navPoseSum[1] / navPoseSum[3],
+                            navPoseSum[2] / navPoseSum[3]
+                        )
+                    );
+
+                    config.lightingCurrent = GREEN;
+                    navPoseSum = new double[4];
+                }
             }
         } else {
             config.lightingCurrent = BLACK;
+            navPoseSum = new double[4];
         }
 
          telemetry.addData("Nav (Target)", vuforia.targetName);
          telemetry.addData("Nav (Count)", vuforia.targetCount);
-         telemetry.addData("Nav (Pose)", navPose);
+         telemetry.addData("Nav (Pose Raw)", navPoseRaw);
+         telemetry.addData("Nav (Pose Avg)", navPoseAvg);
     }
 
     public void inputs(double strafe, double forward, double turn) {

@@ -15,6 +15,7 @@ public class AutoOpMode extends OpMode {
 
         config.stacks = 1;
         config.delay = 0;
+        config.navSamples = 50;
 
         new MenuController(this);
 

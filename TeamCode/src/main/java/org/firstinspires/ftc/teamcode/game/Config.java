@@ -19,4 +19,5 @@ public class Config {
     public transient RevBlinkinLedDriver.BlinkinPattern lightingDefault = BLACK;
     public transient RevBlinkinLedDriver.BlinkinPattern lightingCurrent = BLACK;
     public transient ElapsedTime timer = new ElapsedTime();
+    public transient int navSamples;
 }
