@@ -21,10 +21,9 @@ public class ConfigSubsystem extends HardwareSubsystem {
 
     public ConfigSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
+        if (config != null) return;
         File file = AppUtil.getInstance().getSettingsFile(fileName);
-        if (!file.exists()) return;
-        String json = ReadWriteFile.readFile(file);
-        config = gson.fromJson(json, Config.class);
+        if (file.exists()) config = gson.fromJson(ReadWriteFile.readFile(file), Config.class);
         if (config == null) config = new Config();
     }
 

@@ -7,7 +7,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Config {
-    public transient static Config config = new Config();
+    public transient static Config config;
     public transient boolean auto;
     public transient boolean started;
     public Alliance alliance;
