@@ -39,12 +39,12 @@ public class AprilTagDetector
 
     // Lens intrinsics
     // UNITS ARE PIXELS
-    // NOTE: this calibration is for the C920 webcam at 800x448.
+    // NOTE: this calibration is for the Logitech HD Webcam C310 at 640x480.
     // You will need to do your own calibration for other configurations!
-    double fx = 578.272;
-    double fy = 578.272;
-    double cx = 402.145;
-    double cy = 221.506;
+    double fx = 821.993;
+    double fy = 821.993f;
+    double cx = 330.489;
+    double cy = 248.997;
 
     // UNITS ARE METERS
     double tagsize = 0.166;
@@ -70,7 +70,7 @@ public class AprilTagDetector
             @Override
             public void onOpened()
             {
-                AprilTagDetector.this.webcam.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                AprilTagDetector.this.webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override

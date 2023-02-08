@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.hacks.AprilTagDetector;
 public class RandSubsystem extends HardwareSubsystem {
     private final AprilTagDetector detector;
 
-    private boolean disabled = false;
+    private boolean enabled = true;
 
     public RandSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -21,7 +21,7 @@ public class RandSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        if (!disabled) this.detector.update();
+        if (enabled) this.detector.update();
 
         telemetry.addData(
             "Rand", "%s, %.1f fps, %d oms, %d pms",
@@ -41,7 +41,7 @@ public class RandSubsystem extends HardwareSubsystem {
     }
 
     public void disable() {
-        detector.webcam.stopRecordingPipeline();
-        disabled = true;
+        detector.webcam.stopStreaming();
+        enabled = false;
     }
 }
