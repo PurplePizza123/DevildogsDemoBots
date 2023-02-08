@@ -116,7 +116,9 @@ public class DriveCommands extends Commands {
         return new SelectCommand(
             () -> {
                 Pose2d pose = subsystems.nav.getStackPose(alliance, side);
-                return drive.toPose(pose, stxo, INTAKE_OFFSET, true);
+                return drive.toPose(pose, stxo, INTAKE_OFFSET, true).alongWith(
+                    lift.toIntake(0)
+                );
             }
         );
     }
