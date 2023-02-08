@@ -17,21 +17,25 @@ import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequenceBui
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.function.Consumer;
 
+@SuppressWarnings({"unchecked", "unused"})
 public class MeepMeepTesting {
     private static final double TILE_WIDTH = 23.5;
-    private static final double ROBOT_WIDTH = 14.75;
-    private static final double ROBOT_LENGTH = 14;
+    private static final double TILE_WIDTH_HALF = TILE_WIDTH / 2;
+    private static final double ROBOT_WIDTH = 15.625;
+    private static final double ROBOT_LENGTH = 15.25;
     private static final double TRACK_WIDTH = 12.82;
     private static final double INTAKE_OFFSET = -4.75;
     private static final double MAX_VEL = 35;
     private static final double MAX_ACCEL = MAX_VEL;
     private static final double MAX_ANG_VEL = Math.toRadians(200);
     private static final double MAX_ANG_ACCEL = MAX_ANG_VEL;
+    private static final double START_TO_START_TILE_MIN = 6;
 
     public static Alliance alliance = BLUE;
     public static Side side = SOUTH;
-    public static int stacks = 5;
+    public static int stacks = 2;
     public static int detectionId = 0;
 
     private static MeepMeep meepMeep;
@@ -67,6 +71,7 @@ public class MeepMeepTesting {
 
     public static void execute() {
         scoreStartCone();
+        moveSignalCone();
         scoreStack(stacks);
         park();
     }
@@ -75,6 +80,15 @@ public class MeepMeepTesting {
         String column = String.valueOf((char)('X' - alliance.sign * 2));
         int row = 3 + side.sign;
         toJunction(column + row);
+        setCone();
+    }
+
+    public static void moveSignalCone() {
+        String column = alliance == BLUE ? "C" : "D";
+        int row = side == NORTH ? 5 : 2;
+        toTile(column + row);
+        forward(8);
+        forward(-8);
     }
 
     public static void scoreStack(int times) {
@@ -82,11 +96,21 @@ public class MeepMeepTesting {
         int row = 3 + side.sign * 2;
 
         toStack(alliance, side);
+        getCone();
 
         while (--times >= 0) {
-            if (times == 0) toJunctionAuto(column + (row - side.sign));
-            else toJunctionAuto(column + row);
-            if (times > 0) toStackAuto(alliance, side);
+            if (times == 0) {
+                toJunctionAuto(column + (row - side.sign));
+                setCone();
+            } else {
+                toJunctionAuto(column + row);
+                setCone();
+            }
+
+            if (times > 0) {
+                toStackAuto(alliance, side);
+                getCone();
+            }
         }
     }
 
@@ -98,64 +122,96 @@ public class MeepMeepTesting {
         toTile(column + row);
     }
 
+    public static void forward(double distance) {
+        builder.waitSeconds(0.25);
+        builder.forward(distance);
+        builder.waitSeconds(0.25);
+    }
+
+    public static void getCone() {
+        builder.waitSeconds(0.33);
+    }
+
+    public static void setCone() {
+        builder.waitSeconds(0.33);
+        builder.forward(-8);
+        builder.waitSeconds(0.25);
+    }
+
     public static void toTile(String label) {
         toPose(
-            getTilePose(label), 0, true
+            getTilePose(label)
+        );
+    }
+
+    public static void toTile(String label, Consumer<Offsets>... consumers) {
+        toPose(
+            getTilePose(label),
+            consumers
         );
     }
 
     public static void toJunction(String label) {
         toPose(
-            getJunctionPose(label), INTAKE_OFFSET, true
+            getJunctionPose(label),
+            o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }
 
     public static void toJunctionAuto(String label) {
         toPose(
-            getJunctionPose(label), -0.15, INTAKE_OFFSET, true
+            getJunctionPose(label),
+            o -> o.startTileX = -4,
+            o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }
 
     public static void toStack(Alliance alliance, Side side) {
         toPose(
-            getStackPose(alliance, side),  INTAKE_OFFSET, true
+            getStackPose(alliance, side),
+            o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }
 
     public static void toStackAuto(Alliance alliance, Side side) {
         toPose(
-            getStackPose(alliance, side), -0.15,  INTAKE_OFFSET, true
+            getStackPose(alliance, side),
+            o -> o.startTileX = -4,
+            o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }
 
     public static void toSubstation(Alliance alliance, Side side) {
         toPose(
-            getSubstationPose(alliance, side), INTAKE_OFFSET, true
+            getSubstationPose(alliance, side),
+            o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }
 
     public static void toTerminal(Alliance alliance, Side side) {
         toPose(
-            getTerminalPose(alliance, side), INTAKE_OFFSET, true
+            getTerminalPose(alliance, side),
+            o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }
 
-    public static void toPose(Pose2d pose, double offset, boolean y1st) {
-        toPose(pose, 0, offset, y1st);
-    }
-
-    public static void toPose(Pose2d pose, double stxo, double offset, boolean y1st) {
-        Pose2d[] poses = getTransitionPoses(current, pose, stxo, offset, y1st);
+    public static void toPose(Pose2d pose, Consumer<Offsets>... offsets) {
+        Pose2d[] poses = getTransitionPoses(current, pose, offsets);
 
         for (int i = 1; i < poses.length; i++) {
             Pose2d prev = poses[i - 1];
             Pose2d curr = poses[i];
 
+            double distance = Math.hypot(
+                prev.getX() - curr.getX(),
+                prev.getY() - curr.getY()
+            );
+
             double remainder = curr.getHeading() - prev.getHeading();
             if (remainder > +Math.PI) remainder -= Math.PI * 2;
             if (remainder < -Math.PI) remainder += Math.PI * 2;
 
-            if (remainder > +Math.PI * 0.8 || remainder < -Math.PI * 0.8) {
+            if (remainder > +Math.PI * 0.9 || remainder < -Math.PI * 0.9) {
                 curr = poses[i] = new Pose2d(curr.getX(), curr.getY(), prev.getHeading());
                 builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
             } else {
@@ -191,7 +247,7 @@ public class MeepMeepTesting {
 
     public static Pose2d getStackPose(Alliance alliance, Side side) {
         return new Pose2d(
-            side.sign * (3 * TILE_WIDTH - 4),
+            side.sign * (3 * TILE_WIDTH - 1.75),
             alliance.sign * 0.5 * TILE_WIDTH
         );
     }
@@ -210,20 +266,32 @@ public class MeepMeepTesting {
         );
     }
 
-    public static Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, double stxo, double offset, boolean y1st) {
+    public static Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, Consumer<Offsets>... consumers) {
+        Offsets offsets = new Offsets();
+
+        for (Consumer<Offsets> consumer : consumers) {
+            consumer.accept(offsets);
+        }
+
+        start = new Pose2d(
+            start.getX() + offsets.startX,
+            start.getY() + offsets.startY,
+            start.getHeading()
+        );
+
         Pose2d startTile = new Pose2d(
-            nearestTile(start.getX(), 0.5 + stxo),
-            nearestTile(start.getY(), 0.5)
+            nearestTile(start.getX(), TILE_WIDTH_HALF + offsets.startTileX),
+            nearestTile(start.getY(), TILE_WIDTH_HALF + offsets.startTileY)
         );
 
         Pose2d endTile = new Pose2d(
-            nearestTile(end.getX() - startTile.getX(), 0) + startTile.getX(),
-            nearestTile(end.getY() - startTile.getY(), 0) + startTile.getY()
+            nearestTile(end.getX() - startTile.getX(), offsets.endTileX) + startTile.getX(),
+            nearestTile(end.getY() - startTile.getY(), offsets.endTileY) + startTile.getY()
         );
 
         Pose2d midTile = new Pose2d(
-            y1st ? startTile.getX() : endTile.getX(),
-            y1st ? endTile.getY() : startTile.getY()
+            (offsets.y1st ? startTile.getX() : endTile.getX()) + offsets.midTileX,
+            (offsets.y1st ? endTile.getY() : startTile.getY()) + offsets.midTileY
         );
 
         double endHeading = Math.atan2(
@@ -232,8 +300,8 @@ public class MeepMeepTesting {
         );
 
         end = new Pose2d(
-            end.getX() + Math.cos(endHeading) * offset,
-            end.getY() + Math.sin(endHeading) * offset,
+            end.getX() + Math.cos(endHeading) * offsets.endX,
+            end.getY() + Math.sin(endHeading) * offsets.endY,
             endHeading
         );
 
@@ -241,11 +309,13 @@ public class MeepMeepTesting {
 
         for (Pose2d nextPose : Arrays.asList(startTile, midTile, endTile, end)) {
             Pose2d lastPose = poses.get(poses.size() - 1);
-            if (lastPose.getX() == nextPose.getX() &&
-                lastPose.getY() == nextPose.getY())
+            if ((lastPose.getX() == start.getX() && lastPose.getY() == start.getY()) ||
+                (lastPose.getX() == nextPose.getX() && lastPose.getY() == nextPose.getY()))
                     poses.remove(lastPose);
             poses.add(nextPose);
         }
+
+        poses.add(0, start);
 
         updatePoseHeadings(poses);
 
@@ -270,7 +340,7 @@ public class MeepMeepTesting {
 
     private static double nearestTile(double value, double offset) {
         double sign = value == 0 ? 1 : value / Math.abs(value);
-        double tiles = Math.floor(Math.abs(value) / TILE_WIDTH) + offset;
+        double tiles = Math.floor(Math.abs(value) / TILE_WIDTH) + offset / TILE_WIDTH;
         return sign * tiles * TILE_WIDTH;
     }
 }

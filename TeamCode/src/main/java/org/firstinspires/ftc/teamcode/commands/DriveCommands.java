@@ -14,11 +14,13 @@ import com.arcrobotics.ftclib.command.SelectCommand;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Junction;
 import org.firstinspires.ftc.teamcode.game.Side;
+import org.firstinspires.ftc.teamcode.hacks.Offsets;
 
+import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "unchecked"})
 public class DriveCommands extends Commands {
     public static final double INTAKE_OFFSET = -4.75;
     public static final double IS_BUSY_OFFSET = -0.25;
@@ -49,53 +51,62 @@ public class DriveCommands extends Commands {
         return complete(() -> subsystems.drive.turn(heading));
     }
 
-    public Command toPose(Pose2d pose, double offset, boolean y1st) {
-        return toPose(pose, 0, offset, y1st);
-    }
-
-    public Command toPose(Pose2d pose, double stxo, double offset, boolean y1st) {
+    public Command toPose(Pose2d pose, Consumer<Offsets>... consumers) {
         return complete(
             () -> subsystems.drive.to(
                 subsystems.nav.getTransitionPoses(
                     subsystems.drive.getPose(),
-                    pose, stxo, offset, y1st
+                    pose, consumers
                 )
             )
         );
-    }
-
-    public Command toTile(String label) {
-        Pose2d pose = subsystems.nav.getTilePose(label);
-        return drive.toPose(pose, 0, true);
     }
 
     public Command toTile(Supplier<String> supplier) {
         return drive.toTile(supplier.get());
     }
 
-    public Command toJunction(String label, double stxo) {
-        Pose2d pose = subsystems.nav.getJunctionPose(label);
-        return drive.toPose(pose, stxo, INTAKE_OFFSET, true).alongWith(
+    public Command toTile(String label) {
+        Pose2d pose = subsystems.nav.getTilePose(label);
+        return drive.toPose(pose);
+    }
+
+    public Command toTile(String label, Consumer<Offsets>... consumers) {
+        return drive.toPose(
+            subsystems.nav.getTilePose(label),
+            consumers
+        );
+    }
+
+    public Command toJunction() {
+        return new SelectCommand(
+            () -> toJunction(config.junction)
+        );
+    }
+
+    public Command toJunctionAuto(String label) {
+        return toJunction(label, o -> o.startTileX = -4);
+    }
+
+    public Command toJunction(String label, Consumer<Offsets>... consumers) {
+        return drive.toPose(
+            subsystems.nav.getJunctionPose(label),
+            o -> o.endX = o.endY = INTAKE_OFFSET,
+            o -> o.set(consumers)
+        ).alongWith(
             lift.toJunction(Junction.get(label))
         ).andThen(
             drive.setDrivePower(0.25)
         );
     }
 
-    public Command toJunction(String label) {
-        return toJunction(label, 0);
+    public Command toStack() {
+        return toStack(config.alliance, config.side);
     }
 
-    public Command toJunctionAuto(String label) {
-        return toJunction(label, -0.2);
+    public Command toStackAuto() {
+        return toStack(config.alliance, config.side, o -> o.startTileX = -4);
     }
-
-    public Command toJunction() {
-        return new SelectCommand(
-            () -> drive.toJunction(config.junction)
-        );
-    }
-
 
     public Command toStackRight() {
         return toStack(config.alliance, config.alliance == RED ? NORTH : SOUTH);
@@ -105,43 +116,34 @@ public class DriveCommands extends Commands {
         return toStack(config.alliance, config.alliance == RED ? SOUTH : NORTH);
     }
 
-    public Command toStack() {
-        return toStack(config.alliance, config.side);
-    }
-
-    public Command toStack(Alliance alliance, Side side) {
-        return toStack(alliance, side, 0);
-    }
-
-    public Command toStack(Alliance alliance, Side side, double stxo) {
+    public Command toStack(Alliance alliance, Side side, Consumer<Offsets>... consumers) {
         return new SelectCommand(
-            () -> {
-                Pose2d pose = subsystems.nav.getStackPose(alliance, side);
-                return drive.toPose(pose, stxo, INTAKE_OFFSET, true).alongWith(
-                    lift.toIntake(0)
-                );
-            }
+            () -> drive.toPose(
+                subsystems.nav.getStackPose(alliance, side),
+                o -> o.endX = o.endY = INTAKE_OFFSET,
+                o -> o.set(consumers)
+            ).alongWith(
+                lift.toIntake(0)
+            )
         );
-    }
-
-    public Command toStackAuto() {
-        return toStack(config.alliance, config.side, 0.2);
     }
 
     public Command toSubstation() {
         return new SelectCommand(
-            () -> {
-                Pose2d pose = subsystems.nav.getSubstationPose(config.alliance, config.side);
-                return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
-                    lift.toIntake(0)
-                );
-            }
+            () -> drive.toPose(
+                subsystems.nav.getSubstationPose(config.alliance, config.side),
+                o -> o.endX = o.endY = INTAKE_OFFSET
+            ).alongWith(
+                lift.toIntake(0)
+            )
         );
     }
 
     public Command toTerminal(Alliance alliance, Side side) {
-        Pose2d pose = subsystems.nav.getTerminalPose(alliance, side);
-        return drive.toPose(pose, INTAKE_OFFSET, true).alongWith(
+        return drive.toPose(
+            subsystems.nav.getTerminalPose(alliance, side),
+            o -> o.endX = o.endY = INTAKE_OFFSET
+        ).alongWith(
             lift.toIntake(0)
         );
     }

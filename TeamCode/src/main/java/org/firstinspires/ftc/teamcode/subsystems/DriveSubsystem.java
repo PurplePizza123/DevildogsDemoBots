@@ -36,6 +36,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static boolean AUTO_INVERT = false;
     public static double ALLOWABLE_TILT = 10;
     public static double ALLOWABLE_STILL = 1.0;
+    public static double TILE_WIDTH = 23.5;
     public double power = 0.5;
 
     private final MecanumDrive drive;
@@ -240,6 +241,11 @@ public class DriveSubsystem extends HardwareSubsystem {
                 for (int i = 1; i < poses.length; i++) {
                     Pose2d prev = poses[i - 1];
                     Pose2d curr = poses[i];
+
+                    double distance = Math.hypot(
+                        prev.getX() - curr.getX(),
+                        prev.getY() - curr.getY()
+                    );
 
                     double remainder = curr.getHeading() - prev.getHeading();
                     if (remainder > +Math.PI) remainder -= Math.PI * 2;

@@ -14,6 +14,7 @@ public class AutoCommands extends Commands {
         return lift.calibrate().andThen(
             rand.detect(),
             auto.scoreStartCone(),
+            auto.moveSignalCone(),
             auto.scoreStack(config.stacks),
             auto.park()
         );
@@ -27,9 +28,16 @@ public class AutoCommands extends Commands {
         );
     }
 
-    public Command scoreStack(int times) {
+    public Command moveSignalCone() {
         String tileColumn = config.alliance == BLUE ? "C" : "D";
         int tileRow = config.side == NORTH ? 5 : 2;
+        return drive.toTile(tileColumn + tileRow).andThen(
+            drive.forward(+8),
+            drive.forward(-8)
+        );
+    }
+
+    public Command scoreStack(int times) {
         String junctionColumn = String.valueOf((char)('X' - config.alliance.sign));
         int junctionRow = 3 + config.side.sign * 2;
 
@@ -38,9 +46,6 @@ public class AutoCommands extends Commands {
         int stacks = 5;
 
         group.addCommands(
-            drive.toTile(tileColumn + tileRow),
-            drive.forward(8),
-            drive.forward(-8),
             drive.toStack(),
             intake.getCone(--stacks)
         );

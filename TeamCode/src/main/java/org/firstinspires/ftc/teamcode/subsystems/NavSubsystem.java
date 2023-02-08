@@ -1,19 +1,25 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
+import org.firstinspires.ftc.teamcode.hacks.Offsets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.function.Consumer;
 
+@Config
 public class NavSubsystem extends HardwareSubsystem {
     private static final double TILE_WIDTH = 23.5;
+    private static final double TILE_WIDTH_HALF = TILE_WIDTH / 2;
     private static final double ROBOT_LENGTH = 14;
+    private static final double START_TO_START_TILE_MIN = 4;
 
     public NavSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -70,20 +76,32 @@ public class NavSubsystem extends HardwareSubsystem {
         );
     }
 
-    public Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, double stxo, double offset, boolean y1st) {
+    public Pose2d[] getTransitionPoses(Pose2d start, Pose2d end, Consumer<Offsets>... consumers) {
+        Offsets offsets = new Offsets();
+
+        for (Consumer<Offsets> consumer : consumers) {
+            consumer.accept(offsets);
+        }
+
+        start = new Pose2d(
+            start.getX() + offsets.startX,
+            start.getY() + offsets.startY,
+            start.getHeading()
+        );
+
         Pose2d startTile = new Pose2d(
-            nearestTile(start.getX(), 0.5 + stxo),
-            nearestTile(start.getY(), 0.5)
+            nearestTile(start.getX(), + TILE_WIDTH_HALF + offsets.startTileX),
+            nearestTile(start.getY(), + TILE_WIDTH_HALF + offsets.startTileY)
         );
 
         Pose2d endTile = new Pose2d(
-            nearestTile(end.getX() - startTile.getX(), 0) + startTile.getX(),
-            nearestTile(end.getY() - startTile.getY(), 0) + startTile.getY()
+            nearestTile(end.getX() - startTile.getX(), offsets.endTileX) + startTile.getX(),
+            nearestTile(end.getY() - startTile.getY(), offsets.endTileY) + startTile.getY()
         );
 
         Pose2d midTile = new Pose2d(
-            y1st ? startTile.getX() : endTile.getX(),
-            y1st ? endTile.getY() : startTile.getY()
+            (offsets.y1st ? startTile.getX() : endTile.getX()) + offsets.midTileX,
+            (offsets.y1st ? endTile.getY() : startTile.getY()) + offsets.midTileY
         );
 
         double endHeading = Math.atan2(
@@ -92,8 +110,8 @@ public class NavSubsystem extends HardwareSubsystem {
         );
 
         end = new Pose2d(
-            end.getX() + Math.cos(endHeading) * offset,
-            end.getY() + Math.sin(endHeading) * offset,
+            end.getX() + Math.cos(endHeading) * offsets.endX,
+            end.getY() + Math.sin(endHeading) * offsets.endY,
             endHeading
         );
 
@@ -101,11 +119,13 @@ public class NavSubsystem extends HardwareSubsystem {
 
         for (Pose2d nextPose : Arrays.asList(startTile, midTile, endTile, end)) {
             Pose2d lastPose = poses.get(poses.size() - 1);
-            if (lastPose.getX() == nextPose.getX() &&
-                lastPose.getY() == nextPose.getY())
+            if ((lastPose.getX() == start.getX() && lastPose.getY() == start.getY()) ||
+                (lastPose.getX() == nextPose.getX() && lastPose.getY() == nextPose.getY()))
                     poses.remove(lastPose);
             poses.add(nextPose);
         }
+
+        poses.add(0, start);
 
         updatePoseHeadings(poses);
 
@@ -130,7 +150,7 @@ public class NavSubsystem extends HardwareSubsystem {
 
     private static double nearestTile(double value, double offset) {
         double sign = value == 0 ? 1 : value / Math.abs(value);
-        double tiles = Math.floor(Math.abs(value) / TILE_WIDTH) + offset;
+        double tiles = Math.floor(Math.abs(value) / TILE_WIDTH) + offset / TILE_WIDTH;
         return sign * tiles * TILE_WIDTH;
     }
 }
