@@ -123,7 +123,12 @@ public class DriveSubsystem extends HardwareSubsystem {
                 config.side = vuforia.targetSide;
             }
 
-            if (isStill()) {
+            double distance = Math.hypot(
+                vuforia.targetPose.getX() - config.pose.getX(),
+                vuforia.targetPose.getY() - config.pose.getY()
+            );
+
+            if (isStill() && (!config.started || distance < TILE_WIDTH * 2)) {
                 navPoseSum[0] += navPoseRaw.getX();
                 navPoseSum[1] += navPoseRaw.getY();
                 navPoseSum[2] += navPoseRaw.getHeading();

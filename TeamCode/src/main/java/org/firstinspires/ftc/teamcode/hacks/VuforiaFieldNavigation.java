@@ -40,6 +40,7 @@ import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -122,11 +123,13 @@ public class VuforiaFieldNavigation {
     private List<VuforiaTrackable> allTrackables = null;
     private static final Map<String, Alliance> targetAlliances = new HashMap<>();
     private static final Map<String, Side> targetSides = new HashMap<>();
+    private static final Map<String, Pose2d> targetPoses = new HashMap<>();
 
     public boolean targetVisible = false;
     public String targetName = "None";
     public Alliance targetAlliance = null;
     public Side targetSide = null;
+    public Pose2d targetPose = null;
     public int targetCount = 0;
     public VectorF translation = null;
     public Orientation rotation = null;
@@ -239,6 +242,7 @@ public class VuforiaFieldNavigation {
                 targetName = trackable.getName();
                 targetAlliance = targetAlliances.get(targetName);
                 targetSide = targetSides.get(targetName);
+                targetPose = targetPoses.get(targetName);
                 targetCount++;
 
                 // getUpdatedRobotLocation() will return null if no new information is available since
@@ -280,6 +284,7 @@ public class VuforiaFieldNavigation {
 
         targetAlliances.put(targetName, alliance);
         targetSides.put(targetName, side);
+        targetPoses.put(targetName, new Pose2d(dx, dy, rz));
     }
 
     private void setCameraPosition() {
