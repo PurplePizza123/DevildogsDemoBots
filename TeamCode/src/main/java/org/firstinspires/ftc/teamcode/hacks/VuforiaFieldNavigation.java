@@ -185,7 +185,7 @@ public class VuforiaFieldNavigation {
 
         // Name and locate each trackable object
         identifyTarget(0, "Red Audience Wall",  -TARGET_DX,  -TARGET_DY, +TARGET_DZ, +90, 0, +90,  RED, SOUTH);
-        identifyTarget(1, "Red Rear Wall",      +TARGET_DX,  +TARGET_DY, +TARGET_DZ, +90, 0, -90,  RED, NORTH);
+        identifyTarget(1, "Red Rear Wall",      +TARGET_DX,  -TARGET_DY, +TARGET_DZ, +90, 0, -90,  RED, NORTH);
         identifyTarget(2, "Blue Audience Wall", -TARGET_DX,  +TARGET_DY, +TARGET_DZ, +90, 0, +90, BLUE, SOUTH);
         identifyTarget(3, "Blue Rear Wall",     +TARGET_DX,  +TARGET_DY, +TARGET_DZ, +90, 0, -90, BLUE, NORTH);
 
