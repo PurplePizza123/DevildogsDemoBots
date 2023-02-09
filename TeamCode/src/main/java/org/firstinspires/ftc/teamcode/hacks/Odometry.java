@@ -191,6 +191,10 @@ public class Odometry extends MecanumDrive {
         return trajectorySequenceRunner.isBusy();
     }
 
+    public boolean isBusy(double offset) {
+        return trajectorySequenceRunner.isBusy(offset);
+    }
+
     public void setMode(DcMotor.RunMode runMode) {
         for (MotorEx motor : motors) {
             motor.motor.setMode(runMode);

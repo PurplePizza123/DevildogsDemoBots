@@ -252,8 +252,8 @@ public class DriveSubsystem extends HardwareSubsystem {
         );
     }
 
-    public boolean isBusy() {
-        return odometry.isBusy();
+    public boolean isBusy(double offset) {
+        return odometry.isBusy(offset);
     }
 
     private void followTrajectoryAsync(Consumer<TrajectorySequenceBuilder> consumer) {

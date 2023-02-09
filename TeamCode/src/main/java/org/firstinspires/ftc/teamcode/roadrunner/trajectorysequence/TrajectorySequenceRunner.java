@@ -270,4 +270,8 @@ public class TrajectorySequenceRunner {
     public boolean isBusy() {
         return currentTrajectorySequence != null;
     }
+
+    public boolean isBusy(double offset) {
+        return currentTrajectorySequence != null && clock.seconds() < currentSegmentStartTime + currentTrajectorySequence.duration() + offset;
+    }
 }

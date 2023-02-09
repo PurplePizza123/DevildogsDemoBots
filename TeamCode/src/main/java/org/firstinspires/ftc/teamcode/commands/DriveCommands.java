@@ -20,7 +20,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class DriveCommands extends Commands {
-    private static final double INTAKE_OFFSET = -4.75;
+    public static final double INTAKE_OFFSET = -4.75;
+    public static final double IS_BUSY_OFFSET = -0.25;
 
     public Command setDrivePower(double power) {
         return new InstantCommand(() -> subsystems.drive.power = power, subsystems.drive);
@@ -147,7 +148,7 @@ public class DriveCommands extends Commands {
 
     private Command complete(Runnable runnable) {
         return new InstantCommand(runnable, subsystems.drive).andThen(
-            wait.until(() -> !subsystems.drive.isBusy())
+            wait.until(() -> !subsystems.drive.isBusy(IS_BUSY_OFFSET))
         );
     }
 }
