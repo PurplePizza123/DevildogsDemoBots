@@ -40,6 +40,7 @@ public class AutoCommands extends Commands {
         group.addCommands(
             drive.toTile(tileColumn + tileRow),
             drive.forward(8),
+            drive.forward(-8),
             drive.toStack(),
             intake.getCone(--stacks)
         );
