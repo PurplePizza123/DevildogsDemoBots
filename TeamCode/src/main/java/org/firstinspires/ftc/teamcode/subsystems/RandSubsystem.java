@@ -10,18 +10,17 @@ import org.firstinspires.ftc.teamcode.hacks.AprilTagDetector;
 
 @Config
 public class RandSubsystem extends HardwareSubsystem {
-    private final AprilTagDetector detector;
-
-    private boolean enabled = true;
+    private AprilTagDetector detector;
 
     public RandSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
-        this.detector = new AprilTagDetector(hardware.frontWebcam);
     }
 
     @Override
     public void periodic() {
-        if (enabled) this.detector.update();
+        if (this.detector == null) return;
+
+        this.detector.update();
 
         telemetry.addData(
             "Rand", "%s, %.1f fps, %d oms, %d pms",
@@ -33,15 +32,20 @@ public class RandSubsystem extends HardwareSubsystem {
     }
 
     public int getDetectionId() {
-        return this.detector.detection == null ? 0 : clamp(this.detector.detection.id, 0, 2);
+        return this.detector == null || this.detector.detection == null ? 0 : clamp(this.detector.detection.id, 0, 2);
     }
 
     public String getDetectionLabel() {
-        return this.detector.detection == null ? "none" : String.valueOf(this.detector.detection.id + 1);
+        return this.detector == null || this.detector.detection == null ? "none" : String.valueOf(this.detector.detection.id + 1);
+    }
+
+    public void enable() {
+        if (this.detector != null) return;
+        this.detector = new AprilTagDetector(hardware.frontWebcam);
     }
 
     public void disable() {
+        if (detector == null) return;
         detector.webcam.stopStreaming();
-        enabled = false;
     }
 }
