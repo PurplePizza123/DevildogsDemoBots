@@ -21,7 +21,7 @@ public class LiftCommands extends Commands {
     }
 
     public Command toIntake(double offset) {
-        return to(7.5 + offset);
+        return to(8 + offset);
     }
 
     public Command toJunction(Junction junction) {

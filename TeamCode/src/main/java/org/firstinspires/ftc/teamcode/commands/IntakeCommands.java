@@ -23,7 +23,7 @@ public class IntakeCommands extends Commands {
     public Command getCone(double offset) {
         return intake.in().andThen(
             lift.to(offset),
-            wait.seconds(0.5),
+            wait.seconds(0.30 + (0.25 / (offset + 1))),
             lift.toIntake(offset),
             intake.stop(true)
         );
