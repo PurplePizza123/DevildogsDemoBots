@@ -91,12 +91,10 @@ public class DriveSubsystem extends HardwareSubsystem {
 
         config.pose = getPose();
 
-        if (isTilted()) {
+        if (isTilted() || (config.auto && config.timer.seconds() > 29.9)) {
             odometry.followTrajectorySequenceAsync(null);
             inputs(0,0,0);
         }
-
-        if (isTilted()) odometry.followTrajectorySequenceAsync(null);
 
         telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
         telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate()));
