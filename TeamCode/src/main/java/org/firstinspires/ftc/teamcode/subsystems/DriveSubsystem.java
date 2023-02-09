@@ -20,8 +20,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
 import org.firstinspires.ftc.teamcode.hacks.VuforiaFieldNavigation;
@@ -42,8 +40,6 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     private final MecanumDrive drive;
     private final Odometry odometry;
-    private YawPitchRollAngles angles;
-    private AngularVelocity angularVelocities;
 
     private final VuforiaFieldNavigation vuforia;
     private Pose2d navPoseRaw = new Pose2d();
@@ -91,10 +87,9 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     @Override
     public void periodic() {
-        config.pose = getPose();
+        hardware.clearBulkCache();
 
-        angles = hardware.imu.getRobotYawPitchRollAngles();
-        angularVelocities = hardware.imu.getRobotAngularVelocity(RADIANS);
+        config.pose = getPose();
 
         if (isTilted()) {
             odometry.followTrajectorySequenceAsync(null);
@@ -194,27 +189,27 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public double getRoll() {
-        return angles.getRoll(RADIANS);
+        return hardware.imuAngles.getRoll(RADIANS);
     }
 
     public double getPitch() {
-        return angles.getPitch(RADIANS);
+        return hardware.imuAngles.getPitch(RADIANS);
     }
 
     public double getYaw() {
-        return angles.getYaw(RADIANS);
+        return hardware.imuAngles.getYaw(RADIANS);
     }
 
     public double getRollRate() {
-        return angularVelocities.xRotationRate;
+        return hardware.imuVelocities.xRotationRate;
     }
 
     public double getPitchRate() {
-        return angularVelocities.yRotationRate;
+        return hardware.imuVelocities.yRotationRate;
     }
 
     public double getYawRate() {
-        return angularVelocities.zRotationRate;
+        return hardware.imuVelocities.zRotationRate;
     }
 
     public boolean isTilted() {

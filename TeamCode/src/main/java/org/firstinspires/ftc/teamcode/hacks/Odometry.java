@@ -259,12 +259,12 @@ public class Odometry extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        return hardware.imuAngles.getYaw(AngleUnit.RADIANS);
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return (double) hardware.imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        return (double) hardware.imuVelocities.zRotationRate;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
