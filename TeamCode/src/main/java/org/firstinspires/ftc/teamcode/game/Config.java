@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.game;
 
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
 
+import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
+import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,8 +13,8 @@ public class Config {
     public transient static Config config;
     public transient boolean auto;
     public transient boolean started;
-    public Alliance alliance;
-    public Side side;
+    public Alliance alliance = RED;
+    public Side side = NORTH;
     public int stacks = 1;
     public double delay = 0;
     public String junction = "X3";
