@@ -110,7 +110,7 @@ public class VuforiaFieldNavigation {
 
     public static boolean CAMERA_UPDATEABLE = false;
     public static double CAMERA_dX = -5.5f;
-    public static double CAMERA_dY = +3.5f;
+    public static double CAMERA_dY = +0.625f;
     public static double CAMERA_dZ = +9.8;
     public static double CAMERA_rX = +90;
     public static double CAMERA_rZ = -90;
