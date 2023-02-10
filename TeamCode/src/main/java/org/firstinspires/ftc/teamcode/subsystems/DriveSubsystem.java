@@ -143,6 +143,8 @@ public class DriveSubsystem extends HardwareSubsystem {
                         )
                     );
 
+                    vuforia.setCameraPosition();
+
                     config.lightingCurrent = GREEN;
                     navPoseSum = new double[4];
                 }
