@@ -165,6 +165,7 @@ public class MeepMeepTesting {
     public static void toStack(Alliance alliance, Side side) {
         toPose(
             getStackPose(alliance, side),
+            o -> o.endTileX = +5.25,
             o -> o.endX = o.endY = INTAKE_OFFSET
         );
     }

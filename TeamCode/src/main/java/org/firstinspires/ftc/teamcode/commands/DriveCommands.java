@@ -101,7 +101,7 @@ public class DriveCommands extends Commands {
     }
 
     public Command toStack() {
-        return toStack(config.alliance, config.side);
+        return toStack(config.alliance, config.side, o -> o.endTileX = +5.25);
     }
 
     public Command toStackAuto() {
