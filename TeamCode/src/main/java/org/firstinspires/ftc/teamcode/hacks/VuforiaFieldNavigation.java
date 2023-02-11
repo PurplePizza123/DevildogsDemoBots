@@ -106,7 +106,7 @@ public class VuforiaFieldNavigation {
     public static double FULL_FEILD_WIDTH = 141.1875f;
     public static double HALF_FEILD_WIDTH = FULL_FEILD_WIDTH / 2;
     public static double TARGET_DX = HALF_FEILD_WIDTH;
-    public static double TARGET_DY = HALF_FEILD_WIDTH - 33.5f;
+    public static double TARGET_DY = HALF_FEILD_WIDTH / 2;
     public static double TARGET_DZ = 5.75f;
 
     public static boolean CAMERA_UPDATEABLE = false;
