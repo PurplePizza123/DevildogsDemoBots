@@ -132,8 +132,6 @@ public class MeepMeepTesting {
 
     public static void setCone() {
         builder.waitSeconds(0.33);
-        builder.forward(-8);
-        builder.waitSeconds(0.25);
     }
 
     public static void toTile(String label) {

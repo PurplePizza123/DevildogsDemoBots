@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SelectCommand;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 public class IntakeCommands extends Commands {
     public Command in() {
@@ -43,7 +44,11 @@ public class IntakeCommands extends Commands {
             wait.seconds(0.33),
             lift.change(+3),
             intake.stop(false),
-            drive.forward(-8),
+            new ConditionalCommand(
+                wait.seconds(0),
+                drive.forward(-8),
+                () -> config.auto
+            ),
             lift.toIntake(offset)
         );
     }
