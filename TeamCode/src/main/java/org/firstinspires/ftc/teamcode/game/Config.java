@@ -15,6 +15,8 @@ public class Config {
     public transient boolean started;
     public Alliance alliance = RED;
     public Side side = NORTH;
+    public double offsetX = 0;
+    public double offsetY = 0;
     public int stacks = 1;
     public double delay = 0;
     public String junction = "X3";
