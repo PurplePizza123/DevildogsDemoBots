@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.game.Config.config;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
@@ -19,10 +21,6 @@ public class NavSubsystem extends HardwareSubsystem {
     private static final double TILE_WIDTH = 23.5;
     private static final double TILE_WIDTH_HALF = TILE_WIDTH / 2;
     private static final double ROBOT_LENGTH = 15.25;
-    private static final double START_TO_START_TILE_MIN = 4;
-
-    public static double ROBOT_X_OFFSET = 0;
-    public static double ROBOT_Y_OFFSET = 0;
 
     public NavSubsystem(Hardware hardware, Telemetry telemetry) {
         super(hardware, telemetry);
@@ -38,8 +36,8 @@ public class NavSubsystem extends HardwareSubsystem {
 
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
-            side.sign * (1.5 * TILE_WIDTH - ROBOT_X_OFFSET),
-            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2 - ROBOT_Y_OFFSET),
+            side.sign * (1.5 * TILE_WIDTH - config.offsetX),
+            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2 - config.offsetY),
             alliance.sign * Math.toRadians(-90)
         );
     }

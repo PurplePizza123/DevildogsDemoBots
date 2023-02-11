@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 public abstract class OpMode extends CommandOpMode {
     public Telemetry telemetry;
     public Hardware hardware;
-    public GamepadEx gamepad1;
-    public GamepadEx gamepad2;
+    public static GamepadEx gamepad1;
+    public static GamepadEx gamepad2;
     public Subsystems subsystems;
     public Commands commands;
 

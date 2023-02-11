@@ -34,6 +34,20 @@ public class MenuCommands extends Commands {
         );
     }
 
+    public Command changeOffsetX(double value) {
+        return new InstantCommand(
+            () -> config.offsetX = clamp(config.offsetX + value, -12, 12),
+            subsystems.menu
+        );
+    }
+
+    public Command changeOffsetY(double value) {
+        return new InstantCommand(
+            () -> config.offsetY = clamp(config.offsetY + value, -12, 12),
+            subsystems.menu
+        );
+    }
+
     public Command changeDelay(double value) {
         return new InstantCommand(
             () -> config.delay = clamp(config.delay + value, 0, 30),

@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.controllers;
 
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.BACK;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_BUMPER;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.Y;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.LEFT_TRIGGER;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.RIGHT_TRIGGER;
 
@@ -48,7 +52,23 @@ public class MenuController {
                 opMode.commands.menu.toggleSide()
             );
 
+        opMode.gamepad1.getGamepadButton(X)
+            .and(opMode.gamepad1.getGamepadButton(BACK))
+            .whenActive(opMode.commands.menu.changeOffsetX(-0.5));
+
+        opMode.gamepad1.getGamepadButton(B)
+            .and(opMode.gamepad1.getGamepadButton(BACK))
+            .whenActive(opMode.commands.menu.changeOffsetX(+0.5));
+
+        opMode.gamepad1.getGamepadButton(Y)
+            .and(opMode.gamepad1.getGamepadButton(BACK))
+            .whenActive(opMode.commands.menu.changeOffsetY(+0.5));
+
+        opMode.gamepad1.getGamepadButton(A)
+            .and(opMode.gamepad1.getGamepadButton(BACK))
+            .whenActive(opMode.commands.menu.changeOffsetY(-0.5));
+
         opMode.gamepad1.getGamepadButton(BACK)
-            .whenReleased(opMode.commands.menu.setStartPose());
+            .whenInactive(opMode.commands.menu.setStartPose());
     }
 }

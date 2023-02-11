@@ -12,6 +12,8 @@ public class AutoOpMode extends OpMode {
 
         config.alliance = alliance;
         config.side = side;
+        config.offsetX = 0;
+        config.offsetY = 0;
         config.stacks = 1;
         config.delay = 0;
         config.navSamples = 50;
