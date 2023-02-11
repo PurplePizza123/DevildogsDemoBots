@@ -46,7 +46,7 @@ public class IntakeCommands extends Commands {
             intake.stop(false),
             new ConditionalCommand(
                 wait.seconds(0),
-                drive.forward(-8),
+                drive.forward(-8).andThen(lift.toIntake(0)),
                 () -> config.auto
             )
         );
