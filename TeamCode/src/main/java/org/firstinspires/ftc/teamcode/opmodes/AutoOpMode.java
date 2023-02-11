@@ -16,6 +16,10 @@ public class AutoOpMode extends OpMode {
         config.delay = 0;
         config.navSamples = 50;
 
+        subsystems.drive.setPose(
+            subsystems.nav.getStartPose(alliance, side)
+        );
+
         subsystems.rand.enable();
 
         new MenuController(this);
