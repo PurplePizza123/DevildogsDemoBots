@@ -86,9 +86,7 @@ public class MeepMeepTesting {
     public static void moveSignalCone() {
         String column = alliance == BLUE ? "C" : "D";
         int row = side == NORTH ? 5 : 2;
-        toTile(column + row);
-        forward(8);
-        forward(-8);
+        toTile(column + row, o -> o.endTileY = 8);
     }
 
     public static void scoreStack(int times) {

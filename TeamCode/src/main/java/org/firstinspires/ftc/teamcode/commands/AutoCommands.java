@@ -31,10 +31,7 @@ public class AutoCommands extends Commands {
     public Command moveSignalCone() {
         String tileColumn = config.alliance == BLUE ? "C" : "D";
         int tileRow = config.side == NORTH ? 5 : 2;
-        return drive.toTile(tileColumn + tileRow).andThen(
-            drive.forward(+8),
-            drive.forward(-8)
-        );
+        return drive.toTile(tileColumn + tileRow, o -> o.endTileY = 8);
     }
 
     public Command scoreStack(int times) {
