@@ -80,8 +80,7 @@ public class AutoCommands extends Commands {
                 int detectionId = subsystems.rand.getDetectionId();
                 int row = start - config.alliance.sign * detectionId;
                 return drive.toTile(column + row).alongWith(
-                    wait.seconds(1),
-                    lift.to(0)
+                    wait.seconds(2).andThen(lift.to(0))
                 );
             }
         );
