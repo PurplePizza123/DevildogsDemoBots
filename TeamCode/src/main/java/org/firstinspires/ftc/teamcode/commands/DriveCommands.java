@@ -123,6 +123,7 @@ public class DriveCommands extends Commands {
                 o -> o.endX = o.endY = INTAKE_OFFSET,
                 o -> o.set(consumers)
             ).alongWith(
+                wait.seconds(1),
                 lift.toIntake(0)
             )
         );

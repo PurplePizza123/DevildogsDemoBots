@@ -48,8 +48,7 @@ public class IntakeCommands extends Commands {
                 wait.seconds(0),
                 drive.forward(-8),
                 () -> config.auto
-            ),
-            lift.toIntake(offset)
+            )
         );
     }
 }
