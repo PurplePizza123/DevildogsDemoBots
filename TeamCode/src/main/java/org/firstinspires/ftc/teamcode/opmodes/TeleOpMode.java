@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.controllers.DriveController;
 import org.firstinspires.ftc.teamcode.controllers.IntakeController;
-import org.firstinspires.ftc.teamcode.controllers.JunctionController;
 import org.firstinspires.ftc.teamcode.controllers.LiftController;
 
 @TeleOp(name = "Teleop")
@@ -24,7 +23,6 @@ public class TeleOpMode extends OpMode {
         new DriveController(this);
         new LiftController(this);
         new IntakeController(this);
-        new JunctionController(this);
 
         schedule(
             commands.lift.calibrate()

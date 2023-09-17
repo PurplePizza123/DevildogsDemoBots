@@ -12,7 +12,6 @@ import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SelectCommand;
 
 import org.firstinspires.ftc.teamcode.game.Alliance;
-import org.firstinspires.ftc.teamcode.game.Junction;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.hacks.Offsets;
 
@@ -75,77 +74,6 @@ public class DriveCommands extends Commands {
         return drive.toPose(
             subsystems.nav.getTilePose(label),
             consumers
-        );
-    }
-
-    public Command toJunction() {
-        return new SelectCommand(
-            () -> toJunction(config.junction)
-        );
-    }
-
-    public Command toJunctionAuto(String label) {
-        return toJunction(label, o -> o.startTileX = -4);
-    }
-
-    public Command toJunction(String label, Consumer<Offsets>... consumers) {
-        return drive.toPose(
-            subsystems.nav.getJunctionPose(label),
-            o -> o.endX = o.endY = INTAKE_OFFSET,
-            o -> o.set(consumers)
-        ).alongWith(
-            lift.toJunction(Junction.get(label))
-        ).andThen(
-            drive.setDrivePower(0.25)
-        );
-    }
-
-    public Command toStack() {
-        return toStack(config.alliance, config.side, o -> o.endTileX = +5.25);
-    }
-
-    public Command toStackAuto() {
-        return toStack(config.alliance, config.side, o -> o.startTileX = -4);
-    }
-
-    public Command toStackRight() {
-        return toStack(config.alliance, config.alliance == RED ? NORTH : SOUTH);
-    }
-
-    public Command toStackLeft() {
-        return toStack(config.alliance, config.alliance == RED ? SOUTH : NORTH);
-    }
-
-    public Command toStack(Alliance alliance, Side side, Consumer<Offsets>... consumers) {
-        return new SelectCommand(
-            () -> drive.toPose(
-                subsystems.nav.getStackPose(alliance, side),
-                o -> o.endX = o.endY = INTAKE_OFFSET,
-                o -> o.set(consumers)
-            ).alongWith(
-                wait.seconds(1),
-                lift.toIntake(0)
-            )
-        );
-    }
-
-    public Command toSubstation() {
-        return new SelectCommand(
-            () -> drive.toPose(
-                subsystems.nav.getSubstationPose(config.alliance, config.side),
-                o -> o.endX = o.endY = INTAKE_OFFSET
-            ).alongWith(
-                lift.toIntake(0)
-            )
-        );
-    }
-
-    public Command toTerminal(Alliance alliance, Side side) {
-        return drive.toPose(
-            subsystems.nav.getTerminalPose(alliance, side),
-            o -> o.endX = o.endY = INTAKE_OFFSET
-        ).alongWith(
-            lift.toIntake(0)
         );
     }
 

@@ -30,17 +30,5 @@ public class DriveController {
 
         opMode.gamepad1.getGamepadButton(DPAD_UP)
             .whenActive(opMode.commands.drive.setDrivePower(0.75));
-
-        opMode.gamepad1.getGamepadButton(A)
-            .whenActive(opMode.commands.drive.toSubstation());
-
-        opMode.gamepad1.getGamepadButton(Y)
-            .whenActive(opMode.commands.drive.toJunction());
-
-        opMode.gamepad1.getGamepadButton(X)
-            .whenActive(opMode.commands.drive.toStackLeft());
-
-        opMode.gamepad1.getGamepadButton(B)
-            .whenActive(opMode.commands.drive.toStackRight());
     }
 }
