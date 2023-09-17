@@ -22,7 +22,6 @@ import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
-import org.firstinspires.ftc.teamcode.hacks.VuforiaFieldNavigation;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 @Config
@@ -42,7 +41,6 @@ public class DriveSubsystem extends HardwareSubsystem {
     private final MecanumDrive drive;
     private final Odometry odometry;
 
-    private final VuforiaFieldNavigation vuforia;
     private Pose2d navPoseRaw = new Pose2d();
     private Pose2d navPoseAvg = new Pose2d();
     private double[] navPoseSum = new double[4];
@@ -82,8 +80,6 @@ public class DriveSubsystem extends HardwareSubsystem {
         odometry = new Odometry(hardware, telemetry);
 
         odometry.setPoseEstimate(config.pose);
-
-        vuforia = new VuforiaFieldNavigation(hardware.rearWebcam);
     }
 
     @Override
@@ -110,55 +106,11 @@ public class DriveSubsystem extends HardwareSubsystem {
         telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.get(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getDistance());
         telemetry.addData("Drive (RR)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.get(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getDistance());
 
-        vuforia.update();
+        config.lightingCurrent = BLACK;
+        navPoseSum = new double[4];
 
-        if (vuforia.targetVisible) {
-            navPoseRaw = new Pose2d(
-                vuforia.translation.get(0) / mmPerInch,
-                vuforia.translation.get(1) / mmPerInch,
-                vuforia.rotation.thirdAngle
-            );
-
-            if (config.auto && !config.started) {
-                config.alliance = vuforia.targetAlliance;
-                config.side = vuforia.targetSide;
-            }
-
-            double distance = Math.hypot(
-                vuforia.targetPose.getX() - config.pose.getX(),
-                vuforia.targetPose.getY() - config.pose.getY()
-            );
-
-            if (isStill() && (!config.started || distance < TILE_WIDTH * 2)) {
-                navPoseSum[0] += navPoseRaw.getX();
-                navPoseSum[1] += navPoseRaw.getY();
-                navPoseSum[2] += navPoseRaw.getHeading();
-                navPoseSum[3]++;
-
-                if (navPoseSum[3] >= config.navSamples) {
-                    odometry.setPoseEstimate(
-                        config.pose = navPoseAvg = new Pose2d(
-                            navPoseSum[0] / navPoseSum[3],
-                            navPoseSum[1] / navPoseSum[3],
-                            navPoseSum[2] / navPoseSum[3]
-                        )
-                    );
-
-                    vuforia.setCameraPosition();
-
-                    config.lightingCurrent = GREEN;
-                    navPoseSum = new double[4];
-                }
-            }
-        } else {
-            config.lightingCurrent = BLACK;
-            navPoseSum = new double[4];
-        }
-
-         telemetry.addData("Nav (Target)", vuforia.targetName);
-         telemetry.addData("Nav (Count)", vuforia.targetCount);
-         telemetry.addData("Nav (Pose Raw)", navPoseRaw);
-         telemetry.addData("Nav (Pose Avg)", navPoseAvg);
+        telemetry.addData("Nav (Pose Raw)", navPoseRaw);
+        telemetry.addData("Nav (Pose Avg)", navPoseAvg);
     }
 
     public void inputs(double strafe, double forward, double turn) {
