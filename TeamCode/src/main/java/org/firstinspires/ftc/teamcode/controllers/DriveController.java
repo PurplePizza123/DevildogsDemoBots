@@ -22,13 +22,13 @@ public class DriveController {
         );
 
         opMode.gamepad1.getGamepadButton(DPAD_DOWN)
-            .whenActive(opMode.commands.drive.setDrivePower(0.25));
+            .whenActive(opMode.commands.drive.setDrivePower(0.33));
 
         opMode.gamepad1.getGamepadButton(DPAD_LEFT)
             .or(opMode.gamepad1.getGamepadButton(DPAD_RIGHT))
-            .whenActive(opMode.commands.drive.setDrivePower(0.50));
+            .whenActive(opMode.commands.drive.setDrivePower(0.67));
 
         opMode.gamepad1.getGamepadButton(DPAD_UP)
-            .whenActive(opMode.commands.drive.setDrivePower(0.75));
+            .whenActive(opMode.commands.drive.setDrivePower(1.0));
     }
 }

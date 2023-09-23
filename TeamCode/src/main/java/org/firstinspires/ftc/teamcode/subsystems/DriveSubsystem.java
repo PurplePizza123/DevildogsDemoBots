@@ -22,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.hacks.Odometry;
+import org.firstinspires.ftc.teamcode.hacks.OmniDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 @Config
@@ -38,7 +39,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     public static double TILE_WIDTH = 23.5;
     public double power = 0.5;
 
-    private final MecanumDrive drive;
+    private final OmniDrive drive;
 //    private final Odometry odometry;
 
     private Pose2d navPoseRaw = new Pose2d();
@@ -57,7 +58,7 @@ public class DriveSubsystem extends HardwareSubsystem {
             )
         );
 
-        hardware.driveLeftFront.setInverted(true);
+//        hardware.driveLeftFront.setInverted(true);
         hardware.driveLeftRear.setInverted(true);
 
         hardware.drive.setRunMode(RUN_MODE);
@@ -65,7 +66,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
         hardware.drive.resetEncoder();
 
-        drive = new MecanumDrive(
+        drive = new OmniDrive(
             AUTO_INVERT,
             hardware.driveLeftFront,
             hardware.driveRightFront,

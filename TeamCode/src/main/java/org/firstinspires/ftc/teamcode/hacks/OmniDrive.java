@@ -147,16 +147,16 @@ public class OmniDrive extends RobotDrive {
         double theta = input.angle();
 
         double[] wheelSpeeds = new double[4];
-        wheelSpeeds[MotorType.kFrontLeft.value] = Math.sin(theta);
-        wheelSpeeds[MotorType.kFrontRight.value] = Math.cos(theta);
-        wheelSpeeds[MotorType.kBackLeft.value] = Math.cos(theta);
-        wheelSpeeds[MotorType.kBackRight.value] = Math.sin(theta);
+        wheelSpeeds[MotorType.kFrontLeft.value] = Math.cos(theta);
+        wheelSpeeds[MotorType.kFrontRight.value] = Math.sin(theta);
+        wheelSpeeds[MotorType.kBackLeft.value] = Math.sin(theta);
+        wheelSpeeds[MotorType.kBackRight.value] = Math.cos(theta);
 
         normalize(wheelSpeeds, input.magnitude());
 
         wheelSpeeds[MotorType.kFrontLeft.value] += turnSpeed;
-        wheelSpeeds[MotorType.kFrontRight.value] += turnSpeed;
-        wheelSpeeds[MotorType.kBackLeft.value] -= turnSpeed;
+        wheelSpeeds[MotorType.kFrontRight.value] -= turnSpeed;
+        wheelSpeeds[MotorType.kBackLeft.value] += turnSpeed;
         wheelSpeeds[MotorType.kBackRight.value] -= turnSpeed;
 
         normalize(wheelSpeeds);
