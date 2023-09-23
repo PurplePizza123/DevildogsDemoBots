@@ -39,7 +39,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     public double power = 0.5;
 
     private final MecanumDrive drive;
-    private final Odometry odometry;
+//    private final Odometry odometry;
 
     private Pose2d navPoseRaw = new Pose2d();
     private Pose2d navPoseAvg = new Pose2d();
@@ -72,14 +72,14 @@ public class DriveSubsystem extends HardwareSubsystem {
             hardware.driveLeftRear,
             hardware.driveRightRear
         );
+//
+//        hardware.odometryLeft.setDirection(REVERSE);
+//        hardware.odometryRight.setDirection(REVERSE);
+//        hardware.odometryCenter.setDirection(REVERSE);
 
-        hardware.odometryLeft.setDirection(REVERSE);
-        hardware.odometryRight.setDirection(REVERSE);
-        hardware.odometryCenter.setDirection(REVERSE);
+        //odometry = new Odometry(hardware, telemetry);
 
-        odometry = new Odometry(hardware, telemetry);
-
-        odometry.setPoseEstimate(config.pose);
+        //odometry.setPoseEstimate(config.pose);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class DriveSubsystem extends HardwareSubsystem {
         config.pose = getPose();
 
         if (isTilted() || (config.auto && config.timer.seconds() > 29.9)) {
-            odometry.followTrajectorySequenceAsync(null);
+            //odometry.followTrajectorySequenceAsync(null);
             inputs(0,0,0);
         }
 
@@ -115,8 +115,8 @@ public class DriveSubsystem extends HardwareSubsystem {
 
     public void inputs(double strafe, double forward, double turn) {
         if (isTilted()) strafe = forward = turn = 0;
-        if (strafe + forward + turn != 0) odometry.followTrajectorySequenceAsync(null);
-        else if (odometry.isBusy()) return;
+//        if (strafe + forward + turn != 0) odometry.followTrajectorySequenceAsync(null);
+//        else if (odometry.isBusy()) return;
         strafe *= power; forward *= power; turn *= power;
         if (DRIVE_FIELD_CENTRIC) drive.driveFieldCentric(strafe, forward, turn, getYaw(), SQUARE_INPUTS);
         else drive.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
@@ -141,9 +141,9 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public void turn(double heading) {
-        odometry.turnAsync(
-            Math.toRadians(heading)
-        );
+//        odometry.turnAsync(
+//            Math.toRadians(heading)
+//        );
     }
 
     public double getRoll() {
@@ -179,12 +179,13 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public Pose2d getPose() {
-        odometry.update();
-        return odometry.getPoseEstimate();
+//        odometry.update();
+//        return odometry.getPoseEstimate();
+        return new Pose2d();
     }
 
     public void setPose(Pose2d pose) {
-        odometry.setPoseEstimate(pose);
+//        odometry.setPoseEstimate(pose);
     }
 
     public void to(Pose2d[] poses) {
@@ -216,13 +217,14 @@ public class DriveSubsystem extends HardwareSubsystem {
     }
 
     public boolean isBusy(double offset) {
-        return odometry.isBusy(offset);
+//        return odometry.isBusy(offset);
+        return false;
     }
 
     private void followTrajectoryAsync(Consumer<TrajectorySequenceBuilder> consumer) {
-        Pose2d current = getPose();
-        TrajectorySequenceBuilder builder = odometry.trajectorySequenceBuilder(current);
-        consumer.accept(builder);
-        odometry.followTrajectorySequenceAsync(builder.build());
+//        Pose2d current = getPose();
+//        TrajectorySequenceBuilder builder = odometry.trajectorySequenceBuilder(current);
+//        consumer.accept(builder);
+//        odometry.followTrajectorySequenceAsync(builder.build());
     }
 }

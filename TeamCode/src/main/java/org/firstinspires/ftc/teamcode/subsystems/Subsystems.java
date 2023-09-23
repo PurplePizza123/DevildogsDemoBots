@@ -19,12 +19,12 @@ public class Subsystems {
         config = new ConfigSubsystem(hardware, telemetry);
         menu = new MenuSubsystem(hardware, telemetry);
         drive = new DriveSubsystem(hardware, telemetry);
-        lift = new LiftSubsystem(hardware, telemetry);
-        intake = new IntakeSubsystem(hardware, telemetry);
-        rand = new RandSubsystem(hardware, telemetry);
-        nav = new NavSubsystem(hardware, telemetry);
-        light = new LightSubsystem(hardware, telemetry);
-        objects = new ObjectsSubsystem(hardware, telemetry);
+//        lift = new LiftSubsystem(hardware, telemetry);
+//        intake = new IntakeSubsystem(hardware, telemetry);
+//        rand = new RandSubsystem(hardware, telemetry);
+//        nav = new NavSubsystem(hardware, telemetry);
+//        light = new LightSubsystem(hardware, telemetry);
+//        objects = new ObjectsSubsystem(hardware, telemetry);
         periodic = new PeriodicSubsystem(hardware, telemetry);
     }
 }

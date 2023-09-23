@@ -74,31 +74,31 @@ public class Hardware {
         imu = hardwareMap.get(IMU.class, "imu");
 
         drive = new MotorGroup(
-            driveLeftFront = new MotorEx(hardwareMap, "driveLeftFront", RPM_312),
-            driveRightFront = new MotorEx(hardwareMap, "driveRightFront", RPM_312),
-            driveLeftRear = new MotorEx(hardwareMap, "driveLeftRear", RPM_312),
-            driveRightRear = new MotorEx(hardwareMap, "driveRightRear", RPM_312)
+            driveLeftFront = new MotorEx(hardwareMap, "driveLeftFront", RPM_435),
+            driveRightFront = new MotorEx(hardwareMap, "driveRightFront", RPM_435),
+            driveLeftRear = new MotorEx(hardwareMap, "driveLeftRear", RPM_435),
+            driveRightRear = new MotorEx(hardwareMap, "driveRightRear", RPM_435)
         );
 
-        odometryLeft = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryLeft"));
-        odometryRight = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryRight"));
-        odometryCenter = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryCenter"));
-
-        intake = new MotorGroup(
-            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
-            intakeFrontRight = new CRServo(hardwareMap, "intakeFrontRight"),
-            intakeRearLeft = new CRServo(hardwareMap, "intakeRearLeft"),
-            intakeRearRight = new CRServo(hardwareMap, "intakeRearRight")
-        );
-
-        lift = new MotorEx(hardwareMap, "lift", RPM_435);
-        liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
-        liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
-
-        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
-        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
-
-        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
+//        odometryLeft = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryLeft"));
+//        odometryRight = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryRight"));
+//        odometryCenter = new Encoder(hardwareMap.get(DcMotorEx.class, "odometryCenter"));
+//
+//        intake = new MotorGroup(
+//            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
+//            intakeFrontRight = new CRServo(hardwareMap, "intakeFrontRight"),
+//            intakeRearLeft = new CRServo(hardwareMap, "intakeRearLeft"),
+//            intakeRearRight = new CRServo(hardwareMap, "intakeRearRight")
+//        );
+//
+//        lift = new MotorEx(hardwareMap, "lift", RPM_435);
+//        liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
+//        liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
+//
+//        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
+//        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
+//
+//        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
     }
 
     public void clearBulkCache() {

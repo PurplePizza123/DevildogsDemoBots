@@ -21,11 +21,11 @@ public class TeleOpMode extends OpMode {
         waitForStart();
 
         new DriveController(this);
-        new LiftController(this);
-        new IntakeController(this);
+//        new LiftController(this);
+//        new IntakeController(this);
 
-        schedule(
-            commands.lift.calibrate()
-        );
+//        schedule(
+//            commands.lift.calibrate()
+//        );
     }
 }
