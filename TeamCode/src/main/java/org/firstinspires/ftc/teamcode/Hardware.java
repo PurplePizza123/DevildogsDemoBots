@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_312;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 
@@ -10,14 +9,12 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.hacks.MotorEx;
@@ -45,11 +42,10 @@ public class Hardware {
     public Encoder odometryRight;
     public Encoder odometryCenter;
 
-    public MotorGroup intake;
-    public CRServo intakeFrontLeft;
-    public CRServo intakeFrontRight;
-    public CRServo intakeRearLeft;
-    public CRServo intakeRearRight;
+    public MotorGroup conveyor;
+    public CRServo sweeperLeft;
+    public CRServo sweeperRight;
+    public CRServo sweeperCenter;
 
     public MotorEx lift;
     public DigitalChannel liftLeftLimit;

@@ -8,7 +8,8 @@ public class Subsystems {
     public MenuSubsystem menu;
     public DriveSubsystem drive;
     public LiftSubsystem lift;
-    public IntakeSubsystem intake;
+    public ConveyorSubsystem conveyor;
+    public SweeperSubsystem sweeper;
     public RandSubsystem rand;
     public ObjectsSubsystem objects;
     public NavSubsystem nav;
