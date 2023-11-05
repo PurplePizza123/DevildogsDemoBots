@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.teamcode.subsystems.ConveyorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HoistSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ public class Commands {
     public static DriveCommands drive = new DriveCommands();
     public static SweeperCommands sweeper = new SweeperCommands();
     public static DroneCommands drone = new DroneCommands();
+    public static HoistCommands hoist = new HoistCommands();
     public static ConveyorCommands conveyor = new ConveyorCommands();
     public static LiftCommands lift = null; //new LiftCommands();
     public static IntakeCommands intake = new IntakeCommands();

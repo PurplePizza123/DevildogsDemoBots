@@ -38,6 +38,7 @@ public class Hardware {
     public MotorEx driveRightFront;
     public MotorEx driveLeftRear;
     public MotorEx driveRightRear;
+    public MotorEx hoist;
 
     public Encoder odometryLeft;
     public Encoder odometryRight;

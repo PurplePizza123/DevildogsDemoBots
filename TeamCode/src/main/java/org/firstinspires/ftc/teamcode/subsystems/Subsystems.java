@@ -11,6 +11,7 @@ public class Subsystems {
     public ConveyorSubsystem conveyor;
     public SweeperSubsystem sweeper;
     public DroneSubsystem drone;
+    public HoistSubsystem hoist;
     public RandSubsystem rand;
     public ObjectsSubsystem objects;
     public NavSubsystem nav;
