@@ -4,9 +4,8 @@ import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.hacks.Offsets;
@@ -17,14 +16,10 @@ import java.util.Collections;
 import java.util.function.Consumer;
 
 @Config
-public class NavSubsystem extends HardwareSubsystem {
+public class NavSubsystem extends SubsystemBase {
     private static final double TILE_WIDTH = 23.5;
     private static final double TILE_WIDTH_HALF = TILE_WIDTH / 2;
     private static final double ROBOT_LENGTH = 15.25;
-
-    public NavSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
 
     public Pose2d getStartJunction(Alliance alliance, Side side) {
         return new Pose2d(

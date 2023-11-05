@@ -3,16 +3,18 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
-public class DepositCommands extends Commands {
+import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
+
+public class DepositCommands {
     public Command open() {
-        return new InstantCommand(subsystems.deposit::open, subsystems.deposit);
+        return new InstantCommand(Subsystems.deposit::open, Subsystems.deposit);
     }
 
     public Command close() {
-        return new InstantCommand(subsystems.sweeper::out, subsystems.sweeper);
+        return new InstantCommand(Subsystems.sweeper::out, Subsystems.sweeper);
     }
 
     public Command stop() {
-        return new InstantCommand(subsystems.sweeper::stop, subsystems.sweeper);
+        return new InstantCommand(Subsystems.sweeper::stop, Subsystems.sweeper);
     }
 }

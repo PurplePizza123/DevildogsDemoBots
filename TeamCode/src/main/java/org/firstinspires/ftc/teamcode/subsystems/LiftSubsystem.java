@@ -5,25 +5,25 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
-import com.acmerobotics.dashboard.config.Config;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
-public class LiftSubsystem extends HardwareSubsystem {
+public class LiftSubsystem extends SubsystemBase {
     public static double SPOOL_CIRCUMFERENCE = 4.409;
     public static double PULSES_PER_REVOLUTION = 384.5;
     public static double HEIGHT_PER_PULSE = SPOOL_CIRCUMFERENCE / PULSES_PER_REVOLUTION;
     public static double POWER = 1.0;
     public static double MIN = 0;
-    public static double MAX = 33.5; //TODO change max to what max needs to be.
+    public static double MAX = 33.5; // TODO: change max to what max needs to be.
 
     public boolean calibrated = false;
     public double height = MIN;
 
-    public LiftSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
+    public LiftSubsystem() {
         hardware.lift.motor.setMode(RUN_USING_ENCODER);
     }
 

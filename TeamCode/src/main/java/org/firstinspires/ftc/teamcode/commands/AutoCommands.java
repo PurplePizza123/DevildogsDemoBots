@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
-import static org.firstinspires.ftc.teamcode.game.Config.config;
-import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
-import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
+import static org.firstinspires.ftc.teamcode.commands.Commands.auto;
+import static org.firstinspires.ftc.teamcode.commands.Commands.lift;
+import static org.firstinspires.ftc.teamcode.commands.Commands.rand;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.SelectCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-public class AutoCommands extends Commands {
+public class AutoCommands {
     public Command execute() {
         return lift.calibrate().andThen(
             rand.detect(),

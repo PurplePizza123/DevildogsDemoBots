@@ -1,18 +1,13 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
-public class DroneSubsystem extends HardwareSubsystem {
-    public static double POWER = 1;
-
-    public DroneSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
-
+public class DroneSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData(
@@ -22,6 +17,7 @@ public class DroneSubsystem extends HardwareSubsystem {
     }
 
     public void release() {
-        hardware.drone.setPosition(0); //TODO find servo release position
+        // TODO: find servo release position
+        hardware.drone.setPosition(0);
     }
 }

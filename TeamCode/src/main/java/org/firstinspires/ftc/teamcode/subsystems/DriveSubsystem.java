@@ -3,30 +3,26 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
-import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.GREEN;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
-import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.mmPerInch;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
-import static org.firstinspires.ftc.teamcode.roadrunner.util.Encoder.Direction.REVERSE;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
-import org.firstinspires.ftc.teamcode.hacks.Odometry;
 import org.firstinspires.ftc.teamcode.hacks.OmniDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 @Config
-public class DriveSubsystem extends HardwareSubsystem {
+public class DriveSubsystem extends SubsystemBase {
     public static double PULSE_PER_ROTATION = 537.7;
     public static double DISTANCE_PER_ROTATION = 3.78 * Math.PI;
     public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
@@ -46,9 +42,7 @@ public class DriveSubsystem extends HardwareSubsystem {
     private Pose2d navPoseAvg = new Pose2d();
     private double[] navPoseSum = new double[4];
 
-    public DriveSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-
+    public DriveSubsystem() {
         hardware.imu.initialize(
             new IMU.Parameters(
                 new RevHubOrientationOnRobot(

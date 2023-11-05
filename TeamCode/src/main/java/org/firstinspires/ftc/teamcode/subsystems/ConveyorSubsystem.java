@@ -1,17 +1,14 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
-public class ConveyorSubsystem extends HardwareSubsystem {
+public class ConveyorSubsystem extends SubsystemBase {
     public static double POWER = 1;
-
-    public ConveyorSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
 
     @Override
     public void periodic() {

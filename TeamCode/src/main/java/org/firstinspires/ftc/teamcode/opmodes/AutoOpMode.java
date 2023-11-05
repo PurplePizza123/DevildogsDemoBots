@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.auto;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 
-import org.firstinspires.ftc.teamcode.controllers.MenuController;
+import org.firstinspires.ftc.teamcode.controls.MenuControl;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
+import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class AutoOpMode extends OpMode {
     public void initialize(Alliance alliance, Side side) {
@@ -14,22 +16,21 @@ public class AutoOpMode extends OpMode {
         config.side = side;
         config.offsetX = 0;
         config.offsetY = 0;
-        config.stacks = 1;
         config.delay = 0;
         config.navSamples = 50;
 
-        subsystems.drive.setPose(
-            subsystems.nav.getStartPose(alliance, side)
+        Subsystems.drive.setPose(
+            Subsystems.nav.getStartPose(alliance, side)
         );
 
-        subsystems.rand.enable();
+        Subsystems.rand.enable();
 
-        new MenuController(this);
+        new MenuControl();
 
         waitForStart();
 
         schedule(
-            commands.auto.execute()
+            auto.execute()
         );
     }
 }

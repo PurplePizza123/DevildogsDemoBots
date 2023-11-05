@@ -1,34 +1,30 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static com.arcrobotics.ftclib.util.MathUtils.clamp;
-
 import com.acmerobotics.dashboard.config.Config;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
-public class RandSubsystem extends HardwareSubsystem {
-
-    public RandSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
-
+public class RandSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
+        // TODO
     }
 
     public int getDetectionId() {
+        // TODO
         return 0;
     }
 
     public String getDetectionLabel() {
+        // TODO
         return "";
     }
 
     public void enable() {
+        // TODO
     }
 
     public void disable() {
+        // TODO
     }
 }

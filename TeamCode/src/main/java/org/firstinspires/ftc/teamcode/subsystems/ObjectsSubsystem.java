@@ -1,24 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.Hardware;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
-public class ObjectsSubsystem extends HardwareSubsystem {
-
-    private boolean enabled = false;
-
-    public ObjectsSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
-
+public class ObjectsSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
+        // TODO
     }
 
     public void enable() {
+        // TODO
     }
 
     public void disable() {
+        // TODO
     }
 }

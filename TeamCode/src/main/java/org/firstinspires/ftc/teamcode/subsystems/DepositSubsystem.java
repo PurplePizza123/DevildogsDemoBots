@@ -1,18 +1,13 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
-public class DepositSubsystem extends HardwareSubsystem {
-    public static double POWER = 1;
-
-    public DepositSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
-
+public class DepositSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData(
@@ -22,10 +17,12 @@ public class DepositSubsystem extends HardwareSubsystem {
     }
 
     public void open() {
-        hardware.deposit.setPosition(180); //TODO find servo open position
+        // TODO: find servo open position
+        hardware.deposit.setPosition(180);
     }
 
     public void closed() {
-        hardware.deposit.setPosition(0); //TODO find servo closed position
+        // TODO: find servo closed position
+        hardware.deposit.setPosition(0);
     }
 }

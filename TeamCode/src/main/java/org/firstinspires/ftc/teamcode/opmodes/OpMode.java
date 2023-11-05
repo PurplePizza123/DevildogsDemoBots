@@ -12,16 +12,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
-import org.firstinspires.ftc.teamcode.commands.Commands;
-import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public abstract class OpMode extends CommandOpMode {
-    public Telemetry telemetry;
-    public Hardware hardware;
+    public static Telemetry telemetry;
+    public static Hardware hardware;
     public static GamepadEx gamepad1;
     public static GamepadEx gamepad2;
-    public Subsystems subsystems;
-    public Commands commands;
 
     @Override
     public void initialize() {
@@ -35,8 +31,6 @@ public abstract class OpMode extends CommandOpMode {
         hardware = new Hardware(super.hardwareMap);
         gamepad1 = new GamepadEx(super.gamepad1);
         gamepad2 = new GamepadEx(super.gamepad2);
-        subsystems = new Subsystems(hardware, telemetry);
-        commands = new Commands(subsystems);
 
         config.auto = this.getClass().isAnnotationPresent(Autonomous.class);
     }

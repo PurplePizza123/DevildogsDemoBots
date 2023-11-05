@@ -1,20 +1,15 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Hardware;
-
-public class PeriodicSubsystem extends HardwareSubsystem {
+public class PeriodicSubsystem extends SubsystemBase {
     private int periodicCount;
     private ElapsedTime periodicTimer = new ElapsedTime();
     private ElapsedTime runtimeTimer = new ElapsedTime();
-
-    public PeriodicSubsystem(Hardware hardware, Telemetry telemetry) {
-        super(hardware, telemetry);
-    }
 
     @Override
     public void periodic() {

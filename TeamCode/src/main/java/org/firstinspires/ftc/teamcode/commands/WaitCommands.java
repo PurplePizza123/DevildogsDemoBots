@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import java.util.function.BooleanSupplier;
 
-public class WaitCommands extends Commands {
+public class WaitCommands {
     public Command seconds(double value) {
         return milliseconds((long)(value * 1000));
     }

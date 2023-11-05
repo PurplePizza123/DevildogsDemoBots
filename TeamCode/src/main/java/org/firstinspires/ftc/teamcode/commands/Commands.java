@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import org.firstinspires.ftc.teamcode.subsystems.ConveyorSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.HoistSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 import java.util.Arrays;
@@ -20,8 +18,4 @@ public class Commands {
     public static WaitCommands wait = new WaitCommands();
     public static AutoCommands auto = null; //new AutoCommands();
     public static RandCommands rand = null; //new RandCommands();
-
-    public Commands(Subsystems... subsystems) {
-        Commands.subsystems = Arrays.stream(subsystems).findFirst().orElse(null);
-    }
 }

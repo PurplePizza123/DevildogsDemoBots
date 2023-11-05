@@ -17,7 +17,6 @@ public class Config {
     public Side side = NORTH;
     public double offsetX = 0;
     public double offsetY = 0;
-    public int stacks = 1;
     public double delay = 0;
     public String junction = "X3";
     public Pose2d pose = new Pose2d();
