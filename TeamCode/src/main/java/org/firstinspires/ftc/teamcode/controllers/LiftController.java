@@ -28,11 +28,5 @@ public class LiftController {
         new Trigger(() ->
             opMode.gamepad2.getTrigger(RIGHT_TRIGGER) > 0.5
         ).whileActiveContinuous(opMode.commands.lift.change(+0.5));
-
-        opMode.gamepad2.getGamepadButton(X)
-            .whenActive(opMode.commands.lift.toIntake(0));
-
-        opMode.gamepad2.getGamepadButton(A)
-            .whenActive(opMode.commands.lift.toIntake(5));
     }
 }

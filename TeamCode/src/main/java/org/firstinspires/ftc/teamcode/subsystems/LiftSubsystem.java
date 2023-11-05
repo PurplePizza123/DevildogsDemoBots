@@ -17,7 +17,7 @@ public class LiftSubsystem extends HardwareSubsystem {
     public static double HEIGHT_PER_PULSE = SPOOL_CIRCUMFERENCE / PULSES_PER_REVOLUTION;
     public static double POWER = 1.0;
     public static double MIN = 0;
-    public static double MAX = 33.5;
+    public static double MAX = 33.5; //TODO change max to what max needs to be.
 
     public boolean calibrated = false;
     public double height = MIN;
@@ -37,7 +37,7 @@ public class LiftSubsystem extends HardwareSubsystem {
 
         if (calibrated) return;
 
-        boolean isDown = !hardware.liftLeftLimit.getState() || !hardware.liftRightLimit.getState();
+        boolean isDown = !hardware.liftLimit.getState();
 
         if (isDown) {
             hardware.lift.motor.setMode(STOP_AND_RESET_ENCODER);

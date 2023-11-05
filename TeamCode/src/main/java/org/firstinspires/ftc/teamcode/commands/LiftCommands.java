@@ -17,8 +17,4 @@ public class LiftCommands extends Commands {
     public Command to(double height) {
         return new InstantCommand(() -> subsystems.lift.to(height), subsystems.lift);
     }
-
-    public Command toIntake(double offset) {
-        return to(8 + offset);
-    }
 }

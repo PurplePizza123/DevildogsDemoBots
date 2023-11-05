@@ -51,7 +51,7 @@ public class Hardware {
     public Servo drone;
 
     public MotorEx lift;
-    public DigitalChannel liftLeftLimit;
+    public DigitalChannel liftLimit;
     public DigitalChannel liftRightLimit;
 
     public WebcamName frontWebcam;
