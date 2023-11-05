@@ -10,6 +10,7 @@ public class Subsystems {
     public LiftSubsystem lift;
     public ConveyorSubsystem conveyor;
     public SweeperSubsystem sweeper;
+    public DroneSubsystem drone;
     public RandSubsystem rand;
     public ObjectsSubsystem objects;
     public NavSubsystem nav;

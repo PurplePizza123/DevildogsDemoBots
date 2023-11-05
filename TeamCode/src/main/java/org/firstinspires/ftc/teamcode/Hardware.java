@@ -12,6 +12,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -46,6 +47,7 @@ public class Hardware {
     public CRServo sweeperLeft;
     public CRServo sweeperRight;
     public CRServo sweeperCenter;
+    public Servo drone;
 
     public MotorEx lift;
     public DigitalChannel liftLeftLimit;

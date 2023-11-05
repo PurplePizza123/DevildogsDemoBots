@@ -5,14 +5,14 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 
 public class SweeperCommands extends Commands {
     public Command in() {
-        return new InstantCommand(subsystems.conveyor::in, subsystems.conveyor);
+        return new InstantCommand(subsystems.sweeper::in, subsystems.sweeper);
     }
 
     public Command out() {
-        return new InstantCommand(subsystems.conveyor::out, subsystems.conveyor);
+        return new InstantCommand(subsystems.sweeper::out, subsystems.sweeper);
     }
 
     public Command stop() {
-        return new InstantCommand(subsystems.conveyor::stop, subsystems.conveyor);
+        return new InstantCommand(subsystems.sweeper::stop, subsystems.sweeper);
     }
 }

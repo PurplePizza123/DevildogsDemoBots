@@ -10,6 +10,7 @@ public class Commands {
     public static MenuCommands menu = null; //new MenuCommands();
     public static DriveCommands drive = new DriveCommands();
     public static SweeperCommands sweeper = new SweeperCommands();
+    public static DroneCommands drone = new DroneCommands();
     public static ConveyorCommands conveyor = new ConveyorCommands();
     public static LiftCommands lift = null; //new LiftCommands();
     public static IntakeCommands intake = new IntakeCommands();
