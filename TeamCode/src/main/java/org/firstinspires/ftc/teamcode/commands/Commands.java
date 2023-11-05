@@ -12,6 +12,7 @@ public class Commands {
     public static DriveCommands drive = new DriveCommands();
     public static SweeperCommands sweeper = new SweeperCommands();
     public static DroneCommands drone = new DroneCommands();
+    public static DepositCommands deposit = new DepositCommands();
     public static HoistCommands hoist = new HoistCommands();
     public static ConveyorCommands conveyor = new ConveyorCommands();
     public static LiftCommands lift = null; //new LiftCommands();

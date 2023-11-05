@@ -49,6 +49,7 @@ public class Hardware {
     public CRServo sweeperRight;
     public CRServo sweeperCenter;
     public Servo drone;
+    public Servo deposit;
 
     public MotorEx lift;
     public DigitalChannel liftLimit;

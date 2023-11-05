@@ -12,6 +12,7 @@ public class Subsystems {
     public SweeperSubsystem sweeper;
     public DroneSubsystem drone;
     public HoistSubsystem hoist;
+    public DepositSubsystem deposit;
     public RandSubsystem rand;
     public ObjectsSubsystem objects;
     public NavSubsystem nav;
