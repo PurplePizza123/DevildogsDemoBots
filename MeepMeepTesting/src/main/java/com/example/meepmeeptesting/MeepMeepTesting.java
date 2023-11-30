@@ -22,8 +22,8 @@ public class MeepMeepTesting {
     private static final double ROBOT_LENGTH = 12;
     private static final double TRACK_WIDTH = 12;
     private static final double INTAKE_OFFSET = -4.75;
-    private static final double MAX_VEL_ESTIMATE = 86.05382418779843843220805608432562992125984251968503937007874015748031496062992125984251968503937007874016;
     private static final double MAX_VEL = 30;
+    private static final double MAX_VAL_ESTIMATE = ((Math.PI * 96 * 435) / 60) / 25.4;
     private static final double MAX_ACCEL = MAX_VEL;
     private static final double MAX_ANG_VEL = Math.toRadians(200);
     private static final double MAX_ANG_ACCEL = MAX_ANG_VEL;
