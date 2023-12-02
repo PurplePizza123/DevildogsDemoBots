@@ -14,8 +14,8 @@ public class DriveControl {
     public DriveControl() {
         Subsystems.drive.setDefaultCommand(
             drive.input(
-                () -> gamepad1.getLeftX(),
                 () -> gamepad1.getLeftY(),
+                () -> gamepad1.getLeftX(),
                 () -> gamepad1.getRightX()
             )
         );

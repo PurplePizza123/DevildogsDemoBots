@@ -19,8 +19,6 @@ import java.util.regex.Pattern
 
 apply plugin: 'com.android.application'
 
-def useProguard = false
-
 android {
 
     compileSdkVersion 29
@@ -49,9 +47,6 @@ android {
         }
     }
 
-    aaptOptions {
-        noCompress "tflite"
-    }
 
     defaultConfig {
         signingConfig signingConfigs.debug
@@ -59,7 +54,7 @@ android {
         minSdkVersion 24
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
-        multiDexEnabled !useProguard
+        multiDexEnabled true
 
         /**
          * We keep the versionCode and versionName of robot controller applications in sync with
@@ -96,28 +91,14 @@ android {
             signingConfig signingConfigs.release
 
             ndk {
-                abiFilters "armeabi-v7a"
-            }
-
-            if (useProguard) {
-                minifyEnabled true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                        'proguard-rules.pro'
-                println(getProguardFiles())
+                abiFilters "armeabi-v7a", "arm64-v8a"
             }
         }
         debug {
             debuggable true
             jniDebuggable true
             ndk {
-                abiFilters "armeabi-v7a"
-            }
-
-            if (useProguard) {
-                minifyEnabled true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                        'proguard-rules.pro'
-                println(getProguardFiles())
+                abiFilters "armeabi-v7a", "arm64-v8a"
             }
         }
     }
@@ -127,9 +108,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    packagingOptions {
-        pickFirst '**/*.so'
-    }
     sourceSets.main {
         jni.srcDirs = []
         jniLibs.srcDir rootProject.file('libs')

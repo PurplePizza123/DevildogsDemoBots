@@ -2,20 +2,25 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
-import java.util.Arrays;
-
 public class Commands {
     public static Subsystems subsystems;
-    public static MenuCommands menu = null; //new MenuCommands();
-    public static DriveCommands drive = new DriveCommands();
-    public static SweeperCommands sweeper = new SweeperCommands();
-    public static DroneCommands drone = new DroneCommands();
-    public static DepositCommands deposit = new DepositCommands();
-    public static HoistCommands hoist = new HoistCommands();
-    public static ConveyorCommands conveyor = new ConveyorCommands();
-    public static LiftCommands lift = null; //new LiftCommands();
-    public static IntakeCommands intake = new IntakeCommands();
-    public static WaitCommands wait = new WaitCommands();
-    public static AutoCommands auto = null; //new AutoCommands();
-    public static RandCommands rand = null; //new RandCommands();
+    public static MenuCommands menu;
+    public static DriveCommands drive;
+    public static SweeperCommands sweeper;
+    public static DroneCommands drone;
+    public static DepositCommands deposit;
+    public static HoistCommands hoist;
+    public static ConveyorCommands conveyor;
+    public static LiftCommands lift;
+    public static IntakeCommands intake;
+    public static WaitCommands wait;
+    public static AutoCommands auto;
+    public static RandCommands rand;
+
+    public static void initialize() {
+        menu = new MenuCommands();
+        drive = new DriveCommands();
+        wait = new WaitCommands();
+        auto = new AutoCommands();
+    }
 }

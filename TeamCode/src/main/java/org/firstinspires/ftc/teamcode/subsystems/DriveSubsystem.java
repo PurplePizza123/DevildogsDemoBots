@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
-import static com.arcrobotics.ftclib.hardware.motors.Motor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
@@ -10,83 +9,55 @@ import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.hardware.lynx.LynxModule;
 
-import org.firstinspires.ftc.robotcore.external.Consumer;
-import org.firstinspires.ftc.teamcode.hacks.OmniDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
+import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
+import org.firstinspires.ftc.teamcode.adaptations.roadrunner.Trajectory;
+
+import java.util.function.Consumer;
 
 @Config
 public class DriveSubsystem extends SubsystemBase {
     public static double PULSE_PER_ROTATION = 537.7;
     public static double DISTANCE_PER_ROTATION = 3.78 * Math.PI;
     public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
-    public static Motor.RunMode RUN_MODE = RawPower;
-    public static boolean DRIVE_FIELD_CENTRIC = false;
-    public static boolean SQUARE_INPUTS = false;
-    public static boolean AUTO_INVERT = false;
     public static double ALLOWABLE_TILT = 10;
     public static double ALLOWABLE_STILL = 1.0;
-    public static double TILE_WIDTH = 23.5;
     public double power = 0.5;
 
-    private final OmniDrive drive;
-//    private final Odometry odometry;
+    private Action trajectoryAction = null;
 
-    private Pose2d navPoseRaw = new Pose2d();
-    private Pose2d navPoseAvg = new Pose2d();
-    private double[] navPoseSum = new double[4];
+    private final OmniDrive drive;
 
     public DriveSubsystem() {
-        hardware.imu.initialize(
-            new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-                )
-            )
-        );
+        for (LynxModule module : hardware.modules) {
+            module.setBulkCachingMode(MANUAL);
+        }
 
-//        hardware.driveLeftFront.setInverted(true);
-        hardware.driveLeftRear.setInverted(true);
-
-        hardware.drive.setRunMode(RUN_MODE);
-        hardware.drive.setZeroPowerBehavior(BRAKE);
-        hardware.drive.setDistancePerPulse(DISTANCE_PER_PULSE);
-        hardware.drive.resetEncoder();
-
-        drive = new OmniDrive(
-            AUTO_INVERT,
-            hardware.driveLeftFront,
-            hardware.driveRightFront,
-            hardware.driveLeftRear,
-            hardware.driveRightRear
-        );
-//
-//        hardware.odometryLeft.setDirection(REVERSE);
-//        hardware.odometryRight.setDirection(REVERSE);
-//        hardware.odometryCenter.setDirection(REVERSE);
-
-        //odometry = new Odometry(hardware, telemetry);
-
-        //odometry.setPoseEstimate(config.pose);
+        drive = new OmniDrive(config.pose);
     }
 
     @Override
     public void periodic() {
         hardware.clearBulkCache();
 
-        config.pose = getPose();
-
         if (isTilted() || (config.auto && config.timer.seconds() > 29.9)) {
-            //odometry.followTrajectorySequenceAsync(null);
+            trajectoryAction = null;
             inputs(0,0,0);
         }
+
+        if (trajectoryAction != null) {
+            if (!trajectoryAction.run(
+                new TelemetryPacket()
+            )) trajectoryAction = null;
+        }
+
+        config.pose = getPose();
 
         telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
         telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate()));
@@ -96,49 +67,20 @@ public class DriveSubsystem extends SubsystemBase {
 
         telemetry.addData("Drive (Pose)", config.pose.toString());
 
-        telemetry.addData("Drive (LF)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftFront.get(), hardware.driveLeftFront.getCurrentPosition(), hardware.driveLeftFront.getDistance());
-        telemetry.addData("Drive (RF)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightFront.get(), hardware.driveRightFront.getCurrentPosition(), hardware.driveRightFront.getDistance());
-        telemetry.addData("Drive (LR)", "%.2f pow, %d pos, %.2f dist", hardware.driveLeftRear.get(), hardware.driveLeftRear.getCurrentPosition(), hardware.driveLeftRear.getDistance());
-        telemetry.addData("Drive (RR)", "%.2f pow, %d pos, %.2f dist", hardware.driveRightRear.get(), hardware.driveRightRear.getCurrentPosition(), hardware.driveRightRear.getDistance());
+        telemetry.addData("Drive (FL)", "%.2f pow, %d pos, %.2f dist", hardware.driveFrontLeft.get(), hardware.driveFrontLeft.getCurrentPosition(), hardware.driveFrontLeft.getCurrentPosition() * DISTANCE_PER_PULSE);
+        telemetry.addData("Drive (FR)", "%.2f pow, %d pos, %.2f dist", hardware.driveFrontRight.get(), hardware.driveFrontRight.getCurrentPosition(), hardware.driveFrontRight.getCurrentPosition() * DISTANCE_PER_PULSE);
+        telemetry.addData("Drive (BL)", "%.2f pow, %d pos, %.2f dist", hardware.driveBackLeft.get(), hardware.driveBackLeft.getCurrentPosition(), hardware.driveBackLeft.getCurrentPosition() * DISTANCE_PER_PULSE);
+        telemetry.addData("Drive (BR)", "%.2f pow, %d pos, %.2f dist", hardware.driveBackRight.get(), hardware.driveBackRight.getCurrentPosition(), hardware.driveBackRight.getCurrentPosition() * DISTANCE_PER_PULSE);
 
         config.lightingCurrent = BLACK;
-        navPoseSum = new double[4];
-
-        telemetry.addData("Nav (Pose Raw)", navPoseRaw);
-        telemetry.addData("Nav (Pose Avg)", navPoseAvg);
     }
 
-    public void inputs(double strafe, double forward, double turn) {
-        if (isTilted()) strafe = forward = turn = 0;
-//        if (strafe + forward + turn != 0) odometry.followTrajectorySequenceAsync(null);
-//        else if (odometry.isBusy()) return;
-        strafe *= power; forward *= power; turn *= power;
-        if (DRIVE_FIELD_CENTRIC) drive.driveFieldCentric(strafe, forward, turn, getYaw(), SQUARE_INPUTS);
-        else drive.driveRobotCentric(strafe, forward, turn, SQUARE_INPUTS);
-    }
-
-    public void strafe(double distance) {
-        followTrajectoryAsync(
-            builder -> {
-                if (distance < 0) builder.strafeLeft(-distance);
-                else builder.strafeRight(distance);
-            }
-        );
-    }
-
-    public void forward(double distance) {
-        followTrajectoryAsync(
-            builder -> {
-                if (distance < 0) builder.back(-distance);
-                else builder.forward(distance);
-            }
-        );
-    }
-
-    public void turn(double heading) {
-//        odometry.turnAsync(
-//            Math.toRadians(heading)
-//        );
+    public void inputs(double forward, double strafe, double turn) {
+        if (isTilted()) forward = strafe = turn = 0;
+        if (forward + strafe + turn != 0) trajectoryAction = null;
+        else if (isBusy()) return;
+        forward *= power; strafe *= power; turn *= power;
+        drive.setDrivePowers(forward, -strafe, -turn);
     }
 
     public double getRoll() {
@@ -174,52 +116,22 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-//        odometry.update();
-//        return odometry.getPoseEstimate();
-        return new Pose2d();
+        return drive.pose;
     }
 
     public void setPose(Pose2d pose) {
-//        odometry.setPoseEstimate(pose);
+        drive.pose = pose;
     }
 
-    public void to(Pose2d[] poses) {
-        followTrajectoryAsync(
-            builder -> {
-                for (int i = 1; i < poses.length; i++) {
-                    Pose2d prev = poses[i - 1];
-                    Pose2d curr = poses[i];
-
-                    double distance = Math.hypot(
-                        prev.getX() - curr.getX(),
-                        prev.getY() - curr.getY()
-                    );
-
-                    double remainder = curr.getHeading() - prev.getHeading();
-                    if (remainder > +Math.PI) remainder -= Math.PI * 2;
-                    if (remainder < -Math.PI) remainder += Math.PI * 2;
-
-                    if (remainder > +Math.PI * 0.9 || remainder < -Math.PI * 0.9) {
-                        curr = poses[i] = new Pose2d(curr.getX(), curr.getY(), prev.getHeading());
-                        builder.lineToConstantHeading(new Vector2d(curr.getX(), curr.getY()));
-                    } else {
-                        builder.turn(remainder);
-                        builder.lineToLinearHeading(curr);
-                    }
-                }
-            }
-        );
+    public boolean isBusy() {
+        return trajectoryAction != null;
     }
 
-    public boolean isBusy(double offset) {
-//        return odometry.isBusy(offset);
-        return false;
-    }
-
-    private void followTrajectoryAsync(Consumer<TrajectorySequenceBuilder> consumer) {
-//        Pose2d current = getPose();
-//        TrajectorySequenceBuilder builder = odometry.trajectorySequenceBuilder(current);
-//        consumer.accept(builder);
-//        odometry.followTrajectorySequenceAsync(builder.build());
+    public void followTrajectoryAsync(Consumer<Trajectory> consumer) {
+        Pose2d current = getPose();
+        TrajectoryActionBuilder builder = drive.actionBuilder(current);
+        Trajectory trajectory = new Trajectory(builder);
+        consumer.accept(trajectory);
+        trajectoryAction = trajectory.builder.build();
     }
 }

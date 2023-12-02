@@ -13,7 +13,6 @@ public class TeleOpMode extends OpMode {
     public void initialize() {
         super.initialize();
 
-        config.junction = "X3";
         config.navSamples = 20;
 
         waitForStart();
@@ -23,7 +22,7 @@ public class TeleOpMode extends OpMode {
 //        new IntakeController();
 
 //        schedule(
-//            commands.lift.calibrate()
+//            lift.calibrate()
 //        );
     }
 }

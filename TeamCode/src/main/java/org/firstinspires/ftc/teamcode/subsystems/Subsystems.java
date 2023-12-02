@@ -1,18 +1,26 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 public class Subsystems {
-    public static ConfigSubsystem config = new ConfigSubsystem();
-    public static MenuSubsystem menu = new MenuSubsystem();
-    public static DriveSubsystem drive = new DriveSubsystem();
-    public static LiftSubsystem lift = new LiftSubsystem();
-    public static ConveyorSubsystem conveyor = new ConveyorSubsystem();
-    public static SweeperSubsystem sweeper = new SweeperSubsystem();
-    public static DroneSubsystem drone = new DroneSubsystem();
-    public static HoistSubsystem hoist = new HoistSubsystem();
-    public static DepositSubsystem deposit = new DepositSubsystem();
-    public static RandSubsystem rand = new RandSubsystem();
-    public static ObjectsSubsystem objects = new ObjectsSubsystem();
-    public static NavSubsystem nav = new NavSubsystem();
-    public static LightSubsystem light = new LightSubsystem();
-    public static PeriodicSubsystem periodic = new PeriodicSubsystem();
+    public static ConfigSubsystem config;
+    public static MenuSubsystem menu;
+    public static DriveSubsystem drive;
+    public static LiftSubsystem lift;
+    public static ConveyorSubsystem conveyor;
+    public static SweeperSubsystem sweeper;
+    public static DroneSubsystem drone;
+    public static HoistSubsystem hoist;
+    public static DepositSubsystem deposit;
+    public static RandSubsystem rand;
+    public static ObjectsSubsystem objects;
+    public static NavSubsystem nav;
+    public static LightSubsystem light;
+    public static PeriodicSubsystem periodic;
+
+    public static void initialize() {
+        menu = new MenuSubsystem();
+        drive = new DriveSubsystem();
+        nav = new NavSubsystem();
+        rand = new RandSubsystem();
+        periodic = new PeriodicSubsystem();
+    }
 }
