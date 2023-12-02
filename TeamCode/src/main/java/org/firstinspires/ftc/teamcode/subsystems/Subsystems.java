@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import org.checkerframework.checker.units.qual.C;
+
 public class Subsystems {
     public static ConfigSubsystem config;
     public static MenuSubsystem menu;
@@ -22,5 +24,8 @@ public class Subsystems {
         nav = new NavSubsystem();
         rand = new RandSubsystem();
         periodic = new PeriodicSubsystem();
+        drone = new DroneSubsystem();
+        conveyor = new ConveyorSubsystem();
+        sweeper = new SweeperSubsystem();
     }
 }

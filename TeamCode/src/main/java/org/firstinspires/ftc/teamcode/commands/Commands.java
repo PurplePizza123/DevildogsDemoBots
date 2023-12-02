@@ -22,5 +22,9 @@ public class Commands {
         drive = new DriveCommands();
         wait = new WaitCommands();
         auto = new AutoCommands();
+        drone = new DroneCommands();
+        intake = new IntakeCommands();
+        conveyor = new ConveyorCommands();
+        sweeper = new SweeperCommands();
     }
 }

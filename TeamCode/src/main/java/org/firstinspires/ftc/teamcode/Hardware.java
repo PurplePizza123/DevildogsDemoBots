@@ -43,11 +43,11 @@ public class Hardware {
     public MotorEx driveBackRight;
 
     public MotorEx hoist;
+    public MotorEx conveyor;
+
 
     public Encoder odometryRight;
     public Encoder odometryCenter;
-
-    public MotorGroup conveyor;
 
     public CRServo sweeperLeft;
     public CRServo sweeperRight;
@@ -84,7 +84,11 @@ public class Hardware {
 
         odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRight")));
         odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
-//
+
+        drone = hardwareMap.get(Servo.class, "drone");
+
+        conveyor = new MotorEx(hardwareMap, "conveyor", RPM_435);
+
 //        intake = new MotorGroup(
 //            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
 //            intakeFrontRight = new CRServo(hardwareMap, "intakeFrontRight"),

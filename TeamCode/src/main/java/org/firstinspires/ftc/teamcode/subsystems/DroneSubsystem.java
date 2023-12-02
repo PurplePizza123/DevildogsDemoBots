@@ -18,6 +18,6 @@ public class DroneSubsystem extends SubsystemBase {
 
     public void release() {
         // TODO: find servo release position
-        hardware.drone.setPosition(0);
+        hardware.drone.setPosition(.45);
     }
 }

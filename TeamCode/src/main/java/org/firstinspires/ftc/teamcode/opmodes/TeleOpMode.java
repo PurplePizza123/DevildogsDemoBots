@@ -5,6 +5,8 @@ import static org.firstinspires.ftc.teamcode.game.Config.config;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.controls.DriveControl;
+import org.firstinspires.ftc.teamcode.controls.DroneControl;
+import org.firstinspires.ftc.teamcode.controls.IntakeControl;
 
 @TeleOp(name = "Teleop")
 @SuppressWarnings("unused")
@@ -18,6 +20,8 @@ public class TeleOpMode extends OpMode {
         waitForStart();
 
         new DriveControl();
+        new DroneControl();
+        new IntakeControl();
 //        new LiftController();
 //        new IntakeController();
 

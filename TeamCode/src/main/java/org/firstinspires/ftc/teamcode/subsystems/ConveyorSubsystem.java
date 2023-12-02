@@ -1,29 +1,42 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 public class ConveyorSubsystem extends SubsystemBase {
     public static double POWER = 1;
 
+    private boolean pressed = false;
+
+    public ConveyorSubsystem() {
+        hardware.conveyor.motor.setMode(RUN_WITHOUT_ENCODER);
+        hardware.conveyor.motor.setDirection(REVERSE);
+    }
+
     @Override
     public void periodic() {
-        telemetry.addData("Conveyor", "%.2f vel", hardware.conveyor.get());
+        telemetry.addData("Conveyor", "%.2f vel, pressed: %s", hardware.conveyor.get(), pressed);
     }
 
     public void in() {
+        pressed = true;
         hardware.conveyor.set(+POWER);
     }
 
     public void out() {
+        pressed = true;
         hardware.conveyor.set(-POWER);
     }
 
     public void stop() {
+        pressed = false;
         hardware.conveyor.set(0);
     }
 }
