@@ -14,6 +14,10 @@ public class Trajectory {
         builder = builder.splineTo(pose.position, pose.heading);
     }
 
+    public void strafeTo(Pose2d pose) {
+        builder = builder.strafeTo(pose.position);
+    }
+
     public void strafeToSplineHeading(Pose2d pose) {
         builder = builder.strafeToSplineHeading(pose.position, pose.heading);
     }

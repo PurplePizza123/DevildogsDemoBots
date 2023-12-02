@@ -67,8 +67,8 @@ public final class OmniDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 100 / ((34526.0 + 33927.0 + 33911.0 + 33941.0) / 3);
-        public double lateralInPerTick = 100 / ((34526.0 + 33927.0 + 33911.0 + 33941.0) / 3);
+        public double inPerTick = 100 / ((33927.0 + 33911.0 + 33941.0) / 3);
+        public double lateralInPerTick = 100 / ((33927.0 + 33911.0 + 33941.0) / 3);
         public double trackWidthTicks = (1567.127256012933 + 1542.3933333227787 + 1523.1613213886737) / 3;
 
         // feedforward parameters (in tick units)

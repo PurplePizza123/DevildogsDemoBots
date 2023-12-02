@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
@@ -25,6 +28,44 @@ public class DriveCommands {
                 strafe.getAsDouble(),
                 turn.getAsDouble()
             ), Subsystems.drive
+        );
+    }
+
+    public Command temp() {
+        return drive.follow(
+            t -> t.strafeTo(
+                new Pose2d(23.5 * 2, 23.5 * -3 + 6, Math.toRadians(90))
+            )
+        ).andThen(
+            wait.seconds(3),
+            drive.follow(
+                t -> t.strafeTo(
+                    new Pose2d(23.5 * 2, 0, Math.toRadians(90))
+                )
+            )
+        ).andThen(
+            wait.seconds(3),
+            drive.follow(
+                t -> t.strafeTo(
+                    new Pose2d(0, 0, Math.toRadians(90))
+                )
+            )
+        );
+    }
+
+    public Command toSpikeMark() {
+        return drive.follow(
+            t -> t.strafeTo(
+                nav.getSpikeMarkPose(0)
+            )
+        );
+    }
+
+    public Command toSpikeMarkTile() {
+        return drive.follow(
+                t -> t.strafeTo(
+                        nav.getSpikeMarkTilePose()
+                )
         );
     }
 

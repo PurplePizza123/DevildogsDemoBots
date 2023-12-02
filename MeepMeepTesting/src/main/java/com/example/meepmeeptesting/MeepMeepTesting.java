@@ -77,7 +77,7 @@ public class MeepMeepTesting {
     public static void execute() {
         scorePurplePixel();
         scoreYellowPixel();
-        scoreStack(3);
+        scoreStack(0);
         park();
     }
 
@@ -102,7 +102,16 @@ public class MeepMeepTesting {
     }
 
     public static void park() {
+        toPoseStrafe(getParkPose(), true);
+    }
 
+    public static Pose2d getParkPose() {
+        return createPose(
+            2 * TILE_WIDTH,
+            TILE_WIDTH * 2.5 * alliance.sign, //add ability to change sides of zone
+            Math.toRadians(0),
+            Axial.BACK
+        );
     }
 
     public static Pose2d getStackPose() {

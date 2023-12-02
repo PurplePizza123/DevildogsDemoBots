@@ -1,16 +1,19 @@
 package org.firstinspires.ftc.teamcode.adaptations.roadrunner.tuning;
 
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.TankDrive;
 
-@Disabled
+//@Disabled
 public final class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -35,6 +38,7 @@ public final class SplineTest extends LinearOpMode {
                             .splineTo(new Vector2d(60, 0), Math.PI)
                             .build());
         } else if (TuningOpModes.DRIVE_CLASS.equals(OmniDrive.class)) {
+            hardware = new Hardware(hardwareMap);
             OmniDrive drive = new OmniDrive(new Pose2d(0, 0, 0));
 
             waitForStart();
