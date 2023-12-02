@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
@@ -39,7 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
             module.setBulkCachingMode(MANUAL);
         }
 
-        drive = new OmniDrive(config.pose);
+        drive = new OmniDrive(hardwareMap, config.pose);
     }
 
     @Override

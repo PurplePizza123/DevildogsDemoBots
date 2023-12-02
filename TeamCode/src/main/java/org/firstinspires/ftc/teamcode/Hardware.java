@@ -67,7 +67,7 @@ public class Hardware {
     public RevBlinkinLedDriver lights;
 
     public Hardware(HardwareMap hardwareMap) {
-        LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
+        //LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         modules = hardwareMap.getAll(LynxModule.class);
 

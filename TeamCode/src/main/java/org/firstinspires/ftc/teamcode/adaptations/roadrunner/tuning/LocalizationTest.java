@@ -57,7 +57,7 @@ public class LocalizationTest extends LinearOpMode {
                 telemetry.update();
             }
         } else if (TuningOpModes.DRIVE_CLASS.equals(OmniDrive.class)) {
-            OmniDrive drive = new OmniDrive(new Pose2d(0, 0, 0));
+            OmniDrive drive = new OmniDrive(hardwareMap, new Pose2d(0, 0, 0));
 
             waitForStart();
 

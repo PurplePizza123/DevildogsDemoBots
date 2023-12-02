@@ -10,6 +10,10 @@ public class Trajectory {
         this.builder = builder;
     }
 
+    public void turnTo(double heading) {
+        builder = builder.turnTo(heading);
+    }
+
     public void splineTo(Pose2d pose) {
         builder = builder.splineTo(pose.position, pose.heading);
     }

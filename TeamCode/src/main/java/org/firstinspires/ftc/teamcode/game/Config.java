@@ -19,6 +19,7 @@ public class Config {
     public double offsetY = 0;
     public double delay = 0;
     public int stacks = 1;
+    public int detection = 0;
     public Pose2d pose = new Pose2d(0, 0, 0);
     public transient RevBlinkinLedDriver.BlinkinPattern lightingDefault = BLACK;
     public transient RevBlinkinLedDriver.BlinkinPattern lightingCurrent = BLACK;

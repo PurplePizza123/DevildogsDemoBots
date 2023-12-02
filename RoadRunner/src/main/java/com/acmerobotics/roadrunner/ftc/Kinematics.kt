@@ -45,9 +45,9 @@ data class OmniKinematics @JvmOverloads constructor(
     fun <Param> forward(w: WheelIncrements<Param>) = Twist2dDual(
             Vector2dDual(
                 (w.leftBack + w.rightFront) * 0.5,
-                (w.leftFront + w.rightBack) * 0.5,
+                (w.leftFront + w.rightBack) * (0.5 / lateralMultiplier),
             ),
-            (w.leftFront - w.leftBack - w.rightBack + w.rightFront) * 0.25 / trackWidth,
+            (w.leftFront - w.leftBack - w.rightBack + w.rightFront) * (0.25 / trackWidth),
     )
 
     data class WheelVelocities<Param>(

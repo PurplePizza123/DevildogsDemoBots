@@ -21,17 +21,18 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
-                side.sign * (side == NORTH ? 0.5 : 1.5) * TILE_WIDTH,
-                alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2),
-                alliance.sign * Math.toRadians(-90)
+            side.sign * (side == NORTH ? 0.5 : 1.5) * TILE_WIDTH,
+            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2),
+            alliance.sign * Math.toRadians(-90)
         );
     }
 
     public Pose2d getSpikeMarkPose(int detection) {
         return createPose(
-                ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - config.alliance.sign * detection * TILE_WIDTH_HALF,
-                config.alliance.sign * (detection == 0 ? 1 : 1.25) * TILE_WIDTH,
-                Math.toRadians(config.alliance.sign * -90 - 45 * detection)
+            ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - config.alliance.sign * detection * TILE_WIDTH_HALF,
+            config.alliance.sign * (detection == 0 ? 1 : 1.25) * TILE_WIDTH,
+            Math.toRadians(config.alliance.sign * -90 - 45 * detection),
+            Axial.FRONT
         );
     }
 
@@ -39,7 +40,35 @@ public class NavSubsystem extends SubsystemBase {
         return createPose(
             ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH),
             config.alliance.sign * 1.5 * TILE_WIDTH,
-            Math.toRadians(0)
+            Math.toRadians(config.alliance.sign * -90),
+            Axial.CENTER
+        );
+    }
+
+    public Pose2d getSpikeMarkTilePose2() {
+        return createPose(
+            ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH),
+            config.alliance.sign * 1.5 * TILE_WIDTH,
+            Math.toRadians(0),
+            Axial.CENTER
+        );
+    }
+
+    public Pose2d getBackdropPose(int detection) {
+        return createPose(
+            TILE_WIDTH * 2.4,
+            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH,
+            Math.toRadians(0),
+            Axial.FRONT
+        );
+    }
+
+    public Pose2d getParkingPose() {
+        return createPose(
+            TILE_WIDTH * 2.4,
+            config.alliance.sign * (config.side == NORTH ? 2.5 : 0.5) * TILE_WIDTH,
+            Math.toRadians(0),
+            Axial.FRONT
         );
     }
 
@@ -106,5 +135,4 @@ public class NavSubsystem extends SubsystemBase {
         if (heading < -Math.PI) heading += Math.PI * 2;
         return heading;
     }
-
 }

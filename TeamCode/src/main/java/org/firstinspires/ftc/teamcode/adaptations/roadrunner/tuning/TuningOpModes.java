@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.adaptations.roadrunner.tuning;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
 import com.acmerobotics.roadrunner.MotorFeedforward;
@@ -22,6 +25,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
+import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.TankDrive;
@@ -48,7 +52,7 @@ public final class TuningOpModes {
                 .build();
     }
 
-    @OpModeRegistrar
+    //@OpModeRegistrar
     public static void register(OpModeManager manager) {
         if (DISABLED) return;
 
@@ -149,7 +153,7 @@ public final class TuningOpModes {
             };
         } else if (DRIVE_CLASS.equals(OmniDrive.class)) {
             dvf = hardwareMap -> {
-                OmniDrive od = new OmniDrive(new Pose2d(0, 0, 0));
+                OmniDrive od = new OmniDrive(hardwareMap, new Pose2d(0, 0, 0));
 
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
@@ -240,7 +244,7 @@ public final class TuningOpModes {
                                 od.rightFront,
                                 od.rightFront
                         ),*/
-                        /*// Omnibot ForwardRampLogger replacement of LateralRampLogger (dead-wheels)
+                        /*// Omnibot LateralRampLogger (dead-wheels)
                         Arrays.asList(
                                 od.leftFront,
                                 od.leftFront
@@ -283,6 +287,8 @@ public final class TuningOpModes {
 
         manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
         manager.register(metaForClass(SplineTest.class), SplineTest.class);
+        manager.register(metaForClass(StrafeTest.class), StrafeTest.class);
+        manager.register(metaForClass(TurnTest.class), TurnTest.class);
         manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
 
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {

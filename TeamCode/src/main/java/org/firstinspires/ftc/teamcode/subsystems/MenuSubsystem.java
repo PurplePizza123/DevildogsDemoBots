@@ -11,12 +11,14 @@ public class MenuSubsystem extends SubsystemBase {
         if (!config.auto) return;
 
         telemetry.addData(
-            "Menu", "%s %s, %.1fx, %.1fy, %.1fs delay",
+            "Menu", "%s %s, %.1fx, %.1fy, %.1fs delay, stacks: %d, detection: %d",
             config.alliance,
             config.side,
             config.offsetX,
             config.offsetY,
-            config.delay
+            config.delay,
+            config.stacks,
+            config.detection
         );
     }
 }

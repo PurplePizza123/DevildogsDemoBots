@@ -25,7 +25,7 @@ public class MeepMeepTesting {
     private static final double MAX_VEL = 30;
     private static final double MAX_VAL_ESTIMATE = ((Math.PI * 96 * 435) / 60) / 25.4;
     private static final double MAX_ACCEL = MAX_VEL;
-    private static final double MAX_ANG_VEL = Math.toRadians(200);
+    private static final double MAX_ANG_VEL = Math.toRadians(360);
     private static final double MAX_ANG_ACCEL = MAX_ANG_VEL;
     private static final double START_TO_START_TILE_MIN = 6;
 
@@ -77,7 +77,7 @@ public class MeepMeepTesting {
     public static void execute() {
         scorePurplePixel();
         scoreYellowPixel();
-        scoreStack(0);
+        scoreStack(1);
         park();
     }
 
@@ -87,7 +87,7 @@ public class MeepMeepTesting {
         );
 
         toPoseStrafe(
-            getSpikeMarkTransitionPose(), false
+            getSpikeMarkTilePose(), false
         );
     }
     public static void scoreYellowPixel() {
@@ -102,32 +102,23 @@ public class MeepMeepTesting {
     }
 
     public static void park() {
-        toPoseStrafe(getParkPose(), true);
-    }
-
-    public static Pose2d getParkPose() {
-        return createPose(
-            2 * TILE_WIDTH,
-            TILE_WIDTH * 2.5 * alliance.sign, //add ability to change sides of zone
-            Math.toRadians(0),
-            Axial.BACK
-        );
+        toPoseStrafe(getParkPose(), false);
     }
 
     public static Pose2d getStackPose() {
         return createPose(
-            TILE_WIDTH * -3,
-            (alliance == RED ? -TILE_WIDTH_HALF - TILE_WIDTH : TILE_WIDTH_HALF + TILE_WIDTH),
+            -3 * TILE_WIDTH,
+            alliance.sign * 1.5 * TILE_WIDTH,
             Math.toRadians(180),
             Axial.FRONT
         ); // TODO: based on driver 2 sticks change out of the 6 different stacks by going side to side.
-           // change y to change by alliance 23.5
+        // change y to change by alliance 23.5
     }
 
     public static Pose2d getSpikeMarkPose() {
         return createPose(
             ((side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - alliance.sign * detection * TILE_WIDTH_HALF,
-            alliance.sign * (detection == 0 ? 1 : 1.25) * TILE_WIDTH,
+            alliance.sign * (detection == 0 ? 1 : 1.1) * TILE_WIDTH,
             Math.toRadians(alliance.sign * -90 - 45 * detection),
             Axial.FRONT
         );
@@ -168,12 +159,12 @@ public class MeepMeepTesting {
         );
     }
 
-    public static Pose2d getSpikeMarkTransitionPose() {
+    public static Pose2d getSpikeMarkTilePose() {
         return createPose(
-            ((side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - TILE_WIDTH_HALF,
-            alliance.sign * 1.75 * TILE_WIDTH,
-            Math.toRadians(alliance.sign * -35),
-            Axial.BACK
+            (side == NORTH ? 0.5 : -1.5) * TILE_WIDTH,
+            alliance.sign * 1.5 * TILE_WIDTH,
+            Math.toRadians(0),
+            Axial.CENTER
         );
     }
 
@@ -181,6 +172,14 @@ public class MeepMeepTesting {
         return createPose(
             TILE_WIDTH * 2.5,
             (alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH,
+            Math.toRadians(0), Axial.FRONT
+        );
+    }
+
+    public static Pose2d getParkPose() {
+        return createPose(
+            TILE_WIDTH * 2.5,
+            alliance.sign * (side == NORTH ? 2.5 : 0.5) * TILE_WIDTH,
             Math.toRadians(0), Axial.FRONT
         );
     }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.adaptations.roadrunner;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 
 import androidx.annotation.NonNull;
@@ -67,32 +68,32 @@ public final class OmniDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 100 / ((33927.0 + 33911.0 + 33941.0) / 3);
-        public double lateralInPerTick = 100 / ((33927.0 + 33911.0 + 33941.0) / 3);
-        public double trackWidthTicks = (1567.127256012933 + 1542.3933333227787 + 1523.1613213886737) / 3;
+        public double inPerTick = 0.00294756285677792078916082885468;
+        public double lateralInPerTick = 0.0021889754655713013;
+        public double trackWidthTicks = 1380.9542564887495;
 
         // feedforward parameters (in tick units)
-        public double kS = (2.8166910239682243 + 2.838855738125978 + 2.7751679734036605) / 3;
-        public double kV = (0.0004294388465087406 + 0.00041462699130842535 + 0.0004227535888247619) / 3;
-        public double kA = 0.0001;
+        public double kS = 1.2008604283699023;
+        public double kV = 0.0005070820278609027;
+        public double kA = 0.00015;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 20;
-        public double minProfileAccel = -10;
-        public double maxProfileAccel = 20;
+        public double maxWheelVel = 35;
+        public double minProfileAccel = -25;
+        public double maxProfileAccel = 35;
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI; // shared with path
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 4.0;
-        public double lateralGain = 4.0;
-        public double headingGain = 4.0; // shared with turn
+        public double axialGain = 16.0;
+        public double lateralGain = 16.0;
+        public double headingGain = 16.0; // shared with turn
 
-        public double axialVelGain = 1.0;
-        public double lateralVelGain = 1.0;
-        public double headingVelGain = 1.0; // shared with turn
+        public double axialVelGain = 2.0;
+        public double lateralVelGain = 2.0;
+        public double headingVelGain = 2.0; // shared with turn
     }
 
     public static Params PARAMS = new Params();
@@ -195,7 +196,10 @@ public final class OmniDrive {
         }
     }
 
-    public OmniDrive(Pose2d pose) {
+    public OmniDrive(HardwareMap hardwareMap, Pose2d pose) {
+        if (hardware == null)
+            hardware = new Hardware(hardwareMap);
+
         this.pose = pose;
 
         leftFront = hardware.driveFrontLeft.motorEx;
