@@ -100,7 +100,7 @@ public class Hardware {
 //        liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
 //        liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
 //
-//        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
+        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
 //        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
 //
 //        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");

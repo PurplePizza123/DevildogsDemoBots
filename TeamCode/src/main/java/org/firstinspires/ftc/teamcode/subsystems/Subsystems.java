@@ -17,6 +17,7 @@ public class Subsystems {
     public static NavSubsystem nav;
     public static LightSubsystem light;
     public static PeriodicSubsystem periodic;
+    public static VisionSubsystem vision;
 
     public static void initialize() {
         menu = new MenuSubsystem();
@@ -27,5 +28,6 @@ public class Subsystems {
         drone = new DroneSubsystem();
         conveyor = new ConveyorSubsystem();
         sweeper = new SweeperSubsystem();
+        vision = new VisionSubsystem();
     }
 }

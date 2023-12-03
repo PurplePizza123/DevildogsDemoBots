@@ -26,7 +26,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     List<Recognition> recognitions;
 
-    int recognitionId = 0;
+    int recognitionId = -1;
 
     public VisionSubsystem() {
         aprilTag = new AprilTagProcessor.Builder()
@@ -55,17 +55,16 @@ public class VisionSubsystem extends SubsystemBase {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-            if (x < 213) recognitionId = -1;
-            else if (x > 426) recognitionId = 1;
-            else recognitionId = 0;
+            if (x <= 450) recognitionId = 0;
+            else if (x > 450) recognitionId = 1;
+            else recognitionId = -1;
 
             telemetry.addData(
-                "Recognition (%d)",
-                "%s, %.0f %%, %.0fx, %.0fy",
-                recognitionId,
+                "Recognition",
+                "%s, %.0f %%, %.0fx, %.0fy, %d",
                 recognition.getLabel(),
                 recognition.getConfidence() * 100,
-                x, y
+                x, y, recognitionId
             );
         }
     }
