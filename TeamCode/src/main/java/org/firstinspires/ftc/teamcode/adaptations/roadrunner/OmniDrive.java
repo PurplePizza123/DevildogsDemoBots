@@ -78,13 +78,13 @@ public final class OmniDrive {
         public double kA = 0.00015;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 35;
-        public double minProfileAccel = -25;
-        public double maxProfileAccel = 35;
+        public double maxWheelVel = 20;
+        public double minProfileAccel = -10;
+        public double maxProfileAccel = 20;
 
         // turn profile parameters (in radians)
-        public double maxAngVel = Math.PI; // shared with path
-        public double maxAngAccel = Math.PI;
+        public double maxAngVel = Math.PI / 2; // shared with path
+        public double maxAngAccel = Math.PI / 2;
 
         // path controller gains
         public double axialGain = 16.0;

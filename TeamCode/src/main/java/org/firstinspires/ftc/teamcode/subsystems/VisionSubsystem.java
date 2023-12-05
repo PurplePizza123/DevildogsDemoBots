@@ -32,7 +32,10 @@ public class VisionSubsystem extends SubsystemBase {
     public VisionSubsystem() {
         aprilTag = new AprilTagProcessor.Builder().build();
 
-        tfod = new TfodProcessor.Builder().build();
+        tfod = new TfodProcessor.Builder()
+                .setModelAssetName("centerstage.tflite")
+                .setModelLabels(new String[]{"Team Prop"})
+                .build();
 
         visionPortal = new VisionPortal.Builder()
             .setCamera(hardware.frontWebcam)
@@ -57,7 +60,7 @@ public class VisionSubsystem extends SubsystemBase {
         if (detection != null) {
             telemetry.addData(
                 "Detection",
-                "%d, %s %, XYZ %.0f %.0f %.0f",
+                "%d, %s, XYZ %.0f %.0f %.0f",
                 detection.id,
                 detection.metadata.name,
                 detection.ftcPose.x,

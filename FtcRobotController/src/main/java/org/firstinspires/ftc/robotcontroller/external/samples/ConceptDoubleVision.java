@@ -138,6 +138,8 @@ public class ConceptDoubleVision extends LinearOpMode {
         // -----------------------------------------------------------------------------------------
 
         tfod = new TfodProcessor.Builder()
+                .setModelAssetName("centerstage.tflite")
+                .setModelLabels(new String[]{"Team Prop"})
             .build();
 
         // -----------------------------------------------------------------------------------------
