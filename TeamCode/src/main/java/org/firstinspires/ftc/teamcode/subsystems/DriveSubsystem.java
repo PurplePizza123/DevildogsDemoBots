@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADI
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -59,6 +60,10 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         config.pose = getPose();
+
+        if (vision.detection != null) {
+            // TODO: Transform Pose!
+        }
 
         telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
         telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate()));

@@ -15,7 +15,7 @@ public class Commands {
     public static IntakeCommands intake;
     public static WaitCommands wait;
     public static AutoCommands auto;
-    public static RandCommands rand;
+    public static VisionCommands vision;
 
     public static void initialize() {
         menu = new MenuCommands();
@@ -26,5 +26,6 @@ public class Commands {
         intake = new IntakeCommands();
         conveyor = new ConveyorCommands();
         sweeper = new SweeperCommands();
+        vision = new VisionCommands();
     }
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
+import static org.firstinspires.ftc.teamcode.commands.Commands.vision;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 
@@ -22,7 +23,11 @@ public class AutoCommands {
     }
 
     public Command scoreYellowPixel() {
-        return drive.toBackdrop();
+        return drive.toBackdropApproach().andThen(
+            vision.detect(),
+            drive.toBackdropApproach2(),
+            drive.toBackdrop()
+        );
     }
 
     public Command park() {

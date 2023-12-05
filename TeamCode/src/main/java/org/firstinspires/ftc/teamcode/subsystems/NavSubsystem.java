@@ -54,12 +54,30 @@ public class NavSubsystem extends SubsystemBase {
         );
     }
 
+    public Pose2d getBackdropApproachPose1() {
+        return createPose(
+            TILE_WIDTH * 1.5,
+            config.alliance.sign * 1.5,
+            Math.toRadians(0),
+            Axial.CENTER
+        );
+    }
+
+    public Pose2d getBackdropApproachPose2() {
+        return createPose(
+            TILE_WIDTH * 1.5,
+            config.alliance.sign * 1.5,
+            Math.toRadians(90),
+            Axial.CENTER
+        );
+    }
+
     public Pose2d getBackdropPose(int detection) {
         return createPose(
             TILE_WIDTH * 2.4,
             (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH,
-            Math.toRadians(0),
-            Axial.FRONT
+            Math.toRadians(90),
+            Lateral.RIGHT
         );
     }
 
@@ -67,8 +85,8 @@ public class NavSubsystem extends SubsystemBase {
         return createPose(
             TILE_WIDTH * 2.4,
             config.alliance.sign * (config.side == NORTH ? 2.5 : 0.5) * TILE_WIDTH,
-            Math.toRadians(0),
-            Axial.FRONT
+            Math.toRadians(90),
+            Lateral.RIGHT
         );
     }
 

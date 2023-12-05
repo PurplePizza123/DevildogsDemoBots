@@ -79,6 +79,20 @@ public class DriveCommands {
         )*/;
     }
 
+    public Command toBackdropApproach() {
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getBackdropApproachPose1()
+            )
+        );
+    }
+
+    public Command toBackdropApproach2() {
+        return drive.follow(
+            t -> t.turnTo(90)
+        );
+    }
+
     public Command toBackdrop() {
         return drive.follow(
             t -> t.strafeToLinearHeading(

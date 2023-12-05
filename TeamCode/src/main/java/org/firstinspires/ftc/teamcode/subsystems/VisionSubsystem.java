@@ -4,9 +4,6 @@ import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -20,37 +17,61 @@ public class VisionSubsystem extends SubsystemBase {
 
     private TfodProcessor tfod;
 
-    private VisionPortal myVisionPortal;
+    private VisionPortal visionPortal;
 
     List<AprilTagDetection> detections;
 
     List<Recognition> recognitions;
 
-    int recognitionId = -1;
+    public Recognition recognition;
+
+    public int recognitionId = -1;
+
+    public AprilTagDetection detection;
 
     public VisionSubsystem() {
-        aprilTag = new AprilTagProcessor.Builder()
-                .build();
+        aprilTag = new AprilTagProcessor.Builder().build();
 
-        tfod = new TfodProcessor.Builder()
-                .build();
+        tfod = new TfodProcessor.Builder().build();
 
-            myVisionPortal = new VisionPortal.Builder()
-                    .setCamera(hardware.frontWebcam)
-                    .addProcessors(tfod, aprilTag)
-                    .build();
+        visionPortal = new VisionPortal.Builder()
+            .setCamera(hardware.frontWebcam)
+            .addProcessors(tfod, aprilTag)
+            .build();
 
-            myVisionPortal.setProcessorEnabled(aprilTag, true);
-            myVisionPortal.setProcessorEnabled(tfod, true);
+        visionPortal.setProcessorEnabled(aprilTag, true);
+        visionPortal.setProcessorEnabled(tfod, true);
     }
 
     @Override
     public void periodic() {
+        processDetections();
+        processRecognitions();
+    }
+
+    private void processDetections() {
         detections = aprilTag.getDetections();
+
+        detection = detections.size() > 0 ? detections.get(0) : null;
+
+        if (detection != null) {
+            telemetry.addData(
+                "Detection",
+                "%d, %s %, XYZ %.0f %.0f %.0f",
+                detection.id,
+                detection.metadata.name,
+                detection.ftcPose.x,
+                detection.ftcPose.y,
+                detection.ftcPose.z
+            );
+        }
+    }
+
+    private void processRecognitions() {
         recognitions = tfod.getRecognitions();
 
         if (recognitions.size() > 0) {
-            Recognition recognition = recognitions.get(0);
+            recognition = recognitions.get(0);
 
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
@@ -67,9 +88,5 @@ public class VisionSubsystem extends SubsystemBase {
                 x, y, recognitionId
             );
         }
-    }
-
-    public int getRecognitionId() {
-        return recognitionId;
     }
 }
