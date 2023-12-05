@@ -9,8 +9,8 @@ import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad2;
 
 public class DroneControl {
     public DroneControl() {
-        gamepad1.getGamepadButton(BACK)
-            .and(gamepad1.getGamepadButton(B))
+        gamepad2.getGamepadButton(BACK)
+            .and(gamepad2.getGamepadButton(B))
             .whenActive(drone.release());
     }
 }
