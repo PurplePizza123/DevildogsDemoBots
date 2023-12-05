@@ -77,7 +77,7 @@ public class MeepMeepTesting {
     public static void execute() {
         scorePurplePixel();
         scoreYellowPixel();
-        scoreStack(1);
+        scoreStack(0);
         park();
     }
 
@@ -91,6 +91,9 @@ public class MeepMeepTesting {
         );
     }
     public static void scoreYellowPixel() {
+        toPoseStrafe(getBackdropApproachPose1(), false);
+//        toPoseStrafe(getBackdropApproachPose2(), false);
+        builder = builder.turnTo(Math.toRadians(90));
         toPoseStrafe(getBackdropPose(), false);
     }
 
@@ -167,12 +170,30 @@ public class MeepMeepTesting {
             Axial.CENTER
         );
     }
+    public static Pose2d getBackdropApproachPose1() {
+        return createPose(
+                TILE_WIDTH * 1.5,
+                TILE_WIDTH * 1.5 * alliance.sign,
+                Math.toRadians(0),
+                Axial.CENTER
+        );
+    }
+
+    public static Pose2d getBackdropApproachPose2() {
+        return createPose(
+                TILE_WIDTH * 1.5,
+                TILE_WIDTH * 1.5 * alliance.sign,
+                Math.toRadians(90),
+                Axial.CENTER
+        );
+    }
 
     public static Pose2d getBackdropPose() {
         return createPose(
             TILE_WIDTH * 2.5,
             (alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH,
-            Math.toRadians(0), Axial.FRONT
+            Math.toRadians(90),
+            Lateral.RIGHT
         );
     }
 
@@ -180,7 +201,7 @@ public class MeepMeepTesting {
         return createPose(
             TILE_WIDTH * 2.5,
             alliance.sign * (side == NORTH ? 2.5 : 0.5) * TILE_WIDTH,
-            Math.toRadians(0), Axial.FRONT
+            Math.toRadians(90), Lateral.RIGHT
         );
     }
 
