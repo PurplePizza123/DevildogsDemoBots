@@ -33,9 +33,9 @@ public class VisionSubsystem extends SubsystemBase {
         aprilTag = new AprilTagProcessor.Builder().build();
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("centerstage.tflite")
-                .setModelLabels(new String[]{"Team Prop"})
-                .build();
+            .setModelFileName("/sdcard/FIRST/tflitemodels/centerstage.tflite")
+            .setModelLabels(new String[]{"Team Prop"})
+            .build();
 
         visionPortal = new VisionPortal.Builder()
             .setCamera(hardware.frontWebcam)
