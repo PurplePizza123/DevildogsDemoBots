@@ -413,9 +413,9 @@ class LateralRampLogger(val dvf: DriveViewFactory) : LinearOpMode() {
             setMotorPower(view.leftMotors[1], -1, data.backLeftPower)
             setMotorPower(view.rightMotors[1], +1, data.backRightPower)*/
             // Omni Configuration
-            setMotorPower(view.leftMotors[0], -1, data.frontLeftPower)
+            setMotorPower(view.leftMotors[0], +1, data.frontLeftPower)
             setMotorPower(view.rightMotors[0], +1, data.frontRightPower)
-            setMotorPower(view.leftMotors[1], -1, data.backLeftPower)
+            setMotorPower(view.leftMotors[1], +1, data.backLeftPower)
             setMotorPower(view.rightMotors[1], +1, data.backRightPower)
 
             data.voltages.values.add(view.voltageSensor.voltage)
