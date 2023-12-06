@@ -9,7 +9,9 @@ import com.arcrobotics.ftclib.command.Command;
 
 public class AutoCommands {
     public Command execute() {
-        return wait.seconds(config.delay).andThen(
+        return wait.seconds(config.delay).alongWith(
+            vision.recognize()
+        ).andThen(
             scorePurplePixel(),
             scoreYellowPixel(),
             park()
@@ -23,7 +25,7 @@ public class AutoCommands {
     }
 
     public Command scoreYellowPixel() {
-        return drive.toBackdropApproach().andThen(
+        return drive.toBackdropApproach1().andThen(
             vision.detect(),
             drive.toBackdropApproach2(),
             drive.toBackdrop()

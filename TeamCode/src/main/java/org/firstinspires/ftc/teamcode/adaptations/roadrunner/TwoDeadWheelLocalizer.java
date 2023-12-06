@@ -30,7 +30,6 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public static Params PARAMS = new Params();
 
     public final Encoder par, perp;
-    public final IMU imu;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -42,13 +41,12 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public TwoDeadWheelLocalizer(double inPerTick) {
         par = hardware.odometryRight;
         perp = hardware.odometryCenter;
-        this.imu = hardware.imu;
 
         par.setDirection(DcMotorSimple.Direction.REVERSE);
 
         lastParPos = par.getPositionAndVelocity().position;
         lastPerpPos = perp.getPositionAndVelocity().position;
-        lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        lastHeading = Rotation2d.exp(hardware.imuAngles.getYaw(AngleUnit.RADIANS));
 
         this.inPerTick = inPerTick;
 
@@ -57,7 +55,7 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     // see https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/617
     private double getHeadingVelocity() {
-        double rawHeadingVel = imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        double rawHeadingVel = hardware.imuVelocities.zRotationRate;
         if (Math.abs(rawHeadingVel - lastRawHeadingVel) > Math.PI) {
             headingVelOffset -= Math.signum(rawHeadingVel) * 2 * Math.PI;
         }
@@ -68,7 +66,7 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public Twist2dDual<Time> update() {
         PositionVelocityPair parPosVel = par.getPositionAndVelocity();
         PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
-        Rotation2d heading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        Rotation2d heading = Rotation2d.exp(hardware.imuAngles.getYaw(AngleUnit.RADIANS));
 
         int parPosDelta = parPosVel.position - lastParPos;
         int perpPosDelta = perpPosVel.position - lastPerpPos;

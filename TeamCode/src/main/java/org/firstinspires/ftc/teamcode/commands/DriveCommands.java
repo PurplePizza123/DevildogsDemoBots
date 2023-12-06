@@ -59,9 +59,7 @@ public class DriveCommands {
             t -> t.strafeToLinearHeading(
                 nav.getSpikeMarkPose(config.detection)
             )
-        )/*.andThen(
-            drive.follow(t -> t.turnTo(0))
-        )*/;
+        );
     }
 
     public Command toSpikeMarkTile() {
@@ -69,17 +67,10 @@ public class DriveCommands {
             t -> t.strafeToLinearHeading(
                 nav.getSpikeMarkTilePose()
             )
-        )/*.andThen(
-            drive.follow(
-                *//*t -> t.strafeToLinearHeading(
-                    nav.getSpikeMarkTilePose2()
-                )*//*
-                t -> t.turnTo(0)
-            )
-        )*/;
+        );
     }
 
-    public Command toBackdropApproach() {
+    public Command toBackdropApproach1() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
                 nav.getBackdropApproachPose1()
@@ -89,7 +80,7 @@ public class DriveCommands {
 
     public Command toBackdropApproach2() {
         return drive.follow(
-            t -> t.turnTo(90)
+            t -> t.turnTo(Math.toRadians(90))
         );
     }
 

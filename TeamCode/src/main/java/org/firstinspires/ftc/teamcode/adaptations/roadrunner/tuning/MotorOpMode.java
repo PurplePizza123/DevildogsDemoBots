@@ -16,8 +16,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Config
-//@TeleOp
-//@Disabled
+@TeleOp
+@Disabled
 public class MotorOpMode extends LinearOpMode {
     public static double POWER = 0.5;
 

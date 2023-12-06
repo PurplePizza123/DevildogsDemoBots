@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
@@ -10,13 +9,14 @@ import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
+import android.annotation.SuppressLint;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.hardware.lynx.LynxModule;
 
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.Trajectory;
@@ -37,13 +37,10 @@ public class DriveSubsystem extends SubsystemBase {
     private final OmniDrive drive;
 
     public DriveSubsystem() {
-        for (LynxModule module : hardware.modules) {
-            module.setBulkCachingMode(MANUAL);
-        }
-
         drive = new OmniDrive(hardwareMap, config.pose);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void periodic() {
         hardware.clearBulkCache();
@@ -65,18 +62,18 @@ public class DriveSubsystem extends SubsystemBase {
             // TODO: Transform Pose!
         }
 
-        telemetry.addData("IMU (Roll)", "%.2f°, %.2f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate()));
-        telemetry.addData("IMU (Pitch)", "%.2f°, %.2f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate()));
-        telemetry.addData("IMU (Yaw)", "%.2f°, %.2f°/s", Math.toDegrees(getYaw()), Math.toDegrees(getYawRate()));
-        telemetry.addData("IMU (Tilted)", isTilted());
-        telemetry.addData("IMU (Still)", isStill());
+        telemetry.addData("IMU (Roll)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate())));
+        telemetry.addData("IMU (Pitch)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate())));
+        telemetry.addData("IMU (Yaw)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getYaw()), Math.toDegrees(getYawRate())));
+        telemetry.addData("IMU (Tilted)", () -> String.format("%s", isTilted()));
+        telemetry.addData("IMU (Still)", () -> String.format("%s", isStill()));
 
-        telemetry.addData("Drive (Pose)", config.pose.toString());
+        telemetry.addData("Drive (Pose)", () -> String.format("%.1fx, %.1fy, %.1fz", config.pose.position.x, config.pose.position.y, config.pose.heading.toDouble()));
 
-        telemetry.addData("Drive (FL)", "%.2f pow, %d pos, %.2f dist", hardware.driveFrontLeft.get(), hardware.driveFrontLeft.getCurrentPosition(), hardware.driveFrontLeft.getCurrentPosition() * DISTANCE_PER_PULSE);
-        telemetry.addData("Drive (FR)", "%.2f pow, %d pos, %.2f dist", hardware.driveFrontRight.get(), hardware.driveFrontRight.getCurrentPosition(), hardware.driveFrontRight.getCurrentPosition() * DISTANCE_PER_PULSE);
-        telemetry.addData("Drive (BL)", "%.2f pow, %d pos, %.2f dist", hardware.driveBackLeft.get(), hardware.driveBackLeft.getCurrentPosition(), hardware.driveBackLeft.getCurrentPosition() * DISTANCE_PER_PULSE);
-        telemetry.addData("Drive (BR)", "%.2f pow, %d pos, %.2f dist", hardware.driveBackRight.get(), hardware.driveBackRight.getCurrentPosition(), hardware.driveBackRight.getCurrentPosition() * DISTANCE_PER_PULSE);
+        telemetry.addData("Drive (FL)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveFrontLeft.get(), hardware.driveFrontLeft.getCurrentPosition(), hardware.driveFrontLeft.getCurrentPosition() * DISTANCE_PER_PULSE));
+        telemetry.addData("Drive (FR)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveFrontRight.get(), hardware.driveFrontRight.getCurrentPosition(), hardware.driveFrontRight.getCurrentPosition() * DISTANCE_PER_PULSE));
+        telemetry.addData("Drive (BL)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveBackLeft.get(), hardware.driveBackLeft.getCurrentPosition(), hardware.driveBackLeft.getCurrentPosition() * DISTANCE_PER_PULSE));
+        telemetry.addData("Drive (BR)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveBackRight.get(), hardware.driveBackRight.getCurrentPosition(), hardware.driveBackRight.getCurrentPosition() * DISTANCE_PER_PULSE));
 
         config.lightingCurrent = BLACK;
     }

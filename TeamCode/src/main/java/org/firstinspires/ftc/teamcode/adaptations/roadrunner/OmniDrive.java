@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.adaptations.roadrunner;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 
 import androidx.annotation.NonNull;
@@ -78,9 +77,9 @@ public final class OmniDrive {
         public double kA = 0.00015;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 20;
-        public double minProfileAccel = -10;
-        public double maxProfileAccel = 20;
+        public double maxWheelVel = 25;
+        public double minProfileAccel = -15;
+        public double maxProfileAccel = 25;
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI / 2; // shared with path

@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
+import android.annotation.SuppressLint;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,16 +14,23 @@ public class PeriodicSubsystem extends SubsystemBase {
     private ElapsedTime runtimeTimer = new ElapsedTime();
 
     @Override
+    @SuppressLint("DefaultLocale")
     public void periodic() {
+        ++periodicCount;
+
         telemetry.addData(
-            "Periodic", "%.1fs, %.1fms, %.1fhz",
-            config.timer.seconds(),
-            periodicTimer.milliseconds(),
-            ++periodicCount / runtimeTimer.seconds()
+            "Periodic",
+            () -> String.format(
+                "%.1fs, %.1fms, %.1fhz",
+                config.timer.seconds(),
+                periodicTimer.milliseconds(),
+                periodicCount / runtimeTimer.seconds()
+            )
         );
 
-        telemetry.update();
-
         periodicTimer.reset();
+
+        telemetry.update();
+        telemetry.clearAll();
     }
 }

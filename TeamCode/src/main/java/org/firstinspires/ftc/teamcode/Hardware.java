@@ -4,6 +4,7 @@ import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 
 import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
@@ -67,9 +68,13 @@ public class Hardware {
     public RevBlinkinLedDriver lights;
 
     public Hardware(HardwareMap hardwareMap) {
-        //LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
+        LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         modules = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule module : modules) {
+            module.setBulkCachingMode(MANUAL);
+        }
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -104,6 +109,8 @@ public class Hardware {
 //        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
 //
 //        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
+
+        clearBulkCache();
     }
 
     public void clearBulkCache() {

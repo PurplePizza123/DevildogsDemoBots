@@ -8,6 +8,8 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENC
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
+import android.annotation.SuppressLint;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
@@ -28,13 +30,8 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     @Override
+    @SuppressLint("DefaultLocale")
     public void periodic() {
-        telemetry.addData(
-            "Lift","%.2f pow, %.2f height",
-            hardware.lift.motor.getPower(),
-            hardware.lift.getCurrentPosition() * HEIGHT_PER_PULSE
-        );
-
         if (calibrated) return;
 
         boolean isDown = !hardware.liftLimit.getState();
@@ -47,6 +44,15 @@ public class LiftSubsystem extends SubsystemBase {
             calibrated = true;
             to(height = MIN);
         }
+
+        telemetry.addData(
+            "Lift",
+            () -> String.format(
+                "%.1f pow, %.1f height",
+                hardware.lift.motor.getPower(),
+                hardware.lift.getCurrentPosition() * HEIGHT_PER_PULSE
+            )
+        );
     }
 
     public void calibrate() {

@@ -23,8 +23,6 @@ public class AutoOpMode extends OpMode {
             Subsystems.nav.getStartPose(alliance, side)
         );
 
-        //Subsystems.rand.enable();
-
         new MenuControl();
 
         waitForStart();

@@ -22,7 +22,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("Conveyor", "%.2f vel, pressed: %s", hardware.conveyor.get(), pressed);
+        telemetry.addData("Conveyor", () -> String.format("%.1f pow, pressed: %s", hardware.conveyor.get(), pressed));
     }
 
     public void in() {
