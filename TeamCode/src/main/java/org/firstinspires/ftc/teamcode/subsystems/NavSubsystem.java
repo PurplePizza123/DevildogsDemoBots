@@ -23,7 +23,7 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
-             side.sign * (side == NORTH ? 1: 2) * TILE_WIDTH + (side.sign * (ROBOT_WIDTH_HALF + 3d/8)), //TODO: Figure out new robot position while starting on space to view 0 and 1
+             side.sign * (side == NORTH ? 1: 2) * TILE_WIDTH - (side.sign * (ROBOT_WIDTH_HALF + 3d/8)), //TODO: Figure out new robot position while starting on space to view 0 and 1
             alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH_HALF),
             alliance.sign * Math.toRadians(-90)
         );
