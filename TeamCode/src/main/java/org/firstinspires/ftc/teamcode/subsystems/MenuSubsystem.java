@@ -16,7 +16,7 @@ public class MenuSubsystem extends SubsystemBase {
         telemetry.addData(
             "Menu",
             () -> String.format(
-                "%s %s, %.1fx, %.1fy, %.1fs delay, stacks: %d, detection: %d",
+                "%s %s, %.1fx, %.1fy, %.1fs delay, stacks: %d",
                 config.alliance,
                 config.side,
                 config.offsetX,
