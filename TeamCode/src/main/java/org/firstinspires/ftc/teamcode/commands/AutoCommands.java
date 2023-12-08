@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.vision;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
@@ -28,7 +29,9 @@ public class AutoCommands {
         return drive.toBackdropApproach1().andThen(
             vision.detect(),
             drive.toBackdropApproach2(),
-            drive.toBackdrop()
+            drive.toBackdrop(),
+            deposit.open(),
+            wait.seconds(3)
         );
     }
 

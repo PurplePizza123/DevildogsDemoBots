@@ -25,12 +25,10 @@ public class DepositSubsystem extends SubsystemBase {
     }
 
     public void open() {
-        // TODO: find servo open position
         hardware.deposit.setPosition(0.12);
     }
 
     public void closed() {
-        // TODO: find servo closed position
         hardware.deposit.setPosition(0.79);
     }
 }
