@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 public class ConveyorSubsystem extends SubsystemBase {
-    public static double POWER = 1;
+    public static double POWER = .5;
 
     private boolean pressed = false;
 
