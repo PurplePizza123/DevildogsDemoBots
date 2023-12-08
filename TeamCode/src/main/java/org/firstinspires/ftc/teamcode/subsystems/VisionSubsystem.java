@@ -78,23 +78,23 @@ public class VisionSubsystem extends SubsystemBase {
     private void processRecognitions() {
         recognitions = tfod.getRecognitions();
 
-        if (recognitions.size() > 0) {
-            recognition = recognitions.get(0);
+        recognition = recognitions.size() > 0 ? recognitions.get(0) : null;
 
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+        double x = recognition == null ? 0 : (recognition.getLeft() + recognition.getRight()) / 2;
+        double y = recognition == null ? 0 : (recognition.getTop()  + recognition.getBottom()) / 2;
 
-            if ((config.alliance == Alliance.RED && config.side == Side.NORTH) ||
-                (config.alliance == Alliance.BLUE && config.side == Side.SOUTH)) {
-                if (x <= 350) recognitionId = 0;
-                else if (x > 350) recognitionId = 1;
-                else recognitionId = -1;
-            } else {
-                if (x <= 393) recognitionId = -1;
-                else if (x > 393) recognitionId = 0;
-                else recognitionId = 1;
-            }
+        if ((config.alliance == Alliance.RED && config.side == Side.NORTH) ||
+            (config.alliance == Alliance.BLUE && config.side == Side.SOUTH)) {
+            if (recognition == null) recognitionId = -1;
+            else if (x <= 350) recognitionId = 0;
+            else recognitionId = 1;
+        } else {
+            if (recognition == null) recognitionId = 1;
+            else if (x <= 393) recognitionId = -1;
+            else recognitionId = 0;
+        }
 
+        if (recognition != null) {
             telemetry.addData(
                 "Recognition",
                 () -> String.format(
