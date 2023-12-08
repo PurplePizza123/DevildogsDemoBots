@@ -22,8 +22,7 @@ public class MenuSubsystem extends SubsystemBase {
                 config.offsetX,
                 config.offsetY,
                 config.delay,
-                config.stacks,
-                config.detection
+                config.stacks
             )
         );
     }

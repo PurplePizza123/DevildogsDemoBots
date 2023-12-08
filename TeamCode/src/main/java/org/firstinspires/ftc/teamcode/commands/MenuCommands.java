@@ -56,11 +56,4 @@ public class MenuCommands {
             Subsystems.menu
         );
     }
-
-    public Command changeDetection(double value) {
-        return new InstantCommand(
-            () -> config.delay = clamp(config.detection + value, -1, 1),
-            Subsystems.menu
-        );
-    }
 }

@@ -4,8 +4,6 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.BACK;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.Y;
@@ -64,13 +62,5 @@ public class MenuControl {
 
         gamepad1.getGamepadButton(BACK)
             .whenInactive(menu.setStartPose());
-
-        gamepad1.getGamepadButton(DPAD_LEFT)
-            .or(gamepad2.getGamepadButton(DPAD_LEFT))
-            .whenActive(menu.changeDetection(-1));
-
-        gamepad1.getGamepadButton(DPAD_RIGHT)
-            .or(gamepad2.getGamepadButton(DPAD_RIGHT))
-            .whenActive(menu.changeDetection(+1));
     }
 }

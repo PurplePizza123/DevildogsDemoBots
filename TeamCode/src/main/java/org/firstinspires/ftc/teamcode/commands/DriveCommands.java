@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
@@ -57,7 +58,7 @@ public class DriveCommands {
     public Command toSpikeMark() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
-                nav.getSpikeMarkPose(config.detection)
+                nav.getSpikeMarkPose(vision.recognitionId)
             )
         );
     }
@@ -87,7 +88,7 @@ public class DriveCommands {
     public Command toBackdrop() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
-                nav.getBackdropPose(config.detection)
+                nav.getBackdropPose(vision.recognitionId)
             )
         );
     }
