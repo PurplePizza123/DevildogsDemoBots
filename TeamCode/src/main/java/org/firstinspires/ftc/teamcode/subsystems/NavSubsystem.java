@@ -16,13 +16,15 @@ import org.firstinspires.ftc.teamcode.game.Side;
 public class NavSubsystem extends SubsystemBase {
     private static final double TILE_WIDTH = 23.5;
     private static final double TILE_WIDTH_HALF = TILE_WIDTH / 2;
-    private static final double ROBOT_LENGTH = 12;
-    private static final double ROBOT_WIDTH = 12;
+    private static final double ROBOT_LENGTH = 10.625;
+    private static final double ROBOT_LENGTH_HALF = ROBOT_LENGTH / 2;
+    private static final double ROBOT_WIDTH = 11.625;
+    private static final double ROBOT_WIDTH_HALF = ROBOT_WIDTH / 2;
 
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
-            side.sign * (side == NORTH ? 0.5 : 1.5) * TILE_WIDTH,
-            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH / 2),
+             side.sign * (side == NORTH ? 1: -2) * TILE_WIDTH + (side.sign * (ROBOT_WIDTH_HALF + 3d/8)), //TODO: Figure out new robot position while starting on space to view 0 and 1
+            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH_HALF),
             alliance.sign * Math.toRadians(-90)
         );
     }

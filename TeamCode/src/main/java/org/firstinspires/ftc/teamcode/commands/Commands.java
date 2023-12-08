@@ -27,5 +27,6 @@ public class Commands {
         conveyor = new ConveyorCommands();
         sweeper = new SweeperCommands();
         vision = new VisionCommands();
+        deposit = new DepositCommands();
     }
 }

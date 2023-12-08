@@ -94,6 +94,8 @@ public class Hardware {
 
         conveyor = new MotorEx(hardwareMap, "conveyor", RPM_435);
 
+        deposit = hardwareMap.get(Servo.class, "deposit");
+
 //        intake = new MotorGroup(
 //            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
 //            intakeFrontRight = new CRServo(hardwareMap, "intakeFrontRight"),

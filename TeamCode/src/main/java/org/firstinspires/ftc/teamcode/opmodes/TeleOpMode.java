@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.controls.DriveControl;
 import org.firstinspires.ftc.teamcode.controls.DroneControl;
 import org.firstinspires.ftc.teamcode.controls.IntakeControl;
+import org.firstinspires.ftc.teamcode.controls.DepositControl;
 
 @TeleOp(name = "Teleop")
 @SuppressWarnings("unused")
@@ -22,6 +23,7 @@ public class TeleOpMode extends OpMode {
         new DriveControl();
         new DroneControl();
         new IntakeControl();
+        new DepositControl();
 //        new LiftController();
 //        new IntakeController();
 

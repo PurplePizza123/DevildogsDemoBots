@@ -10,9 +10,11 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
 public class DepositSubsystem extends SubsystemBase {
+    public static double SERVO_POSITION = 0;
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
+        hardware.deposit.setPosition(SERVO_POSITION);
         telemetry.addData(
             "Deposit",
             () -> String.format(
@@ -24,11 +26,11 @@ public class DepositSubsystem extends SubsystemBase {
 
     public void open() {
         // TODO: find servo open position
-        hardware.deposit.setPosition(180);
+        hardware.deposit.setPosition(0.12);
     }
 
     public void closed() {
         // TODO: find servo closed position
-        hardware.deposit.setPosition(0);
+        hardware.deposit.setPosition(0.79);
     }
 }

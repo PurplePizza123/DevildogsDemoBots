@@ -17,7 +17,10 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
+import com.arcrobotics.ftclib.geometry.Translation2d;
 
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.Trajectory;
 
@@ -31,6 +34,8 @@ public class DriveSubsystem extends SubsystemBase {
     public static double ALLOWABLE_TILT = 10;
     public static double ALLOWABLE_STILL = 1.0;
     public double power = 0.5;
+    public static double CAMERA_POSE_X = 0;
+    public static double CAMERA_POSE_Y = 0;
 
     private Action trajectoryAction = null;
 
@@ -59,7 +64,21 @@ public class DriveSubsystem extends SubsystemBase {
         config.pose = getPose();
 
         if (vision.detection != null) {
-            // TODO: Transform Pose!
+//            double yawToAprilTag = 0;
+//            // Get the field pose of the detected AprilTag from our constants.
+//            Pose2d aprilTagPose = Constants.targetPoses.get(vision.detection.id);
+//
+//            // Rotate camera pose by Yaw to translate to field coordinates.
+//            Pose2d rotatedTarget = new Translation2d(
+//                cameraPose.x, cameraPose.y
+//            ).rotateBy(
+//                    Math.toRadians(-yawToAprilTag)
+//            );
+//
+//            // Create new field pose with offset values to translate X and Y.  The camera is lateral X and distance Y.  The field lateral Y and distance X.
+//            robotPose = new Pose2d(
+//                    new Translation2d(aprilTagPose.getX() - rotatedTarget.getY(), aprilTagPose.getY() + rotatedTarget.getX()),
+//                    Rotation2d.fromDegrees(0));
         }
 
         telemetry.addData("IMU (Roll)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate())));

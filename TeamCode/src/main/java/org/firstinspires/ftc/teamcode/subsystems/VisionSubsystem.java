@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -80,9 +84,16 @@ public class VisionSubsystem extends SubsystemBase {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-            if (x <= 450) recognitionId = 0;
-            else if (x > 450) recognitionId = 1;
-            else recognitionId = -1;
+            if ((config.alliance == Alliance.RED && config.side == Side.NORTH) ||
+                (config.alliance == Alliance.BLUE && config.side == Side.SOUTH)) {
+                if (x <= 350) recognitionId = 0;
+                else if (x > 350) recognitionId = 1;
+                else recognitionId = -1;
+            } else {
+                if (x <= 393) recognitionId = -1;
+                else if (x > 393) recognitionId = 0;
+                else recognitionId = 1;
+            }
 
             telemetry.addData(
                 "Recognition",
