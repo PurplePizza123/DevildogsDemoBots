@@ -65,8 +65,12 @@ public class DriveCommands {
 
     public Command toSpikeMarkTile() {
         return drive.follow(
-            t -> t.strafeToLinearHeading(
+            t -> t.strafeTo(
                 nav.getSpikeMarkTilePose()
+            )
+        ).andThen(
+            drive.follow(
+                t -> t.turnTo(0)
             )
         );
     }

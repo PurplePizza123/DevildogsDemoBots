@@ -46,7 +46,7 @@ public class VisionCommands {
     private Command attemptRecognition() {
         return wait.until(
             () -> Subsystems.vision.recognition != null
-        ).withTimeout(3000);
+        ).withTimeout(500);
     }
 
     private Command enableRecognition() {

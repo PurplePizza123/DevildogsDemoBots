@@ -31,8 +31,8 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getSpikeMarkPose(int detection) {
         return createPose(
-            ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - config.alliance.sign * detection * TILE_WIDTH_HALF,
-            config.alliance.sign * (detection == 0 ? 1 : 1.25) * TILE_WIDTH,
+            ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - config.alliance.sign * detection * TILE_WIDTH_HALF * 0.8,
+            config.alliance.sign * (detection == 0 ? 1 : 1.15) * TILE_WIDTH,
             Math.toRadians(config.alliance.sign * -90 - 45 * detection),
             Axial.FRONT
         );
@@ -41,7 +41,7 @@ public class NavSubsystem extends SubsystemBase {
     public Pose2d getSpikeMarkTilePose() {
         return createPose(
             ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH),
-            config.alliance.sign * 1.5 * TILE_WIDTH,
+            config.alliance.sign * 1.6 * TILE_WIDTH,
             Math.toRadians(config.alliance.sign * -90),
             Axial.CENTER
         );
@@ -76,7 +76,7 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getBackdropPose(int detection) {
         return createPose(
-            TILE_WIDTH * 2.4,
+            TILE_WIDTH * 2.7,
             (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH,
             Math.toRadians(90),
             Lateral.RIGHT

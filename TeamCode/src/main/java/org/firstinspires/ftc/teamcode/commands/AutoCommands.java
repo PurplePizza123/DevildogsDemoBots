@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
+import static org.firstinspires.ftc.teamcode.commands.Commands.drone;
 import static org.firstinspires.ftc.teamcode.commands.Commands.vision;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
@@ -11,6 +12,7 @@ import com.arcrobotics.ftclib.command.Command;
 public class AutoCommands {
     public Command execute() {
         return wait.seconds(config.delay).alongWith(
+            deposit.close(),
             vision.recognize()
         ).andThen(
             scorePurplePixel(),
@@ -30,8 +32,10 @@ public class AutoCommands {
             vision.detect(),
             drive.toBackdropApproach2(),
             drive.toBackdrop(),
+            wait.seconds(1),
             deposit.open(),
-            wait.seconds(3)
+            wait.seconds(2),
+            deposit.close()
         );
     }
 

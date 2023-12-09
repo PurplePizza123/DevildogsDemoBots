@@ -16,17 +16,17 @@ public class DepositSubsystem extends SubsystemBase {
         telemetry.addData(
             "Deposit",
             () -> String.format(
-                "%.1f pow",
+                "%.1f pos",
                 hardware.deposit.getPosition()
             )
         );
     }
 
     public void open() {
-        hardware.deposit.setPosition(0.79);
+        hardware.deposit.setPosition(0.12);
     }
 
     public void closed() {
-        hardware.deposit.setPosition(0.12);
+        hardware.deposit.setPosition(0.79);
     }
 }

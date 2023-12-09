@@ -11,7 +11,7 @@ public class DepositCommands {
     }
 
     public Command close() {
-        return new InstantCommand(Subsystems.sweeper::out, Subsystems.sweeper);
+        return new InstantCommand(Subsystems.deposit::closed, Subsystems.deposit);
     }
 
     public Command stop() {
