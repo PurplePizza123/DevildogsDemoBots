@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADI
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
 import android.annotation.SuppressLint;
 
@@ -57,8 +58,9 @@ public class DriveSubsystem extends SubsystemBase {
 
         config.pose = getPose();
 
-        /*if (vision.detection != null) {*/
-            // TODO
+        // TODO
+        /*if (vision.detectionPose != null) {*/
+            /*drive.pose = vision.detectionPose;*/
         /*}*/
 
         telemetry.addData("IMU (Roll)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate())));

@@ -41,7 +41,8 @@ public class VisionCommands {
     public Command detect() {
         return vision.enableDetection().andThen(
             attemptDetection(),
-            disableDetection()
+            disableDetection(),
+            log()
         );
     }
 
@@ -61,6 +62,13 @@ public class VisionCommands {
     private Command disableDetection() {
         return new InstantCommand(
             () -> VisionSubsystem.detectionEnabled = false,
+            Subsystems.vision
+        );
+    }
+
+    private Command log() {
+        return new InstantCommand(
+            Subsystems.vision::log,
             Subsystems.vision
         );
     }

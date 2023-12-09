@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.arcrobotics.ftclib.command.SelectCommand;
 
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.Trajectory;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
@@ -40,9 +41,11 @@ public class DriveCommands {
     }
 
     public Command toSpikeMark() {
-        return drive.follow(
-            t -> t.strafeToLinearHeading(
-                nav.getSpikeMarkPose(vision.recognitionId)
+        return new SelectCommand(
+            () -> drive.follow(
+                t -> t.strafeToLinearHeading(
+                    nav.getSpikeMarkPose(vision.recognitionId)
+                )
             )
         );
     }
