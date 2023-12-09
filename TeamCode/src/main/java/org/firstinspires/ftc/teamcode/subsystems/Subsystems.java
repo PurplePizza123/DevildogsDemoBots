@@ -25,5 +25,6 @@ public class Subsystems {
         drone = new DroneSubsystem();
         periodic = new PeriodicSubsystem();
         deposit = new DepositSubsystem();
+        hoist = new HoistSubsystem();
     }
 }

@@ -28,5 +28,6 @@ public class Commands {
         sweeper = new SweeperCommands();
         vision = new VisionCommands();
         deposit = new DepositCommands();
+        hoist = new HoistCommands();
     }
 }
