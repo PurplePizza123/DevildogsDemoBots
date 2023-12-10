@@ -14,7 +14,7 @@ public class DroneCommands {
 
     public Command release() {
         return new InstantCommand(Subsystems.drone::release, Subsystems.drone).andThen(
-            wait.seconds(1000),
+            wait.seconds(1),
             lock()
         );
     }

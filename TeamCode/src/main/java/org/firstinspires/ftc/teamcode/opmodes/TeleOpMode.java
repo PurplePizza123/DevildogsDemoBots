@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.drone;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -32,7 +33,7 @@ public class TeleOpMode extends OpMode {
 //        new IntakeController();
 
 //        schedule(
-//            lift.calibrate()
+//            drone.lock()
 //        );
     }
 }

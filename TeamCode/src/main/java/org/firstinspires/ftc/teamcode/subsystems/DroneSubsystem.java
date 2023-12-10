@@ -21,10 +21,10 @@ public class DroneSubsystem extends SubsystemBase {
     }
 
     public void lock() {
-        hardware.drone.setPosition(.1);
+        hardware.drone.setPosition(0.25);
     }
 
     public void release() {
-        hardware.drone.setPosition(.45);
+        hardware.drone.setPosition(0.45);
     }
 }
