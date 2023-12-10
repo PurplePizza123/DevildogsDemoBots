@@ -16,13 +16,14 @@ public class MenuSubsystem extends SubsystemBase {
         telemetry.addData(
             "Menu",
             () -> String.format(
-                "%s %s, %.1fx, %.1fy, %.1fs delay, stacks: %d",
+                "%s %s, %.1fx, %.1fy, %.1fs delay, stacks: %d, parking: %s",
                 config.alliance,
                 config.side,
                 config.offsetX,
                 config.offsetY,
                 config.delay,
-                config.stacks
+                config.stacks,
+                config.parking
             )
         );
     }

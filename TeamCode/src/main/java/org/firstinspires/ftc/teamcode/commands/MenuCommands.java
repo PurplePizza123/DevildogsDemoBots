@@ -5,12 +5,15 @@ import static androidx.core.math.MathUtils.clamp;
 import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
 import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
+import static org.firstinspires.ftc.teamcode.game.Parking.OUTER;
 import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
+import org.firstinspires.ftc.teamcode.game.Parking;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class MenuCommands {
@@ -27,6 +30,13 @@ public class MenuCommands {
             Subsystems.menu
         );
     }
+    public Command toggleParking() {
+        return new InstantCommand(
+            () -> (config.parking) = config.parking == null || config.parking == OUTER ? INNER : OUTER,
+            Subsystems.menu
+        );
+    }
+
 
     public Command setStartPose() {
         return new InstantCommand(

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.game.Parking.OUTER;
 import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 
 import static java.lang.Double.NaN;
@@ -10,6 +11,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.game.Alliance;
+import org.firstinspires.ftc.teamcode.game.Parking;
 import org.firstinspires.ftc.teamcode.game.Side;
 
 @Config
@@ -86,7 +88,7 @@ public class NavSubsystem extends SubsystemBase {
     public Pose2d getParkingPose() {
         return createPose(
             TILE_WIDTH * 2.4,
-            config.alliance.sign * (config.side == NORTH ? 2.5 : 0.5) * TILE_WIDTH,
+            config.alliance.sign * (config.parking == OUTER ? 2.5 : 0.5) * TILE_WIDTH,
             Math.toRadians(90),
             Lateral.RIGHT
         );
