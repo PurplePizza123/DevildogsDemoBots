@@ -8,11 +8,11 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class LiftCommands {
-    public Command calibrate() {
-        return new InstantCommand(Subsystems.lift::calibrate, Subsystems.lift).andThen(
-            wait.until(() -> Subsystems.lift.calibrated).withTimeout(3000)
-        );
-    }
+//    public Command calibrate() {
+//        return new InstantCommand(Subsystems.lift::calibrate, Subsystems.lift).andThen(
+//            wait.until(() -> Subsystems.lift.calibrated).withTimeout(3000)
+//        );
+//    }
 
     public Command change(double offset) {
         return new InstantCommand(() -> Subsystems.lift.change(offset), Subsystems.lift);

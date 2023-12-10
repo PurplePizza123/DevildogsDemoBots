@@ -9,7 +9,7 @@ public class Commands {
     public static SweeperCommands sweeper;
     public static DroneCommands drone;
     public static DepositCommands deposit;
-    public static HoistCommands hoist;
+//    public static HoistCommands hoist;
     public static ConveyorCommands conveyor;
     public static LiftCommands lift;
     public static IntakeCommands intake;
@@ -28,6 +28,7 @@ public class Commands {
         sweeper = new SweeperCommands();
         vision = new VisionCommands();
         deposit = new DepositCommands();
-        hoist = new HoistCommands();
+//        hoist = new HoistCommands();
+        lift = new LiftCommands();
     }
 }

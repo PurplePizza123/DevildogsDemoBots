@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_117;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_1620;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
@@ -44,7 +45,7 @@ public class Hardware {
     public MotorEx driveBackLeft;
     public MotorEx driveBackRight;
 
-    public MotorEx hoist;
+//    public MotorEx hoist;
     public MotorEx conveyor;
 
 
@@ -55,7 +56,7 @@ public class Hardware {
     public CRServo sweeperRight;
     public CRServo sweeperCenter;
 
-    public CRServo hoistHelp;
+//    public CRServo hoistHelp;
     public Servo drone;
 
     public Servo deposit;
@@ -94,13 +95,15 @@ public class Hardware {
 
         drone = hardwareMap.get(Servo.class, "drone");
 
-        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
+//        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
 
         conveyor = new MotorEx(hardwareMap, "conveyor", RPM_435);
 
         deposit = hardwareMap.get(Servo.class, "deposit");
 
-        hoist = new MotorEx(hardwareMap, "hoist", RPM_1620);
+//        hoist = new MotorEx(hardwareMap, "hoist", RPM_1620);
+
+        lift = new MotorEx(hardwareMap, "lift", RPM_117);
 
 //        intake = new MotorGroup(
 //            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
