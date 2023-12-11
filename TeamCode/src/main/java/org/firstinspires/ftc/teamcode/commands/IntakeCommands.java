@@ -20,15 +20,25 @@ public class IntakeCommands {
             sweeper.stop()
         );
     }
+
     public Command in() {
-        return new InstantCommand(Subsystems.conveyor::in, Subsystems.conveyor);
+        return new InstantCommand(
+            Subsystems.conveyor::in,
+            Subsystems.conveyor
+        );
     }
 
     public Command out() {
-        return new InstantCommand(Subsystems.conveyor::out, Subsystems.conveyor);
+        return new InstantCommand(
+            Subsystems.conveyor::out,
+            Subsystems.conveyor
+        );
     }
 
     public Command stop() {
-        return new InstantCommand(Subsystems.conveyor::stop, Subsystems.conveyor);
+        return new InstantCommand(
+            Subsystems.conveyor::stop,
+            Subsystems.conveyor
+        );
     }
 }

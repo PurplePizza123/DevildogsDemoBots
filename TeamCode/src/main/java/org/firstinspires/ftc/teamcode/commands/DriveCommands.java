@@ -2,11 +2,9 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
-import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
@@ -17,7 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unused"})
 public class DriveCommands {
     public Command setDrivePower(double power) {
         return new InstantCommand(() -> Subsystems.drive.power = power, Subsystems.drive);
@@ -33,28 +31,6 @@ public class DriveCommands {
         );
     }
 
-    public Command temp() {
-        return drive.follow(
-            t -> t.strafeTo(
-                new Pose2d(23.5 * 2, 23.5 * -3 + 6, Math.toRadians(90))
-            )
-        ).andThen(
-            wait.seconds(3),
-            drive.follow(
-                t -> t.strafeTo(
-                    new Pose2d(23.5 * 2, 0, Math.toRadians(90))
-                )
-            )
-        ).andThen(
-            wait.seconds(3),
-            drive.follow(
-                t -> t.strafeTo(
-                    new Pose2d(0, 0, Math.toRadians(90))
-                )
-            )
-        );
-    }
-
     public Command toRecognition() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
@@ -62,7 +38,6 @@ public class DriveCommands {
             )
         );
     }
-
 
     public Command toSpikeMark() {
         return drive.follow(

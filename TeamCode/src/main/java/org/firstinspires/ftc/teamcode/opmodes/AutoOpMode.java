@@ -6,7 +6,6 @@ import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
 
 import org.firstinspires.ftc.teamcode.controls.MenuControl;
 import org.firstinspires.ftc.teamcode.game.Alliance;
-import org.firstinspires.ftc.teamcode.game.Parking;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
@@ -23,7 +22,7 @@ public class AutoOpMode extends OpMode {
         config.navSamples = 50;
 
         Subsystems.drive.setPose(
-            Subsystems.nav.getStartPose(alliance, side)
+            Subsystems.nav.getStartPose()
         );
 
         new MenuControl();

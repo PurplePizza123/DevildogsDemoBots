@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.commands;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class Commands {
-    public static Subsystems subsystems;
+    public static WaitCommands wait;
+    public static AutoCommands auto;
+    public static VisionCommands vision;
     public static MenuCommands menu;
     public static DriveCommands drive;
     public static SweeperCommands sweeper;
@@ -13,22 +15,19 @@ public class Commands {
     public static ConveyorCommands conveyor;
     public static LiftCommands lift;
     public static IntakeCommands intake;
-    public static WaitCommands wait;
-    public static AutoCommands auto;
-    public static VisionCommands vision;
 
     public static void initialize() {
-        menu = new MenuCommands();
-        drive = new DriveCommands();
         wait = new WaitCommands();
         auto = new AutoCommands();
-        drone = new DroneCommands();
-        intake = new IntakeCommands();
-        conveyor = new ConveyorCommands();
-        sweeper = new SweeperCommands();
         vision = new VisionCommands();
+        menu = new MenuCommands();
+        drive = new DriveCommands();
+        sweeper = new SweeperCommands();
+        conveyor = new ConveyorCommands();
+        intake = new IntakeCommands();
+        lift = new LiftCommands();
         deposit = new DepositCommands();
         hoist = new HoistCommands();
-        lift = new LiftCommands();
+        drone = new DroneCommands();
     }
 }

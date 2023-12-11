@@ -21,10 +21,12 @@ public class Subsystems {
         nav = new NavSubsystem();
         vision = new VisionSubsystem();
         conveyor = new ConveyorSubsystem();
-        sweeper = new SweeperSubsystem();
-        drone = new DroneSubsystem();
-        periodic = new PeriodicSubsystem();
-        deposit = new DepositSubsystem();
+        /*sweeper = new SweeperSubsystem();*/
         lift = new LiftSubsystem();
+        deposit = new DepositSubsystem();
+        drone = new DroneSubsystem();
+        /*hoist = new HoistSubsystem();*/
+        /*light = new LightSubsystem();*/
+        periodic = new PeriodicSubsystem();
     }
 }

@@ -7,14 +7,23 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class SweeperCommands {
     public Command in() {
-        return new InstantCommand(Subsystems.sweeper::in, Subsystems.sweeper);
+        return new InstantCommand(
+            Subsystems.sweeper::in,
+            Subsystems.sweeper
+        );
     }
 
     public Command out() {
-        return new InstantCommand(Subsystems.sweeper::out, Subsystems.sweeper);
+        return new InstantCommand(
+            Subsystems.sweeper::out,
+            Subsystems.sweeper
+        );
     }
 
     public Command stop() {
-        return new InstantCommand(Subsystems.sweeper::stop, Subsystems.sweeper);
+        return new InstantCommand(
+            Subsystems.sweeper::stop,
+            Subsystems.sweeper
+        );
     }
 }

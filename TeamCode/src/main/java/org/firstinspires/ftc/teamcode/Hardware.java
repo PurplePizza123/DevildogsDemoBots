@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_117;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_223;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
-import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 
 import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
@@ -16,7 +16,6 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -44,28 +43,26 @@ public class Hardware {
     public MotorEx driveBackLeft;
     public MotorEx driveBackRight;
 
-    public MotorEx hoist;
-    public MotorEx conveyor;
-
-
     public Encoder odometryRight;
     public Encoder odometryCenter;
+
+    public WebcamName frontWebcam;
+    /*public WebcamName rearWebcam;*/
+
+    public MotorEx conveyor;
 
     public CRServo sweeperLeft;
     public CRServo sweeperRight;
     public CRServo sweeperCenter;
 
-    public CRServo hoistHelp;
-    public Servo drone;
+    public MotorEx lift;
 
     public Servo deposit;
 
-    public MotorEx lift;
-    public DigitalChannel liftLimit;
-    public DigitalChannel liftRightLimit;
+    public MotorEx hoist;
+    public CRServo hoistHelp;
 
-    public WebcamName frontWebcam;
-    public WebcamName rearWebcam;
+    public Servo drone;
 
     public RevBlinkinLedDriver lights;
 
@@ -92,33 +89,21 @@ public class Hardware {
         odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRight")));
         odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenterAndIntake")));
 
-        drone = hardwareMap.get(Servo.class, "drone");
-
-        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
+        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
+        /*rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");*/
 
         conveyor = new MotorEx(hardwareMap, "odometryCenterAndIntake", RPM_435);
+
+        lift = new MotorEx(hardwareMap, "lift", RPM_117);
 
         deposit = hardwareMap.get(Servo.class, "deposit");
 
         hoist = new MotorEx(hardwareMap, "hoist", RPM_223);
+        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
 
-        lift = new MotorEx(hardwareMap, "lift", RPM_435);
+        drone = hardwareMap.get(Servo.class, "drone");
 
-//        intake = new MotorGroup(
-//            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),
-//            intakeFrontRight = new CRServo(hardwareMap, "intakeFrontRight"),
-//            intakeRearLeft = new CRServo(hardwareMap, "intakeRearLeft"),
-//            intakeRearRight = new CRServo(hardwareMap, "intakeRearRight")
-//        );
-//
-//        lift = new MotorEx(hardwareMap, "lift", RPM_435);
-//        liftLeftLimit = hardwareMap.get(DigitalChannel.class, "liftLeftLimit");
-//        liftRightLimit = hardwareMap.get(DigitalChannel.class, "liftRightLimit");
-//
-        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
-//        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
-//
-//        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
+        /*lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");*/
 
         clearBulkCache();
     }

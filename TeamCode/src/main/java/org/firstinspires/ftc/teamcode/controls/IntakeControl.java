@@ -9,8 +9,8 @@ import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad2;
 
 public class IntakeControl {
     public IntakeControl() {
-        gamepad2.getGamepadButton(Y)
-            .whenActive(intake.getPixels());
+        /*gamepad2.getGamepadButton(Y)
+            .whenActive(intake.getPixels());*/
 
         gamepad2.getGamepadButton(B)
             .whenActive(intake.in())

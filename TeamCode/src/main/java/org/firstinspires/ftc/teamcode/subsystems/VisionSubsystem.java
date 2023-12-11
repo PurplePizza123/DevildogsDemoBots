@@ -6,11 +6,12 @@ import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import android.annotation.SuppressLint;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.adaptations.ftcdashboard.FtcDashboardProcessor;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -25,6 +26,8 @@ public class VisionSubsystem extends SubsystemBase {
     public static boolean recognitionEnabled = false;
 
     public static boolean detectionEnabled = false;
+
+    private final FtcDashboardProcessor ftcDashboard;
 
     private final TfodProcessor tfod;
 
@@ -42,9 +45,13 @@ public class VisionSubsystem extends SubsystemBase {
 
     public AprilTagDetection detection;
 
+    @SuppressLint("SdCardPath")
     public VisionSubsystem() {
+        ftcDashboard = new FtcDashboardProcessor();
+
         aprilTag = new AprilTagProcessor.Builder().build();
 
+        //noinspection SpellCheckingInspection
         tfod = new TfodProcessor.Builder()
             .setModelFileName("/sdcard/FIRST/tflitemodels/centerstage.tflite")
             .setModelLabels(new String[]{"Team Prop"})
@@ -52,8 +59,10 @@ public class VisionSubsystem extends SubsystemBase {
 
         visionPortal = new VisionPortal.Builder()
             .setCamera(hardware.frontWebcam)
-            .addProcessors(tfod, aprilTag)
+            .addProcessors(ftcDashboard, tfod, aprilTag)
             .build();
+
+        FtcDashboard.getInstance().startCameraStream(ftcDashboard, 0);
     }
 
     @Override

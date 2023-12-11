@@ -7,14 +7,23 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class DepositCommands {
     public Command open() {
-        return new InstantCommand(Subsystems.deposit::open, Subsystems.deposit);
+        return new InstantCommand(
+            Subsystems.deposit::open,
+            Subsystems.deposit
+        );
     }
 
     public Command close() {
-        return new InstantCommand(Subsystems.deposit::closed, Subsystems.deposit);
+        return new InstantCommand(
+            Subsystems.deposit::closed,
+            Subsystems.deposit
+        );
     }
 
     public Command stop() {
-        return new InstantCommand(Subsystems.sweeper::stop, Subsystems.sweeper);
+        return new InstantCommand(
+            Subsystems.sweeper::stop,
+            Subsystems.sweeper
+        );
     }
 }

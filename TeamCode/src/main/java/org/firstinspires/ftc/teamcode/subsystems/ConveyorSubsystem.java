@@ -5,13 +5,14 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
+import android.annotation.SuppressLint;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 public class ConveyorSubsystem extends SubsystemBase {
-    public static double POWER = .5;
+    public static double POWER = 0.5;
 
     private boolean pressed = false;
 
@@ -21,8 +22,16 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     @Override
+    @SuppressLint("DefaultLocale")
     public void periodic() {
-        telemetry.addData("Conveyor", () -> String.format("%.1f pow, pressed: %s", hardware.conveyor.get(), pressed));
+        telemetry.addData(
+            "Conveyor",
+            () -> String.format(
+                "%.1f pow, pressed: %s",
+                hardware.conveyor.get(),
+                pressed
+            )
+        );
     }
 
     public void in() {

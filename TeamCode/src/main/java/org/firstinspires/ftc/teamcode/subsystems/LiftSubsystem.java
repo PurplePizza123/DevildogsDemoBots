@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.arcrobotics.ftclib.util.MathUtils.clamp;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
@@ -13,7 +12,6 @@ import android.annotation.SuppressLint;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 public class LiftSubsystem extends SubsystemBase {
@@ -24,33 +22,19 @@ public class LiftSubsystem extends SubsystemBase {
     public static double MIN = 0;
     public static double MAX = 30; // TODO: change max to what max needs to be.
 
-//    public boolean calibrated = false;
     public double height = MIN;
 
     public LiftSubsystem() {
-            hardware.lift.motor.setDirection(REVERSE);
-            hardware.lift.motor.setMode(STOP_AND_RESET_ENCODER);
-            hardware.lift.motor.setTargetPosition(0);
-            hardware.lift.motor.setMode(RUN_TO_POSITION);
-            hardware.lift.motor.setPower(+POWER);
+        hardware.lift.motor.setDirection(REVERSE);
+        hardware.lift.motor.setMode(STOP_AND_RESET_ENCODER);
+        hardware.lift.motor.setTargetPosition(0);
+        hardware.lift.motor.setMode(RUN_TO_POSITION);
+        hardware.lift.motor.setPower(+POWER);
     }
 
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
-//        if (calibrated) return;
-
-//        boolean isDown = !hardware.liftLimit.getState();
-//
-//        if (isDown) {
-//            hardware.lift.motor.setMode(STOP_AND_RESET_ENCODER);
-//            hardware.lift.motor.setTargetPosition(0);
-//            hardware.lift.motor.setMode(RUN_TO_POSITION);
-//            hardware.lift.motor.setPower(+POWER);
-//            calibrated = true;
-//            to(height = MIN);
-//        }
-
         telemetry.addData(
             "Lift",
             () -> String.format(
@@ -60,12 +44,6 @@ public class LiftSubsystem extends SubsystemBase {
             )
         );
     }
-
-//    public void calibrate() {
-//        calibrated = false;
-//        hardware.lift.motor.setMode(RUN_USING_ENCODER);
-//        hardware.lift.motor.setPower(-POWER);
-//    }
 
     public void change(double offset) {
         to(height + offset);

@@ -14,7 +14,6 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.game.Backdrop;
-import org.firstinspires.ftc.teamcode.game.Parking;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class MenuCommands {
@@ -31,6 +30,7 @@ public class MenuCommands {
             Subsystems.menu
         );
     }
+
     public Command toggleParking() {
         return new InstantCommand(
             () -> (config.parking) = config.parking == null || config.parking == OUTER ? INNER : OUTER,
@@ -49,7 +49,7 @@ public class MenuCommands {
     public Command setStartPose() {
         return new InstantCommand(
             () -> Subsystems.drive.setPose(
-                Subsystems.nav.getStartPose(config.alliance, config.side)
+                Subsystems.nav.getStartPose()
             ), Subsystems.drive, Subsystems.nav
         );
     }

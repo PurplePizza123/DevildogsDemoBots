@@ -8,14 +8,24 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class DroneCommands {
-    public Command lock() {
-        return new InstantCommand(Subsystems.drone::lock, Subsystems.drone);
+    public Command release() {
+        return open().andThen(
+            wait.seconds(1),
+            close()
+        );
     }
 
-    public Command release() {
-        return new InstantCommand(Subsystems.drone::release, Subsystems.drone).andThen(
-            wait.seconds(1),
-            lock()
+    private Command open() {
+        return new InstantCommand(
+            Subsystems.drone::open,
+            Subsystems.drone
+        );
+    }
+
+    private Command close() {
+        return new InstantCommand(
+            Subsystems.drone::close,
+            Subsystems.drone
         );
     }
 }

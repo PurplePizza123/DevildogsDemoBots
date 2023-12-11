@@ -9,9 +9,9 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PeriodicSubsystem extends SubsystemBase {
+    private final ElapsedTime periodicTimer = new ElapsedTime();
+    private final ElapsedTime runtimeTimer = new ElapsedTime();
     private int periodicCount;
-    private ElapsedTime periodicTimer = new ElapsedTime();
-    private ElapsedTime runtimeTimer = new ElapsedTime();
 
     @Override
     @SuppressLint("DefaultLocale")
@@ -31,6 +31,5 @@ public class PeriodicSubsystem extends SubsystemBase {
         periodicTimer.reset();
 
         telemetry.update();
-        telemetry.clearAll();
     }
 }

@@ -10,10 +10,6 @@ public class HoistCommands {
         return new InstantCommand(Subsystems.hoist::up, Subsystems.hoist);
     }
 
-//    public Command down() {
-//        return new InstantCommand(Subsystems.hoist::down, Subsystems.hoist);
-//    }
-
     public Command stop() {
         return new InstantCommand(Subsystems.hoist::stop, Subsystems.hoist);
     }

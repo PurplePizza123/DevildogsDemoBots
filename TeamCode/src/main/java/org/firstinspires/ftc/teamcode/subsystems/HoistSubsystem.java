@@ -14,12 +14,12 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
 public class HoistSubsystem extends SubsystemBase {
-    public static double POWER = .1;
-    public static double SPOOL_CIRCUMFERENCE = 63 / 25.3 * Math.PI; //getting in from mm
+    public static double POWER = 0.1;
+    public static double SPOOL_CIRCUMFERENCE = 63 / 25.3 * Math.PI;
     public static double PULSES_PER_REVOLUTION = 751.8;
     public static double HEIGHT_PER_PULSE = SPOOL_CIRCUMFERENCE / PULSES_PER_REVOLUTION;
     public static double MIN = 0;
-    public static double MAX = 16; // TODO: change max to what max needs to be.
+    public static double MAX = 16;
     public static double height = MIN;
 
     public HoistSubsystem() {
@@ -59,7 +59,7 @@ public class HoistSubsystem extends SubsystemBase {
         height = clamp(height, MIN + 0.25, MAX);
         hardware.hoist.motor.setPower(height > this.height ? +POWER : -POWER);
         hardware.hoist.motor.setTargetPosition(
-                (int)(((this.height = height) - MIN) / HEIGHT_PER_PULSE)
+            (int)(((this.height = height) - MIN) / HEIGHT_PER_PULSE)
         );
     }
 }

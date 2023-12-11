@@ -10,37 +10,11 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class VisionCommands {
-    public Command detect() {
-        return vision.enableDetection().andThen(
-            attemptDetection(),
-            disableDetection()
-        );
-    }
     public Command recognize() {
         return vision.enableRecognition().andThen(
             wait.seconds(.5),
             attemptRecognition(),
             disableRecognition()
-        );
-    }
-
-    private Command attemptDetection() {
-        return wait.until(
-            () -> Subsystems.vision.detection != null
-        ).withTimeout(3000);
-    }
-
-    private Command enableDetection() {
-        return new InstantCommand(
-            () -> VisionSubsystem.detectionEnabled = true,
-            Subsystems.vision
-        );
-    }
-
-    private Command disableDetection() {
-        return new InstantCommand(
-            () -> VisionSubsystem.detectionEnabled = false,
-            Subsystems.vision
         );
     }
 
@@ -60,6 +34,33 @@ public class VisionCommands {
     private Command disableRecognition() {
         return new InstantCommand(
             () -> VisionSubsystem.recognitionEnabled = false,
+            Subsystems.vision
+        );
+    }
+
+    public Command detect() {
+        return vision.enableDetection().andThen(
+            attemptDetection(),
+            disableDetection()
+        );
+    }
+
+    private Command attemptDetection() {
+        return wait.until(
+            () -> Subsystems.vision.detection != null
+        ).withTimeout(3000);
+    }
+
+    private Command enableDetection() {
+        return new InstantCommand(
+            () -> VisionSubsystem.detectionEnabled = true,
+            Subsystems.vision
+        );
+    }
+
+    private Command disableDetection() {
+        return new InstantCommand(
+            () -> VisionSubsystem.detectionEnabled = false,
             Subsystems.vision
         );
     }

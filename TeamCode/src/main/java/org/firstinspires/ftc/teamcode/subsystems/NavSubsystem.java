@@ -10,10 +10,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
-import org.firstinspires.ftc.teamcode.game.Alliance;
-import org.firstinspires.ftc.teamcode.game.Parking;
-import org.firstinspires.ftc.teamcode.game.Side;
-
+/** @noinspection UnaryPlus*/
 @Config
 public class NavSubsystem extends SubsystemBase {
     private static final double TILE_WIDTH = 23.5;
@@ -23,11 +20,11 @@ public class NavSubsystem extends SubsystemBase {
     private static final double ROBOT_WIDTH = 11.625;
     private static final double ROBOT_WIDTH_HALF = ROBOT_WIDTH / 2;
 
-    public Pose2d getStartPose(Alliance alliance, Side side) {
+    public Pose2d getStartPose() {
         return new Pose2d(
-             side.sign * (side == NORTH ? .5 : 1.5) * TILE_WIDTH,
-            alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH_HALF),
-            alliance.sign * Math.toRadians(-90)
+            config.side.sign * (config.side == NORTH ? .5 : 1.5) * TILE_WIDTH,
+            config.alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH_HALF),
+            config.alliance.sign * Math.toRadians(-90)
         );
     }
 
@@ -38,7 +35,6 @@ public class NavSubsystem extends SubsystemBase {
             config.alliance.sign * Math.toRadians(-90)
         );
     }
-
 
     public Pose2d getSpikeMarkPose(int detection) {
         return createPose(
@@ -106,7 +102,7 @@ public class NavSubsystem extends SubsystemBase {
     public enum Axial {
         FRONT(0), CENTER(NaN), BACK(Math.PI);
 
-        double heading = 0;
+        public final double heading;
 
         Axial(double heading) {
             this.heading = heading;
@@ -116,7 +112,7 @@ public class NavSubsystem extends SubsystemBase {
     public enum Lateral {
         LEFT(+Math.PI / 2), CENTER(NaN), RIGHT(-Math.PI / 2);
 
-        double heading = 0;
+        public final double heading;
 
         Lateral(double heading) {
             this.heading = heading;
