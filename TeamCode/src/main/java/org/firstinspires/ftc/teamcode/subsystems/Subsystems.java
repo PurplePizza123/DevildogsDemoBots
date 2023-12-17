@@ -10,7 +10,7 @@ public class Subsystems {
     public static ConveyorSubsystem conveyor;
     public static SweeperSubsystem sweeper;
     public static DepositSubsystem deposit;
-//    public static HoistSubsystem hoist;
+    public static HoistSubsystem hoist;
     public static DroneSubsystem drone;
     public static LightSubsystem light;
     public static PeriodicSubsystem periodic;

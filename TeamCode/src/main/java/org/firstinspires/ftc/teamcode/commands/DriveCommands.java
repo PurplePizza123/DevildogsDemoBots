@@ -55,6 +55,15 @@ public class DriveCommands {
         );
     }
 
+    public Command toRecognition() {
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getRecognitionPose()
+            )
+        );
+    }
+
+
     public Command toSpikeMark() {
         return drive.follow(
             t -> t.strafeToLinearHeading(

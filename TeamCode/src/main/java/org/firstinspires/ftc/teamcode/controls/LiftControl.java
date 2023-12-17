@@ -18,10 +18,10 @@ public class LiftControl {
 
         new Trigger(() ->
             gamepad2.getTrigger(LEFT_TRIGGER) > 0.5
-        ).whileActiveContinuous(lift.change(-0.5));
+        ).whileActiveContinuous(lift.change(-0.25));
 
         new Trigger(() ->
             gamepad2.getTrigger(RIGHT_TRIGGER) > 0.5
-        ).whileActiveContinuous(lift.change(+0.5));
+        ).whileActiveContinuous(lift.change(+0.25));
     }
 }

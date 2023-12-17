@@ -66,6 +66,9 @@ public class MenuControl {
             .whenInactive(menu.setStartPose());
 
         gamepad2.getGamepadButton(LEFT_STICK_BUTTON)
-            .whenActive(menu.toggleParking());
+                .whenActive(menu.toggleParking());
+
+        gamepad2.getGamepadButton(RIGHT_STICK_BUTTON)
+                .whenActive(menu.toggleBackdrop());
     }
 }

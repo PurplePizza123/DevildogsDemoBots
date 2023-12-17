@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.game;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
 
 import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
+import static org.firstinspires.ftc.teamcode.game.Backdrop.LEFT;
 import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
 import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 
@@ -17,6 +18,7 @@ public class Config {
     public Alliance alliance = RED;
     public Side side = NORTH;
     public Parking parking = INNER;
+    public Backdrop backdrop = LEFT;
     public double offsetX = 0;
     public double offsetY = 0;
     public double delay = 0;

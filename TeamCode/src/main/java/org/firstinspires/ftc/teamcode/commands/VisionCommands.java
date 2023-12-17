@@ -18,6 +18,7 @@ public class VisionCommands {
     }
     public Command recognize() {
         return vision.enableRecognition().andThen(
+            wait.seconds(.5),
             attemptRecognition(),
             disableRecognition()
         );
@@ -46,7 +47,7 @@ public class VisionCommands {
     private Command attemptRecognition() {
         return wait.until(
             () -> Subsystems.vision.recognition != null
-        ).withTimeout(500);
+        ).withTimeout(1500);
     }
 
     private Command enableRecognition() {

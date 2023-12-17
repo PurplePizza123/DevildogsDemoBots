@@ -25,11 +25,20 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getStartPose(Alliance alliance, Side side) {
         return new Pose2d(
-             side.sign * (side == NORTH ? 1: 2) * TILE_WIDTH - (side.sign * (ROBOT_WIDTH_HALF + 3d/8)), //TODO: Figure out new robot position while starting on space to view 0 and 1
+             side.sign * (side == NORTH ? .5 : 1.5) * TILE_WIDTH,
             alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH_HALF),
             alliance.sign * Math.toRadians(-90)
         );
     }
+
+    public Pose2d getRecognitionPose() {
+        return new Pose2d(
+            config.side.sign * (config.side == NORTH ? 1: 2) * TILE_WIDTH - (config.side.sign * (ROBOT_WIDTH_HALF + 3d/8)),
+            config.alliance.sign * (2.95 * TILE_WIDTH - ROBOT_LENGTH_HALF),
+            config.alliance.sign * Math.toRadians(-90)
+        );
+    }
+
 
     public Pose2d getSpikeMarkPose(int detection) {
         return createPose(
@@ -79,7 +88,7 @@ public class NavSubsystem extends SubsystemBase {
     public Pose2d getBackdropPose(int detection) {
         return createPose(
             TILE_WIDTH * 2.7,
-            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH,
+            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH + (1.5 * config.backdrop.sign),
             Math.toRadians(90),
             Lateral.RIGHT
         );

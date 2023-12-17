@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
+import org.firstinspires.ftc.teamcode.game.Backdrop;
 import org.firstinspires.ftc.teamcode.game.Parking;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
@@ -34,6 +35,13 @@ public class MenuCommands {
         return new InstantCommand(
             () -> (config.parking) = config.parking == null || config.parking == OUTER ? INNER : OUTER,
             Subsystems.menu
+        );
+    }
+
+    public Command toggleBackdrop() {
+        return new InstantCommand(
+                () -> (config.backdrop) = config.backdrop == null || config.backdrop == Backdrop.LEFT ? Backdrop.RIGHT : Backdrop.LEFT,
+                Subsystems.menu
         );
     }
 

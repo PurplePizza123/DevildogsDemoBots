@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_117;
-import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_1620;
+import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_223;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 
@@ -12,10 +11,10 @@ import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
-import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -45,7 +44,7 @@ public class Hardware {
     public MotorEx driveBackLeft;
     public MotorEx driveBackRight;
 
-//    public MotorEx hoist;
+    public MotorEx hoist;
     public MotorEx conveyor;
 
 
@@ -56,7 +55,7 @@ public class Hardware {
     public CRServo sweeperRight;
     public CRServo sweeperCenter;
 
-//    public CRServo hoistHelp;
+    public CRServo hoistHelp;
     public Servo drone;
 
     public Servo deposit;
@@ -91,19 +90,19 @@ public class Hardware {
         );
 
         odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRight")));
-        odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
+        odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenterAndIntake")));
 
         drone = hardwareMap.get(Servo.class, "drone");
 
-//        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
+        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
 
-        conveyor = new MotorEx(hardwareMap, "conveyor", RPM_435);
+        conveyor = new MotorEx(hardwareMap, "odometryCenterAndIntake", RPM_435);
 
         deposit = hardwareMap.get(Servo.class, "deposit");
 
-//        hoist = new MotorEx(hardwareMap, "hoist", RPM_1620);
+        hoist = new MotorEx(hardwareMap, "hoist", RPM_223);
 
-        lift = new MotorEx(hardwareMap, "lift", RPM_117);
+        lift = new MotorEx(hardwareMap, "lift", RPM_435);
 
 //        intake = new MotorGroup(
 //            intakeFrontLeft = new CRServo(hardwareMap, "intakeFrontLeft"),

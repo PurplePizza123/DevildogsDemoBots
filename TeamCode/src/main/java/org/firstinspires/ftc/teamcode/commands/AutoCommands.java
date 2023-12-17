@@ -13,6 +13,7 @@ public class AutoCommands {
     public Command execute() {
         return wait.seconds(config.delay).alongWith(
             deposit.close(),
+            drive.toRecognition(),
             vision.recognize()
         ).andThen(
             scorePurplePixel(),
