@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
 public class HoistSubsystem extends SubsystemBase {
@@ -21,6 +22,7 @@ public class HoistSubsystem extends SubsystemBase {
     public static double MIN = 0;
     public static double MAX = 16;
     public static double height = MIN;
+    public static ElapsedTime atPositionTimer = new ElapsedTime();
 
     public HoistSubsystem() {
         hardware.hoist.motor.setDirection(REVERSE);
@@ -33,6 +35,9 @@ public class HoistSubsystem extends SubsystemBase {
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
+        if (hardware.hoist.atTargetPosition() && atPositionTimer.seconds() >= 3)
+            hardware.hoistHelp.setPower(0);
+
         telemetry.addData(
             "Hoist",
             () -> String.format(
@@ -56,7 +61,10 @@ public class HoistSubsystem extends SubsystemBase {
     }
 
     public void to(double height) {
+        atPositionTimer.reset();
         height = clamp(height, MIN + 0.25, MAX);
+        if (height > this.height)
+            hardware.hoistHelp.setPower(POWER);
         hardware.hoist.motor.setPower(height > this.height ? +POWER : -POWER);
         hardware.hoist.motor.setTargetPosition(
             (int)(((this.height = height) - MIN) / HEIGHT_PER_PULSE)
