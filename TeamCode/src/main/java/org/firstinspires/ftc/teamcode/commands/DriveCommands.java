@@ -73,15 +73,23 @@ public class DriveCommands {
         );
     }
 
-    public Command toBackdrop() {
+    public Command toBackdropSide() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
-                nav.getBackdropPose(vision.recognitionId)
+                nav.getBackdropSidePose(vision.recognitionId)
             )
         );
     }
 
-    public Command toParking() {
+    public Command toBackdropFront() {
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getBackdropFrontPose(vision.recognitionId)
+            )
+        );
+    }
+
+        public Command toParking() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
                 nav.getParkingPose()

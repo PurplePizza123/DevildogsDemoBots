@@ -14,9 +14,5 @@ public class HoistControl {
 
         gamepad2.getGamepadButton(RIGHT_BUMPER)
             .whileActiveContinuous(hoist.change(+0.25));
-
-        gamepad2.getGamepadButton(DPAD_UP)
-            .whenActive(hoist.up())
-            .whenInactive(hoist.stop());
     }
 }

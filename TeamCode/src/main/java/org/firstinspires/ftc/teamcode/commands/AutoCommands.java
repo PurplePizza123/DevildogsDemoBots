@@ -31,7 +31,18 @@ public class AutoCommands {
         return drive.toBackdropApproach1().andThen(
             vision.detect(),
             drive.toBackdropApproach2(),
-            drive.toBackdrop(),
+            drive.toBackdropSide(),
+            wait.seconds(1),
+            deposit.open(),
+            wait.seconds(2),
+            deposit.close()
+        );
+    }
+
+    public Command scorePixel() {
+        return drive.toBackdropApproach1().andThen(
+            vision.detect(),
+            drive.toBackdropFront(),
             wait.seconds(1),
             deposit.open(),
             wait.seconds(2),

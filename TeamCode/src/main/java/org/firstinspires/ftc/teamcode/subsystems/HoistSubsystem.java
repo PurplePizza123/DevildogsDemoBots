@@ -48,14 +48,6 @@ public class HoistSubsystem extends SubsystemBase {
         );
     }
 
-    public void up() {
-        hardware.hoistHelp.setPower(+POWER);
-    }
-
-    public void stop() {
-        hardware.hoistHelp.setPower(0);
-    }
-
     public void change(double offset) {
         to(height + offset);
     }

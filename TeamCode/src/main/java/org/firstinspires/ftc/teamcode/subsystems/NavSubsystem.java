@@ -81,11 +81,19 @@ public class NavSubsystem extends SubsystemBase {
         );
     }
 
-    public Pose2d getBackdropPose(int detection) {
+    public Pose2d getBackdropSidePose(int detection) {
         return createPose(
             TILE_WIDTH * 2.7,
             (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH + (1.5 * config.backdrop.sign),
             Math.toRadians(90),
+            Lateral.RIGHT
+        );
+    }
+    public Pose2d getBackdropFrontPose(int detection) {
+        return createPose(
+            TILE_WIDTH * 2.7,
+            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH + (1.5 * config.backdrop.sign),
+            0,
             Lateral.RIGHT
         );
     }
