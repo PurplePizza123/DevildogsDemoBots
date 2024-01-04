@@ -19,9 +19,9 @@ public class SweeperSubsystem extends SubsystemBase {
             "Sweeper (L,R,C)",
                 () -> String.format(
                 "%.2f vel, %.2f vel, %.2f vel",
-                hardware.sweeperCenter.get(),
-                hardware.sweeperLeft.get(),
-                hardware.sweeperRight.get()
+                hardware.sweeperCenter.getPower(),
+                hardware.sweeperLeft.getPower(),
+                hardware.sweeperRight.getPower()
             )
         );
     }
@@ -39,8 +39,8 @@ public class SweeperSubsystem extends SubsystemBase {
     }
 
     private void set(double power) {
-        hardware.sweeperLeft.set(power);
-        hardware.sweeperRight.set(power);
-        hardware.sweeperCenter.set(power);
+        hardware.sweeperLeft.setPower(power);
+        hardware.sweeperRight.setPower(power);
+        hardware.sweeperCenter.setPower(power);
     }
 }
