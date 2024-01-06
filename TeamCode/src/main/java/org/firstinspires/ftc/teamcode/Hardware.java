@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_117;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_223;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
@@ -94,7 +93,7 @@ public class Hardware {
 
         conveyor = new MotorEx(hardwareMap, "odometryCenterAndIntake", RPM_435);
 
-        lift = new MotorEx(hardwareMap, "lift", RPM_117);
+        lift = new MotorEx(hardwareMap, "lift", RPM_435);
 
         deposit = hardwareMap.get(Servo.class, "deposit");
 

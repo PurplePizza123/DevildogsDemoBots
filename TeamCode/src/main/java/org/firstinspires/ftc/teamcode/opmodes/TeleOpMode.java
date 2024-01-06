@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.controls.DriveControl;
 import org.firstinspires.ftc.teamcode.controls.DroneControl;
 import org.firstinspires.ftc.teamcode.controls.HoistControl;
 import org.firstinspires.ftc.teamcode.controls.DepositControl;
+import org.firstinspires.ftc.teamcode.controls.IntakeControl;
+import org.firstinspires.ftc.teamcode.controls.LiftControl;
 
 @TeleOp(name = "Teleop")
 @SuppressWarnings("unused")
@@ -26,8 +28,8 @@ public class TeleOpMode extends OpMode {
         );
 
         new DriveControl();
-        /*new IntakeControl();*/
-        /*new LiftControl();*/
+        new IntakeControl();
+        new LiftControl();
         new DepositControl();
         new HoistControl();
         new DroneControl();

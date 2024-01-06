@@ -16,11 +16,11 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 @Config
 public class LiftSubsystem extends SubsystemBase {
     public static double SPOOL_CIRCUMFERENCE = 1.5748 * Math.PI;
-    public static double PULSES_PER_REVOLUTION = 1425.1;
+    public static double PULSES_PER_REVOLUTION = 384.5;
     public static double HEIGHT_PER_PULSE = SPOOL_CIRCUMFERENCE / PULSES_PER_REVOLUTION;
     public static double POWER = 1.0;
     public static double MIN = 0;
-    public static double MAX = 30; // TODO: change max to what max needs to be.
+    public static double MAX = 28; // TODO: change max to what max needs to be.
 
     public double height = MIN;
 
