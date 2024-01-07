@@ -18,7 +18,7 @@ public class HoistSubsystem extends SubsystemBase {
     public static double SERVO_POWER = 1.0;
     public static double MOTOR_POWER = 1.0;
     public static double SPOOL_CIRCUMFERENCE = 63 / 25.3 * Math.PI;
-    public static double PULSES_PER_REVOLUTION = 751.8;
+    public static double PULSES_PER_REVOLUTION = 1425.1;
     public static double HEIGHT_PER_PULSE = SPOOL_CIRCUMFERENCE / PULSES_PER_REVOLUTION;
     public static double MIN = 0;
     public static double MAX = 18;
@@ -27,10 +27,10 @@ public class HoistSubsystem extends SubsystemBase {
 
     public HoistSubsystem() {
         hardware.hoist.motor.setDirection(REVERSE);
-        hardware.hoist.motor.setMode(STOP_AND_RESET_ENCODER);
-        hardware.hoist.motor.setTargetPosition(0);
-        hardware.hoist.motor.setMode(RUN_TO_POSITION);
-        hardware.hoist.motor.setPower(+MOTOR_POWER);
+//        hardware.hoist.motor.setMode(STOP_AND_RESET_ENCODER);
+//        hardware.hoist.motor.setTargetPosition(0);
+//        hardware.hoist.motor.setMode(RUN_TO_POSITION);
+//        hardware.hoist.motor.setPower(+MOTOR_POWER);
     }
 
     @Override
@@ -63,5 +63,10 @@ public class HoistSubsystem extends SubsystemBase {
         hardware.hoist.motor.setTargetPosition(
             (int)(((this.height = height) - MIN) / HEIGHT_PER_PULSE)
         );
+    }
+
+    public void set(double power) {
+        hardware.hoistHelp.setPower(SERVO_POWER);
+        hardware.hoist.set(power);
     }
 }

@@ -9,10 +9,18 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.hoist;
 
 public class HoistControl {
     public HoistControl() {
+//        gamepad2.getGamepadButton(LEFT_BUMPER)
+//            .whileActiveContinuous(hoist.change(-0.25));
+//
+//        gamepad2.getGamepadButton(RIGHT_BUMPER)
+//            .whileActiveContinuous(hoist.change(+0.25));
+
         gamepad2.getGamepadButton(LEFT_BUMPER)
-            .whileActiveContinuous(hoist.change(-0.25));
+            .whileActiveContinuous(hoist.set(-1))
+            .whenInactive(hoist.set(0));
 
         gamepad2.getGamepadButton(RIGHT_BUMPER)
-            .whileActiveContinuous(hoist.change(+0.25));
+            .whileActiveContinuous(hoist.set(+1))
+            .whenInactive(hoist.set(0));
     }
 }

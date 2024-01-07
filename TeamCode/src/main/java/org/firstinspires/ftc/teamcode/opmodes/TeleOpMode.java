@@ -23,9 +23,9 @@ public class TeleOpMode extends OpMode {
 
         waitForStart();
 
-        schedule(
+        /*schedule(
             vision.detect()
-        );
+        );*/
 
         new DriveControl();
         new IntakeControl();

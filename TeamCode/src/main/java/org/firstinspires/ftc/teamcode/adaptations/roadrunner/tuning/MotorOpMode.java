@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Config
 @TeleOp
-@Disabled
+//@Disabled
 public class MotorOpMode extends LinearOpMode {
     public static double POWER = 0.5;
 
@@ -39,7 +39,7 @@ public class MotorOpMode extends LinearOpMode {
         driveBackRight.setMode(RUN_WITHOUT_ENCODER);
 
         OverflowEncoder odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRight")));
-        OverflowEncoder odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
+        OverflowEncoder odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenterAndIntake")));
 
         odometryRight.setDirection(REVERSE);
 

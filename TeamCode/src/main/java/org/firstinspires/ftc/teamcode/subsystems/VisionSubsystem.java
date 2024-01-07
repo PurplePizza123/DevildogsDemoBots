@@ -34,7 +34,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     public static boolean recognitionEnabled = false;
 
-    public static boolean detectionEnabled = false;
+    public static boolean detectionEnabled = true;
 
     private final FtcDashboardProcessor ftcDashboard;
 
@@ -219,7 +219,7 @@ public class VisionSubsystem extends SubsystemBase {
         detectionPose = new com.acmerobotics.roadrunner.Pose2d(
             aprilTagPose.getX() - rotatedPose.getX(),
             aprilTagPose.getY() - rotatedPose.getY(),
-            aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw)
+            Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw)
         );
     }
 }
