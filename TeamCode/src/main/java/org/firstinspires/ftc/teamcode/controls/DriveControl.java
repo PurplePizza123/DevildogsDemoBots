@@ -21,7 +21,7 @@ public class DriveControl {
         );
 
         gamepad1.getGamepadButton(DPAD_DOWN)
-            .whenActive(drive.setDrivePower(0.25));
+            .whenActive(drive.setDrivePower(0.34));
 
         gamepad1.getGamepadButton(DPAD_LEFT)
             .or(gamepad1.getGamepadButton(DPAD_RIGHT))
