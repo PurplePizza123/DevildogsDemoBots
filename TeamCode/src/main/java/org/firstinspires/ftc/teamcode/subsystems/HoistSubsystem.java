@@ -42,9 +42,10 @@ public class HoistSubsystem extends SubsystemBase {
         telemetry.addData(
             "Hoist",
             () -> String.format(
-                "%.1f pow, %.1f pow",
+                "%.1f pow, %.1f pow, %.1f height",
+                hardware.hoistHelp.getPower(),
                 hardware.hoist.get(),
-                hardware.hoistHelp.getPower()
+                hardware.hoist.getCurrentPosition() * HEIGHT_PER_PULSE
             )
         );
     }

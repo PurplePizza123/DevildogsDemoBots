@@ -18,7 +18,7 @@ public class SweeperSubsystem extends SubsystemBase {
         telemetry.addData(
             "Sweeper (L,R,C)",
                 () -> String.format(
-                "%.2f vel, %.2f vel, %.2f vel",
+                "%.2f pow, %.2f pow, %.2f pow",
                 hardware.sweeperCenter.getPower(),
                 hardware.sweeperLeft.getPower(),
                 hardware.sweeperRight.getPower()

@@ -32,8 +32,6 @@ public class VisionSubsystem extends SubsystemBase {
 
     public static double CAMERA_Y_INCHES = 6.5;
 
-    public static int UPDATE_DETECTION_POSE = 2;
-
     public static boolean recognitionEnabled = false;
 
     public static boolean detectionEnabled = false;
@@ -92,12 +90,16 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     @Override
+    @SuppressLint("DefaultLocale")
     public void periodic() {
         visionPortal.setProcessorEnabled(tfod, recognitionEnabled);
         visionPortal.setProcessorEnabled(aprilTag, detectionEnabled);
 
+        processRecognitions();
+        processDetections();
+
         telemetry.addData(
-            "Vision",
+            "Vision (State)",
             () -> String.format(
                 "Recognition: %s, Detection: %s",
                 recognitionEnabled,
@@ -105,14 +107,43 @@ public class VisionSubsystem extends SubsystemBase {
             )
         );
 
-        processRecognitions();
-        processDetections();
+        telemetry.addData(
+            "Vision (Recognition)",
+            () -> recognition != null ? String.format(
+                "%s, %.0f%%, %d",
+                recognition.getLabel(),
+                recognition.getConfidence() * 100,
+                recognitionId
+            ) : "None"
+        );
+
+        telemetry.addData(
+            "Vision (Detection)",
+            () -> detection != null ? String.format(
+                "%d, %s, %.1fx, %.1fy, %.1fz",
+                detection.id,
+                detection.metadata.name,
+                detection.ftcPose.x,
+                detection.ftcPose.y,
+                detection.ftcPose.z
+            ) : "Null"
+        );
+
+        telemetry.addData(
+            "Vision (Detection Pose)",
+            () -> detection != null ? String.format(
+                "%.1fx, %.1fy, %.1f°",
+                detectionPose.position.x,
+                detectionPose.position.y,
+                Math.toDegrees(
+                    detectionPose.heading.toDouble()
+                )
+            ) : "None"
+        );
     }
 
     @SuppressLint("DefaultLocale")
     public void log() {
-        Log.i("VisionSubsystem", "UPDATE_DETECTION_POSE: " + UPDATE_DETECTION_POSE);
-
         Log.i(
             "VisionSubsystem",
             "Detection: " + (detection != null ?
@@ -143,7 +174,6 @@ public class VisionSubsystem extends SubsystemBase {
         );
     }
 
-    @SuppressLint("DefaultLocale")
     private void processRecognitions() {
         recognitions = tfod.getRecognitions();
 
@@ -162,18 +192,6 @@ public class VisionSubsystem extends SubsystemBase {
             else if (x <= 393) recognitionId = -1;
             else recognitionId = 0;
         }
-
-        if (recognition != null) {
-            telemetry.addData(
-                "Recognition",
-                () -> String.format(
-                    "%s, %.0f%%, %.0fx, %.0fy, %d",
-                    recognition.getLabel(),
-                    recognition.getConfidence() * 100,
-                    x, y, recognitionId
-                )
-            );
-        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -182,24 +200,6 @@ public class VisionSubsystem extends SubsystemBase {
 
         detection = detections.size() > 0 ? detections.get(0) : null;
 
-        updateDetectionPose();
-
-        if (detection != null) {
-            telemetry.addData(
-                "Detection",
-                () -> String.format(
-                    "%d, %s, %.1fx, %.1fy, %.1fz",
-                    detection.id,
-                    detection.metadata.name,
-                    detection.ftcPose.x,
-                    detection.ftcPose.y,
-                    detection.ftcPose.z
-                )
-            );
-        }
-    }
-
-    private void updateDetectionPose() {
         if (detection == null) {
             detectionPose = null;
             return;
