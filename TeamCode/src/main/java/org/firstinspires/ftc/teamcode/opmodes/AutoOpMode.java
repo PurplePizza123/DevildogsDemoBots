@@ -20,7 +20,6 @@ public class AutoOpMode extends OpMode {
         config.offsetX = 0;
         config.offsetY = 0;
         config.delay = 0;
-        config.navSamples = 50;
 
         Subsystems.drive.setPose(
             Subsystems.nav.getStartPose()

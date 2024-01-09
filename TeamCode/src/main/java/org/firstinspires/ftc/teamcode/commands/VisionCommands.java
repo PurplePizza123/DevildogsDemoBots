@@ -41,7 +41,6 @@ public class VisionCommands {
     public Command detect() {
         return vision.enableDetection().andThen(
             attemptDetection(),
-            disableDetection(),
             log()
         );
     }

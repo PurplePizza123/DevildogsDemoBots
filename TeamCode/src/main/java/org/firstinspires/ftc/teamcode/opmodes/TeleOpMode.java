@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.game.Config.config;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.controls.DriveControl;
@@ -19,13 +17,7 @@ public class TeleOpMode extends OpMode {
     public void initialize() {
         super.initialize();
 
-        config.navSamples = 20;
-
         waitForStart();
-
-        /*schedule(
-            vision.detect()
-        );*/
 
         new DriveControl();
         new IntakeControl();

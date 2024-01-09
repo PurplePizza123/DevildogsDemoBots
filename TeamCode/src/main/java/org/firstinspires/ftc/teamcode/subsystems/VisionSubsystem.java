@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
+import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
+import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
@@ -16,8 +20,6 @@ import com.arcrobotics.ftclib.geometry.Translation2d;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.adaptations.ftcdashboard.FtcDashboardProcessor;
-import org.firstinspires.ftc.teamcode.game.Alliance;
-import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -32,7 +34,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     public static double CAMERA_Y_INCHES = 6.5;
 
-    public static boolean recognitionEnabled = false;
+    public static boolean recognitionEnabled = true;
 
     public static boolean detectionEnabled = true;
 
@@ -180,8 +182,8 @@ public class VisionSubsystem extends SubsystemBase {
         double x = recognition == null ? 0 : (recognition.getLeft() + recognition.getRight()) / 2;
         double y = recognition == null ? 0 : (recognition.getTop()  + recognition.getBottom()) / 2;
 
-        if ((config.alliance == Alliance.RED && config.side == Side.NORTH) ||
-            (config.alliance == Alliance.BLUE && config.side == Side.SOUTH)) {
+        if ((config.alliance == RED && config.side == NORTH) ||
+            (config.alliance == BLUE && config.side == SOUTH)) {
             if (recognition == null) recognitionId = -1;
             else if (x <= 350) recognitionId = 0;
             else recognitionId = 1;

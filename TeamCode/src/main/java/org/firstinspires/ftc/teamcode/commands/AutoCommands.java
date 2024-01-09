@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.SelectCommand;
 
 public class AutoCommands {
     public Command execute() {
@@ -29,13 +30,16 @@ public class AutoCommands {
 
     public Command scoreYellowPixel() {
         return drive.toBackdropApproach1().andThen(
-            vision.detect(),
-            drive.toBackdropApproach2(),
-            drive.toBackdropSide(),
-            wait.seconds(1),
-            deposit.open(),
-            wait.seconds(2),
-            deposit.close()
+            new SelectCommand(
+                () -> vision.detect().andThen(
+                    drive.toBackdropApproach2(),
+                    drive.toBackdropSide(),
+                    wait.seconds(1),
+                    deposit.open(),
+                    wait.seconds(2),
+                    deposit.close()
+                )
+            )
         );
     }
 
