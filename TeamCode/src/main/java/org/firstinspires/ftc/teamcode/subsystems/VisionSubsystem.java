@@ -49,6 +49,7 @@ public class VisionSubsystem extends SubsystemBase {
     public Recognition recognition;
 
     public int recognitionId = 0;
+    public double recognitionX = 0;
 
     List<AprilTagDetection> detections;
 
@@ -110,10 +111,10 @@ public class VisionSubsystem extends SubsystemBase {
         telemetry.addData(
             "Vision (Recognition)",
             () -> recognition != null ? String.format(
-                "%s, %.0f%%, %d",
-                recognition.getLabel(),
+                "%.0f%%, %d, %.1fx",
                 recognition.getConfidence() * 100,
-                recognitionId
+                recognitionId,
+                recognitionX
             ) : "None"
         );
 
@@ -126,7 +127,7 @@ public class VisionSubsystem extends SubsystemBase {
                 detection.ftcPose.x,
                 detection.ftcPose.y,
                 detection.ftcPose.z
-            ) : "Null"
+            ) : "None"
         );
 
         telemetry.addData(
@@ -143,7 +144,22 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     @SuppressLint("DefaultLocale")
-    public void log() {
+    public void logRecognition() {
+        Log.i(
+            "VisionSubsystem",
+            "Recognition: " + (recognition != null ?
+                String.format(
+                    "%.0f%%, %d, %.1fx",
+                    recognition.getConfidence() * 100,
+                    recognitionId,
+                    recognitionX
+                ) : "None"
+            )
+        );
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void logDetection() {
         Log.i(
             "VisionSubsystem",
             "Detection: " + (detection != null ?
@@ -179,18 +195,17 @@ public class VisionSubsystem extends SubsystemBase {
 
         recognition = recognitions.size() > 0 ? recognitions.get(0) : null;
 
-        double x = recognition == null ? 0 : (recognition.getLeft() + recognition.getRight()) / 2;
-        double y = recognition == null ? 0 : (recognition.getTop()  + recognition.getBottom()) / 2;
+        recognitionX = recognition == null ? 0 : (recognition.getLeft() + recognition.getRight()) / 2;
 
         if ((config.alliance == RED && config.side == NORTH) ||
             (config.alliance == BLUE && config.side == SOUTH)) {
-            if (recognition == null) recognitionId = -1;
-            else if (x <= 350) recognitionId = 0;
-            else recognitionId = 1;
+            if (recognitionX >= 375) recognitionId = 1;
+            else if (recognitionX >= 50) recognitionId = 0;
+            else recognitionId = -1;
         } else {
-            if (recognition == null) recognitionId = 1;
-            else if (x <= 393) recognitionId = -1;
-            else recognitionId = 0;
+            if (recognitionX >= 600) recognitionId = 1;
+            else if (recognitionX >= 375) recognitionId = 0;
+            else recognitionId = -1;
         }
     }
 

@@ -14,7 +14,8 @@ public class VisionCommands {
         return vision.enableRecognition().andThen(
             wait.seconds(.5),
             attemptRecognition(),
-            disableRecognition()
+            disableRecognition(),
+            logRecognition()
         );
     }
 
@@ -41,7 +42,7 @@ public class VisionCommands {
     public Command detect() {
         return vision.enableDetection().andThen(
             attemptDetection(),
-            log()
+            logDetection()
         );
     }
 
@@ -65,9 +66,16 @@ public class VisionCommands {
         );
     }
 
-    private Command log() {
+    private Command logRecognition() {
         return new InstantCommand(
-            Subsystems.vision::log,
+            Subsystems.vision::logRecognition,
+            Subsystems.vision
+        );
+    }
+
+    private Command logDetection() {
+        return new InstantCommand(
+            Subsystems.vision::logDetection,
             Subsystems.vision
         );
     }
