@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.BLACK;
-
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
@@ -25,11 +23,10 @@ import java.util.function.Consumer;
 
 @Config
 public class DriveSubsystem extends SubsystemBase {
-    public static double PULSE_PER_ROTATION = 537.7;
-    public static double DISTANCE_PER_ROTATION = 3.78 * Math.PI;
-    public static double DISTANCE_PER_PULSE = DISTANCE_PER_ROTATION / PULSE_PER_ROTATION;
+    public static double DISTANCE_PER_REVOLUTION = 3.78 * Math.PI;
     public static double ALLOWABLE_TILT = 10;
     public static double ALLOWABLE_STILL = 1.0;
+
     public double power = 0.5;
 
     private Action trajectoryAction = null;
@@ -38,6 +35,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     public DriveSubsystem() {
         drive = new OmniDrive(hardwareMap, config.pose);
+        hardware.drive.setDistancePerRevolution(DISTANCE_PER_REVOLUTION);
     }
 
     @Override
@@ -58,25 +56,25 @@ public class DriveSubsystem extends SubsystemBase {
 
         config.pose = getPose();
 
-        // TODO
-        /*if (vision.detectionPose != null) {*/
-            /*drive.pose = vision.detectionPose;*/
-        /*}*/
+        if (vision.detectionPose != null && isStill()) {
+            drive.pose = vision.detectionPose;
+        }
+
+        telemetry.addData("Drive (Pose)", () -> String.format("%.1fx, %.1fy, %.1f°", config.pose.position.x, config.pose.position.y, Math.toDegrees(config.pose.heading.toDouble())));
+
+        telemetry.addData("Drive (FL)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveFrontLeft.get(), hardware.driveFrontLeft.getCurrentPosition(), hardware.driveFrontLeft.getVelocity(), hardware.driveFrontLeft.getDistance()));
+        telemetry.addData("Drive (FR)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveFrontRight.get(), hardware.driveFrontRight.getCurrentPosition(), hardware.driveFrontRight.getVelocity(), hardware.driveFrontRight.getDistance()));
+        telemetry.addData("Drive (BL)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveBackLeft.get(), hardware.driveBackLeft.getCurrentPosition(), hardware.driveBackLeft.getVelocity(), hardware.driveBackLeft.getDistance()));
+        telemetry.addData("Drive (BR)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveBackRight.get(), hardware.driveBackRight.getCurrentPosition(), hardware.driveBackRight.getVelocity(), hardware.driveBackRight.getDistance()));
+
+        telemetry.addData("Drive (OR)", () -> String.format("%d pos, %d vel", hardware.odometryRight.getPositionAndVelocity().position, hardware.odometryRight.getPositionAndVelocity().velocity));
+        telemetry.addData("Drive (OC)", () -> String.format("%d pos, %d vel", hardware.odometryCenter.getPositionAndVelocity().position, hardware.odometryCenter.getPositionAndVelocity().velocity));
 
         telemetry.addData("IMU (Roll)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate())));
         telemetry.addData("IMU (Pitch)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate())));
         telemetry.addData("IMU (Yaw)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getYaw()), Math.toDegrees(getYawRate())));
         telemetry.addData("IMU (Tilted)", () -> String.format("%s", isTilted()));
         telemetry.addData("IMU (Still)", () -> String.format("%s", isStill()));
-
-        telemetry.addData("Drive (Pose)", () -> String.format("%.1fx, %.1fy, %.1fz", config.pose.position.x, config.pose.position.y, config.pose.heading.toDouble()));
-
-        telemetry.addData("Drive (FL)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveFrontLeft.get(), hardware.driveFrontLeft.getCurrentPosition(), hardware.driveFrontLeft.getCurrentPosition() * DISTANCE_PER_PULSE));
-        telemetry.addData("Drive (FR)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveFrontRight.get(), hardware.driveFrontRight.getCurrentPosition(), hardware.driveFrontRight.getCurrentPosition() * DISTANCE_PER_PULSE));
-        telemetry.addData("Drive (BL)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveBackLeft.get(), hardware.driveBackLeft.getCurrentPosition(), hardware.driveBackLeft.getCurrentPosition() * DISTANCE_PER_PULSE));
-        telemetry.addData("Drive (BR)", () -> String.format("%.1f pow, %d pos, %.1f dist", hardware.driveBackRight.get(), hardware.driveBackRight.getCurrentPosition(), hardware.driveBackRight.getCurrentPosition() * DISTANCE_PER_PULSE));
-
-        config.lightingCurrent = BLACK;
     }
 
     public void inputs(double forward, double strafe, double turn) {

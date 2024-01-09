@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
-
 public class Commands {
     public static WaitCommands wait;
     public static AutoCommands auto;

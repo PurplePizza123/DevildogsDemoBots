@@ -35,13 +35,15 @@ public class MotorOpMode extends LinearOpMode {
 
         driveFrontLeft.setMode(STOP_AND_RESET_ENCODER);
         driveFrontLeft.setMode(RUN_WITHOUT_ENCODER);
+        driveFrontRight.setMode(STOP_AND_RESET_ENCODER);
+        driveFrontRight.setMode(RUN_WITHOUT_ENCODER);
+        driveBackLeft.setMode(STOP_AND_RESET_ENCODER);
+        driveBackLeft.setMode(RUN_WITHOUT_ENCODER);
         driveBackRight.setMode(STOP_AND_RESET_ENCODER);
         driveBackRight.setMode(RUN_WITHOUT_ENCODER);
 
-        OverflowEncoder odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRight")));
-        OverflowEncoder odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenterAndIntake")));
-
-        odometryRight.setDirection(REVERSE);
+        OverflowEncoder odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRightAndConveyor")));
+        OverflowEncoder odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
 
         telemetry.addData(">", "Ready. Press Play.");
         telemetry.update();
@@ -54,13 +56,13 @@ public class MotorOpMode extends LinearOpMode {
             driveBackLeft.setPower(gamepad1.a ? POWER : 0);
             driveBackRight.setPower(gamepad1.b ? POWER : 0);
 
-            telemetry.addData("driveFrontLeft",  "%d", driveFrontLeft.getCurrentPosition());
-            telemetry.addData("driveFrontRight",  "%d", driveFrontRight.getCurrentPosition());
-            telemetry.addData("driveBackLeft",  "%d", driveBackLeft.getCurrentPosition());
-            telemetry.addData("driveBackRight",  "%d", driveBackRight.getCurrentPosition());
+            telemetry.addData("driveFrontLeft", "%d", driveFrontLeft.getCurrentPosition());
+            telemetry.addData("driveFrontRight", "%d", driveFrontRight.getCurrentPosition());
+            telemetry.addData("driveBackLeft", "%d", driveBackLeft.getCurrentPosition());
+            telemetry.addData("driveBackRight", "%d", driveBackRight.getCurrentPosition());
 
-            telemetry.addData("odometryRight",  "%d", odometryRight.getPositionAndVelocity().position);
-            telemetry.addData("odometryCenter",  "%d", odometryCenter.getPositionAndVelocity().position);
+            telemetry.addData("odometryRightAndConveyor", "%d", odometryRight.getPositionAndVelocity().position);
+            telemetry.addData("odometryCenter", "%d", odometryCenter.getPositionAndVelocity().position);
 
             telemetry.update();
 

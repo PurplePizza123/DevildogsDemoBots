@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
+/** @noinspection InstantiationOfUtilityClass*/
 public class AutoOpMode extends OpMode {
     public void initialize(Alliance alliance, Side side) {
         super.initialize();

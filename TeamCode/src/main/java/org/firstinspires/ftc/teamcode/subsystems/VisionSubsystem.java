@@ -36,8 +36,6 @@ public class VisionSubsystem extends SubsystemBase {
 
     public static boolean detectionEnabled = true;
 
-    private final FtcDashboardProcessor ftcDashboard;
-
     private final TfodProcessor tfod;
 
     private final AprilTagProcessor aprilTag;
@@ -71,7 +69,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     @SuppressLint("SdCardPath")
     public VisionSubsystem() {
-        ftcDashboard = new FtcDashboardProcessor();
+        FtcDashboardProcessor ftcDashboard = new FtcDashboardProcessor();
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
@@ -206,6 +204,8 @@ public class VisionSubsystem extends SubsystemBase {
         }
 
         Pose2d aprilTagPose = aprilTagPoses.get(detection.id);
+
+        if (aprilTagPose == null) return;
 
         Translation2d rotatedPose = new Translation2d(
             detection.ftcPose.x + CAMERA_X_INCHES,

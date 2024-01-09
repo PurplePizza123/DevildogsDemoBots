@@ -31,4 +31,8 @@ public class MotorEx extends com.arcrobotics.ftclib.hardware.motors.MotorEx {
             motorEx.setPower(output);
         }
     }
+
+    public void setDistancePerRevolution(double distance) {
+        this.setDistancePerPulse(distance / type.getCPR());
+    }
 }

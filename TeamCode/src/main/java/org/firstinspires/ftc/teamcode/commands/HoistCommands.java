@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class HoistCommands {
     public Command change(double offset) {
-        return new InstantCommand(() -> Subsystems.hoist.change(offset), Subsystems.hoist);
+        return new InstantCommand(
+            () -> Subsystems.hoist.change(offset),
+            Subsystems.hoist
+        );
     }
 }

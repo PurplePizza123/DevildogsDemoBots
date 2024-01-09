@@ -21,13 +21,13 @@ public class DriveControl {
         );
 
         gamepad1.getGamepadButton(DPAD_DOWN)
-            .whenActive(drive.setDrivePower(0.34));
+            .whenActive(drive.setDrivePower(0.33));
 
         gamepad1.getGamepadButton(DPAD_LEFT)
             .or(gamepad1.getGamepadButton(DPAD_RIGHT))
             .whenActive(drive.setDrivePower(0.67));
 
         gamepad1.getGamepadButton(DPAD_UP)
-            .whenActive(drive.setDrivePower(1.0));
+            .whenActive(drive.setDrivePower(1.00));
     }
 }

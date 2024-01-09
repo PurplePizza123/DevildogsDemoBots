@@ -42,8 +42,6 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         par = hardware.odometryRight;
         perp = hardware.odometryCenter;
 
-        par.setDirection(DcMotorSimple.Direction.REVERSE);
-
         lastParPos = par.getPositionAndVelocity().position;
         lastPerpPos = perp.getPositionAndVelocity().position;
         lastHeading = Rotation2d.exp(hardware.imuAngles.getYaw(AngleUnit.RADIANS));

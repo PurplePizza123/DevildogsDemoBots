@@ -16,23 +16,31 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.menu;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad1;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad2;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.button.Trigger;
 
+@Config
 public class MenuControl {
+    public static double THRESHOLD = 0.5;
+
+    public static double DELAY_INCREMENT = 1;
+
+    public static double OFFSET_INCREMENT = 0.5;
+
     public MenuControl() {
         gamepad1.getGamepadButton(DPAD_DOWN)
             .or(gamepad2.getGamepadButton(DPAD_DOWN))
-            .whenActive(menu.changeDelay(-1));
+            .whenActive(menu.changeDelay(-DELAY_INCREMENT));
 
         gamepad1.getGamepadButton(DPAD_UP)
             .or(gamepad2.getGamepadButton(DPAD_UP))
-            .whenActive(menu.changeDelay(+1));
+            .whenActive(menu.changeDelay(+DELAY_INCREMENT));
 
         gamepad1.getGamepadButton(BACK)
             .or(gamepad2.getGamepadButton(BACK))
             .and(new Trigger(
                 () -> gamepad1.getTrigger(LEFT_TRIGGER) +
-                    gamepad2.getTrigger(LEFT_TRIGGER) > 0
+                    gamepad2.getTrigger(LEFT_TRIGGER) > THRESHOLD
             )).whileActiveOnce(
                 menu.toggleAlliance()
             );
@@ -41,34 +49,34 @@ public class MenuControl {
             .or(gamepad2.getGamepadButton(BACK))
             .and(new Trigger(
                 () -> gamepad1.getTrigger(RIGHT_TRIGGER) +
-                    gamepad2.getTrigger(RIGHT_TRIGGER) > 0
+                    gamepad2.getTrigger(RIGHT_TRIGGER) > THRESHOLD
             )).whileActiveOnce(
                 menu.toggleSide()
             );
 
         gamepad1.getGamepadButton(X)
             .and(gamepad1.getGamepadButton(BACK))
-            .whenActive(menu.changeOffsetX(-0.5));
+            .whenActive(menu.changeOffsetX(-OFFSET_INCREMENT));
 
         gamepad1.getGamepadButton(B)
             .and(gamepad1.getGamepadButton(BACK))
-            .whenActive(menu.changeOffsetX(+0.5));
+            .whenActive(menu.changeOffsetX(+OFFSET_INCREMENT));
 
         gamepad1.getGamepadButton(Y)
             .and(gamepad1.getGamepadButton(BACK))
-            .whenActive(menu.changeOffsetY(+0.5));
+            .whenActive(menu.changeOffsetY(+OFFSET_INCREMENT));
 
         gamepad1.getGamepadButton(A)
             .and(gamepad1.getGamepadButton(BACK))
-            .whenActive(menu.changeOffsetY(-0.5));
+            .whenActive(menu.changeOffsetY(-OFFSET_INCREMENT));
 
         gamepad1.getGamepadButton(BACK)
             .whenInactive(menu.setStartPose());
 
         gamepad2.getGamepadButton(LEFT_STICK_BUTTON)
-                .whenActive(menu.toggleParking());
+            .whenActive(menu.toggleParking());
 
         gamepad2.getGamepadButton(RIGHT_STICK_BUTTON)
-                .whenActive(menu.toggleBackdrop());
+            .whenActive(menu.toggleBackdrop());
     }
 }
