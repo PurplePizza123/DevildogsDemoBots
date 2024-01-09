@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_117;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_223;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_435;
+import static com.arcrobotics.ftclib.hardware.motors.Motor.GoBILDA.RPM_84;
 import static com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode.MANUAL;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
@@ -98,7 +99,7 @@ public class Hardware {
 
         deposit = hardwareMap.get(Servo.class, "deposit");
 
-        hoist = new MotorEx(hardwareMap, "hoist", RPM_117);
+        hoist = new MotorEx(hardwareMap, "hoist", RPM_84);
         hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
 
         drone = hardwareMap.get(Servo.class, "drone");
