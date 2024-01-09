@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.adaptations.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.TankDrive;
 
-//@Disabled
+@Disabled
 public final class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
