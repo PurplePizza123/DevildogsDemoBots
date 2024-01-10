@@ -4,12 +4,11 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.auto;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
 
-import org.firstinspires.ftc.teamcode.controls.MenuControl;
+import org.firstinspires.ftc.teamcode.controls.Controls;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
-/** @noinspection InstantiationOfUtilityClass*/
 public class AutoOpMode extends OpMode {
     public void initialize(Alliance alliance, Side side) {
         super.initialize();
@@ -25,7 +24,7 @@ public class AutoOpMode extends OpMode {
             Subsystems.nav.getStartPose()
         );
 
-        new MenuControl();
+        Controls.initializeAuto();
 
         waitForStart();
 

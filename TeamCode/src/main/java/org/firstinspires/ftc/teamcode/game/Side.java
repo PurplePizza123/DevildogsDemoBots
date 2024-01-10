@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.game;
 
 public enum Side {
-    NORTH(+1), SOUTH(-1);
+    UNKNOWN(0), NORTH(+1), SOUTH(-1);
 
     public final int sign;
 

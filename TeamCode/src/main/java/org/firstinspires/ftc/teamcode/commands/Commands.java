@@ -4,7 +4,7 @@ public class Commands {
     public static WaitCommands wait;
     public static AutoCommands auto;
     public static VisionCommands vision;
-    public static MenuCommands menu;
+    public static ConfigCommands menu;
     public static DriveCommands drive;
     public static SweeperCommands sweeper;
     public static DroneCommands drone;
@@ -18,7 +18,7 @@ public class Commands {
         wait = new WaitCommands();
         auto = new AutoCommands();
         vision = new VisionCommands();
-        menu = new MenuCommands();
+        menu = new ConfigCommands();
         drive = new DriveCommands();
         sweeper = new SweeperCommands();
         conveyor = new ConveyorCommands();

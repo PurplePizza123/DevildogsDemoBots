@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.game;
 
 public enum Alliance {
-    BLUE(+1), RED(-1);
+    UNKNOWN(0), BLUE(+1), RED(-1);
 
     public final int sign;
 

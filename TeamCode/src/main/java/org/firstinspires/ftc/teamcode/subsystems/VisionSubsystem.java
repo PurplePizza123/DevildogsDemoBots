@@ -88,6 +88,8 @@ public class VisionSubsystem extends SubsystemBase {
             .build();
 
         FtcDashboard.getInstance().startCameraStream(ftcDashboard, 0);
+
+        recognitionEnabled = config.auto;
     }
 
     @Override

@@ -54,10 +54,12 @@ public class DriveSubsystem extends SubsystemBase {
             )) trajectoryAction = null;
         }
 
-        config.pose = getPose();
+        Pose2d pose = getPose();
+        if (pose != null)
+            config.pose = pose;
 
         if (vision.detectionPose != null && isStill()) {
-            drive.pose = vision.detectionPose;
+            setPose(vision.detectionPose);
         }
 
         telemetry.addData("Drive (Pose)", () -> String.format("%.1fx, %.1fy, %.1f°", config.pose.position.x, config.pose.position.y, Math.toDegrees(config.pose.heading.toDouble())));

@@ -20,14 +20,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.button.Trigger;
 
 @Config
-public class MenuControl {
+public class ConfigControl {
     public static double THRESHOLD = 0.5;
 
     public static double DELAY_INCREMENT = 1;
 
     public static double OFFSET_INCREMENT = 0.5;
 
-    public MenuControl() {
+    public ConfigControl() {
         gamepad1.getGamepadButton(DPAD_DOWN)
             .or(gamepad2.getGamepadButton(DPAD_DOWN))
             .whenActive(menu.changeDelay(-DELAY_INCREMENT));
