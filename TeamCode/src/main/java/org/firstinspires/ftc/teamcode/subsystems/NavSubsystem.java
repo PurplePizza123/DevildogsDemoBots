@@ -107,6 +107,15 @@ public class NavSubsystem extends SubsystemBase {
         );
     }
 
+    public Pose2d getDroneLaunchProse() {
+        return createPose(
+            TILE_WIDTH_HALF,
+            config.alliance.sign * TILE_WIDTH_HALF,
+            Math.toRadians(180),
+            Axial.FRONT
+        );
+    }
+
     public enum Axial {
         FRONT(0), CENTER(NaN), BACK(Math.PI);
 

@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode.controls;
 
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.BACK;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
+import static org.firstinspires.ftc.teamcode.commands.Commands.drone;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad1;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad2;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
@@ -29,5 +33,9 @@ public class DriveControl {
 
         gamepad1.getGamepadButton(DPAD_UP)
             .whenActive(drive.setDrivePower(1.00));
+
+        gamepad1.getGamepadButton(BACK)
+            .and(gamepad1.getGamepadButton(B))
+            .whenActive(drive.toDroneLaunch());
     }
 }

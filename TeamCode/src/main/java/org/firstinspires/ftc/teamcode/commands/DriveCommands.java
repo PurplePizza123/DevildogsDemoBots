@@ -100,6 +100,16 @@ public class DriveCommands {
         );
     }
 
+    public Command toDroneLaunch() {
+        return new SelectCommand(
+            () -> drive.follow(
+                t -> t.strafeToLinearHeading(
+                    nav.getDroneLaunchProse()
+                )
+            )
+        );
+    }
+
     public Command follow(Consumer<Trajectory> trajectory) {
         return complete(
             () -> Subsystems.drive.followTrajectoryAsync(trajectory)
