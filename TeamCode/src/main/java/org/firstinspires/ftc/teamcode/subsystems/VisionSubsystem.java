@@ -132,7 +132,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         telemetry.addData(
             "Vision (Detection Pose)",
-            () -> detection != null ? String.format(
+            () -> detectionPose != null ? String.format(
                 "%.1fx, %.1fy, %.1f°",
                 detectionPose.position.x,
                 detectionPose.position.y,

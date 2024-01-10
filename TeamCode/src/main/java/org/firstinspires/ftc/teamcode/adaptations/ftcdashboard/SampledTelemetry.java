@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.adaptations.ftcdashboard;
 
+import android.util.Log;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -26,8 +28,14 @@ public class SampledTelemetry {
     }
 
     public void addData(String caption, Func<String> func) {
-        if (sample)
-            telemetry.addData(caption, func.value());
+        if (sample) {
+            try {
+                telemetry.addData(caption, func.value());
+            } catch (Exception e) {
+                // TODO: Determine why april tag metadata is crashing the bot sometimes
+                Log.e("SampledTelemetry", "Error adding telemetry while evaluating `func.value()`", e);
+            }
+        }
     }
 
     public void update() {
