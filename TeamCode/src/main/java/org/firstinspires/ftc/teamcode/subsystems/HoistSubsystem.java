@@ -59,6 +59,6 @@ public class HoistSubsystem extends SubsystemBase {
         height = clamp(height, MIN + 0.5, MAX);
         if (height > this.height)
             hardware.hoistHelp.setPower(SERVO_POWER);
-        hardware.hoist.setTargetDistance((this.height = height) - MIN);
+        hardware.hoist.setTargetDistance(this.height = height);
     }
 }

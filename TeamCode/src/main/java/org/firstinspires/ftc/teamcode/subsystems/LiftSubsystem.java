@@ -47,7 +47,8 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void to(double height) {
-        height = clamp(height, MIN, MAX);
-        hardware.lift.setTargetDistance((this.height = height) - MIN);
+        hardware.lift.setTargetDistance(
+            this.height = clamp(height, MIN, MAX)
+        );
     }
 }

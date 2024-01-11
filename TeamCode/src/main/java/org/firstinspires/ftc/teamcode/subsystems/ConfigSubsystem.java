@@ -41,6 +41,7 @@ public class ConfigSubsystem extends SubsystemBase {
     public static double OFFSET_INCREMENT = 0.5;
     private static Thread thread;
 
+    private int index = 0;
     private boolean editable = false;
 
     @SuppressLint("DefaultLocale")
@@ -72,8 +73,6 @@ public class ConfigSubsystem extends SubsystemBase {
         )
         // TODO: Add offset if we want it
     );
-
-    private static int index = 0;
 
     public ConfigSubsystem() {
         if (config == null && PERSISTENCE) {
