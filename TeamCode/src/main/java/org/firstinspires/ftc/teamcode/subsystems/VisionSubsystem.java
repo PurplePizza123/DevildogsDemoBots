@@ -240,5 +240,10 @@ public class VisionSubsystem extends SubsystemBase {
             aprilTagPose.getY() - rotatedPose.getY(),
             Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw)
         );
+
+        if (!config.started && detection.ftcPose.range < 70) {
+            config.alliance = detectionPose.position.y > 0 ? BLUE : RED;
+            config.side = detectionPose.position.x > 0 ? NORTH : SOUTH;
+        }
     }
 }

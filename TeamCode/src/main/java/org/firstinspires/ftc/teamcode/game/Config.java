@@ -12,8 +12,8 @@ public class Config {
     public static Config config;
     public transient boolean auto;
     public transient boolean started;
-    public Alliance alliance = RED;
-    public Side side = NORTH;
+    public Alliance alliance = Alliance.UNKNOWN;
+    public Side side = Side.UNKNOWN;
     public Parking parking = INNER;
     public Backdrop backdrop = LEFT;
     public double offsetX = 0;
