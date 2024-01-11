@@ -5,17 +5,20 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SelectCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class VisionCommands {
     public Command recognize() {
-        return vision.enableRecognition().andThen(
-            wait.seconds(.5),
-            attemptRecognition(),
-            disableRecognition(),
-            logRecognition()
+        return new SelectCommand(
+            () -> vision.enableRecognition().andThen(
+                wait.seconds(.5),
+                attemptRecognition(),
+                disableRecognition(),
+                logRecognition()
+            )
         );
     }
 
@@ -48,7 +51,9 @@ public class VisionCommands {
 
     private Command attemptDetection() {
         return wait.until(
-            () -> Subsystems.vision.detection != null
+            () -> Subsystems.drive.isStill() &&
+                !Subsystems.drive.isBusy() &&
+                Subsystems.vision.detectionPose != null
         ).withTimeout(3000);
     }
 

@@ -41,11 +41,9 @@ public class DriveCommands {
     }
 
     public Command toSpikeMark() {
-        return new SelectCommand(
-            () -> drive.follow(
-                t -> t.strafeToLinearHeading(
-                    nav.getSpikeMarkPose(vision.recognitionId)
-                )
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getSpikeMarkPose(vision.recognitionId)
             )
         );
     }
@@ -101,11 +99,9 @@ public class DriveCommands {
     }
 
     public Command toDroneLaunch() {
-        return new SelectCommand(
-            () -> drive.follow(
-                t -> t.strafeToLinearHeading(
-                    nav.getDroneLaunchProse()
-                )
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getDroneLaunchProse()
             )
         );
     }
@@ -117,7 +113,9 @@ public class DriveCommands {
     }
 
     private Command complete(Runnable runnable) {
-        return new InstantCommand(runnable, Subsystems.drive).andThen(
+        return new SelectCommand(
+            () -> new InstantCommand(runnable, Subsystems.drive)
+        ).andThen(
             wait.until(() -> !Subsystems.drive.isBusy())
         );
     }

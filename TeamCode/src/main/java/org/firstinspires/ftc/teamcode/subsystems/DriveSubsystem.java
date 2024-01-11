@@ -59,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
         if (pose != null)
             config.pose = pose;
 
-        if (vision.detectionPose != null && isStill()) {
+        if (isStill() && !isBusy() && vision.detectionPose != null) {
             setPose(vision.detectionPose);
         }
 
