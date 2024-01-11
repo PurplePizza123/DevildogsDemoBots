@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
+import static org.firstinspires.ftc.teamcode.commands.Commands.intake;
 import static org.firstinspires.ftc.teamcode.commands.Commands.vision;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
@@ -24,6 +25,9 @@ public class AutoCommands {
 
     public Command scorePurplePixel() {
         return drive.toSpikeMark().andThen(
+            intake.out(),
+            wait.seconds(0.25),
+            intake.stop(),
             drive.toSpikeMarkTile()
         );
     }

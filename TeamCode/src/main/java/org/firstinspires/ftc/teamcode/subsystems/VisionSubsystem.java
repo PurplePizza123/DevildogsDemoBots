@@ -34,6 +34,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     public static double CAMERA_Y_INCHES = 6.5;
 
+    public static double CAMERA_YAW_DEGREES = 5;
+
     public static boolean recognitionEnabled = true;
 
     public static boolean detectionEnabled = true;
@@ -238,7 +240,7 @@ public class VisionSubsystem extends SubsystemBase {
         detectionPose = new com.acmerobotics.roadrunner.Pose2d(
             aprilTagPose.getX() - rotatedPose.getX(),
             aprilTagPose.getY() - rotatedPose.getY(),
-            Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw)
+            Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw - CAMERA_YAW_DEGREES)
         );
 
         if (!config.started && detection.ftcPose.range < 70) {
