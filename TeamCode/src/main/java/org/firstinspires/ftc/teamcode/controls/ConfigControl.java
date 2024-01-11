@@ -28,13 +28,13 @@ public class ConfigControl {
             .whenActive(menu.setEditable(true))
             .whenInactive(menu.setEditable(false));
 
-        gamepad1.getGamepadButton(DPAD_DOWN)
-            .or(gamepad2.getGamepadButton(DPAD_DOWN))
-            .whenActive(menu.changeItem(NEXT));
-
         gamepad1.getGamepadButton(DPAD_UP)
             .or(gamepad2.getGamepadButton(DPAD_UP))
             .whenActive(menu.changeItem(PREV));
+
+        gamepad1.getGamepadButton(DPAD_DOWN)
+            .or(gamepad2.getGamepadButton(DPAD_DOWN))
+            .whenActive(menu.changeItem(NEXT));
 
         gamepad1.getGamepadButton(DPAD_LEFT)
             .or(gamepad2.getGamepadButton(DPAD_LEFT))
@@ -43,5 +43,5 @@ public class ConfigControl {
         gamepad1.getGamepadButton(DPAD_RIGHT)
             .or(gamepad2.getGamepadButton(DPAD_RIGHT))
             .whenActive(menu.changeValue(NEXT));
-        }
+    }
 }

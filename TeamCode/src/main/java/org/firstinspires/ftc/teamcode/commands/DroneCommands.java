@@ -15,14 +15,14 @@ public class DroneCommands {
         );
     }
 
-    private Command open() {
+    public Command open() {
         return new InstantCommand(
             Subsystems.drone::open,
             Subsystems.drone
         );
     }
 
-    private Command close() {
+    public Command close() {
         return new InstantCommand(
             Subsystems.drone::close,
             Subsystems.drone

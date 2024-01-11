@@ -10,6 +10,6 @@ public class DroneControl {
     public DroneControl() {
         gamepad2.getGamepadButton(BACK)
             .and(gamepad2.getGamepadButton(B))
-            .whenActive(drone.release());
+            .toggleWhenActive(drone.open(), drone.close());
     }
 }
