@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static androidx.core.math.MathUtils.clamp;
-
 import static org.firstinspires.ftc.teamcode.game.Alliance.BLUE;
 import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
-import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.config;
 import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
 import static org.firstinspires.ftc.teamcode.game.Parking.OUTER;
 import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
@@ -13,65 +11,25 @@ import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
-import org.firstinspires.ftc.teamcode.game.Backdrop;
-import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
+import org.firstinspires.ftc.teamcode.subsystems.ConfigSubsystem;
+
 
 public class ConfigCommands {
-    public Command toggleAlliance() {
+    public Command setEditable(boolean editable) {
         return new InstantCommand(
-            () -> config.alliance = config.alliance == null || config.alliance == BLUE ? RED : BLUE,
-            Subsystems.config
+            () -> config.setEditable(editable), config
         );
     }
 
-    public Command toggleSide() {
+    public Command changeItem(ConfigSubsystem.Change change) {
         return new InstantCommand(
-            () -> config.side = config.side == null || config.side == SOUTH ? NORTH : SOUTH,
-            Subsystems.config
+            () -> config.changeItem(change), config
         );
     }
 
-    public Command toggleParking() {
+    public Command changeValue(ConfigSubsystem.Change change) {
         return new InstantCommand(
-            () -> (config.parking) = config.parking == null || config.parking == OUTER ? INNER : OUTER,
-            Subsystems.config
-        );
-    }
-
-    public Command toggleBackdrop() {
-        return new InstantCommand(
-                () -> (config.backdrop) = config.backdrop == null || config.backdrop == Backdrop.LEFT ? Backdrop.RIGHT : Backdrop.LEFT,
-                Subsystems.config
-        );
-    }
-
-
-    public Command setStartPose() {
-        return new InstantCommand(
-            () -> Subsystems.drive.setPose(
-                Subsystems.nav.getStartPose()
-            ), Subsystems.drive, Subsystems.nav
-        );
-    }
-
-    public Command changeOffsetX(double value) {
-        return new InstantCommand(
-            () -> config.offsetX = clamp(config.offsetX + value, -12, 12),
-            Subsystems.config
-        );
-    }
-
-    public Command changeOffsetY(double value) {
-        return new InstantCommand(
-            () -> config.offsetY = clamp(config.offsetY + value, -12, 12),
-            Subsystems.config
-        );
-    }
-
-    public Command changeDelay(double value) {
-        return new InstantCommand(
-            () -> config.delay = clamp(config.delay + value, 0, 30),
-            Subsystems.config
+            () -> config.changeValue(change), config
         );
     }
 }

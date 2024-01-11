@@ -12,7 +12,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
 public class ConveyorSubsystem extends SubsystemBase {
-    public static double POWER = 0.5;
+    public static double POWER = 1;
 
     private boolean pressed = false;
 

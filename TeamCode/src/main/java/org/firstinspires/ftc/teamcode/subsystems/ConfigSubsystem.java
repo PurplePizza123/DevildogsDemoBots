@@ -50,11 +50,26 @@ public class ConfigSubsystem extends SubsystemBase {
             change -> config.alliance = config.alliance == RED ? BLUE : RED
         ),
         new Item(
+            "Side",
+            () -> String.format("%s", config.side),
+            change -> config.side = config.side == NORTH ? SOUTH : NORTH
+        ),
+        new Item(
             "Delay",
             () -> String.format("%.1fs", config.delay),
             change -> config.delay = clamp(config.delay + DELAY_INCREMENT * change.sign, 0, 30 )
+        ),
+        new Item(
+            "Parking",
+            () -> String.format("%s", config.parking),
+             change -> config.parking = config.parking == INNER ? OUTER : INNER
+        ),
+        new Item(
+            "Backdrop",
+            () -> String.format("%s", config.backdrop),
+            change -> config.backdrop = config.backdrop == LEFT ? RIGHT : LEFT
         )
-        // TODO: Add more items
+        // TODO: Add offset if we want it
     );
 
     private static int index = 0;
@@ -83,23 +98,8 @@ public class ConfigSubsystem extends SubsystemBase {
     @SuppressLint("DefaultLocale")
     public void periodic() {
         if (config.auto) {
-//            // *NEW*
-//            for (Item item : items) telemetry.addData(getCaption(item.key), item.telemetrySupplier);
-//            telemetry.addLine("-----------------------------------------------------------------------------");
-
-            telemetry.addData(
-                "Menu",
-                () -> String.format(
-                    "%s %s, %.1fs delay, parking: %s, backdrop: %s, %.1fx, %.1fy",
-                    config.alliance,
-                    config.side,
-                    config.delay,
-                    config.parking,
-                    config.backdrop,
-                    config.offsetX,
-                    config.offsetY
-                )
-            );
+            for (Item item : items) telemetry.addData(getCaption(item.key), item.telemetrySupplier);
+            telemetry.addLine("-----------------------------------------------------------------------------");
         }
 
         if (!PERSISTENCE || (thread != null && thread.isAlive())) return;
