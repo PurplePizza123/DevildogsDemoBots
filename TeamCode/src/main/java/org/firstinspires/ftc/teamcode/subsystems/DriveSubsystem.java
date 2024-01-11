@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADI
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
 import android.annotation.SuppressLint;
@@ -126,6 +127,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void setPose(Pose2d pose) {
         drive.pose = pose;
+    }
+
+    public void resetPose() {
+        setPose(
+            nav.getStartPose()
+        );
     }
 
     public boolean isBusy() {

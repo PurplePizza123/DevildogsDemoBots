@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 import static org.firstinspires.ftc.teamcode.game.Side.SOUTH;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.opMode;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
+import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.drive;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -47,22 +48,22 @@ public class ConfigSubsystem extends SubsystemBase {
         new Item(
             "Alliance",
             () -> String.format("%s", config.alliance),
-            change -> config.alliance = config.alliance == RED ? BLUE : RED
+            change -> { config.alliance = config.alliance == RED ? BLUE : RED; drive.resetPose(); }
         ),
         new Item(
             "Side",
             () -> String.format("%s", config.side),
-            change -> config.side = config.side == NORTH ? SOUTH : NORTH
+            change -> { config.side = config.side == NORTH ? SOUTH : NORTH; drive.resetPose(); }
         ),
         new Item(
             "Delay",
             () -> String.format("%.1fs", config.delay),
-            change -> config.delay = clamp(config.delay + DELAY_INCREMENT * change.sign, 0, 30 )
+            change -> config.delay = clamp(config.delay + DELAY_INCREMENT * change.sign, 0, 30)
         ),
         new Item(
             "Parking",
             () -> String.format("%s", config.parking),
-             change -> config.parking = config.parking == INNER ? OUTER : INNER
+            change -> config.parking = config.parking == INNER ? OUTER : INNER
         ),
         new Item(
             "Backdrop",
@@ -75,15 +76,15 @@ public class ConfigSubsystem extends SubsystemBase {
     private static int index = 0;
 
     public ConfigSubsystem() {
-        if (config != null) return;
+        if (config == null && PERSISTENCE) {
+            File file = AppUtil.getInstance().getSettingsFile(fileName);
 
-        File file = AppUtil.getInstance().getSettingsFile(fileName);
-
-        if (file.exists()) {
-            try {
-                config = gson.fromJson(ReadWriteFile.readFile(file), Config.class);
-            } catch (Exception e) {
-                Log.w("ConfigSubsystem", "Config failed to load", e);
+            if (file.exists()) {
+                try {
+                    config = gson.fromJson(ReadWriteFile.readFile(file), Config.class);
+                } catch (Exception e) {
+                    Log.w("ConfigSubsystem", "Config failed to load", e);
+                }
             }
         }
 
@@ -93,7 +94,6 @@ public class ConfigSubsystem extends SubsystemBase {
         config.started = false;
     }
 
-    /** @noinspection DataFlowIssue*/
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
@@ -134,7 +134,7 @@ public class ConfigSubsystem extends SubsystemBase {
         return String.format("%sConfig (%s)", editable && items.get(index).key.equals(key) ? ">" : "", key);
     }
 
-    public class Item {
+    public static class Item {
         public String key;
         public Supplier<String> telemetrySupplier;
         public Consumer<Change> changeConsumer;

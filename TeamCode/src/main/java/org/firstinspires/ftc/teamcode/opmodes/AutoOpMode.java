@@ -9,11 +9,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.controls.Controls;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
-import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 @Autonomous(name = "Auto")
 @SuppressWarnings("unused")
 public class AutoOpMode extends OpMode {
+    @Override
     public void initialize() {
         super.initialize();
 
@@ -24,13 +24,12 @@ public class AutoOpMode extends OpMode {
         config.offsetY = 0;
         config.delay = 0;
 
-        Subsystems.drive.setPose(
-            Subsystems.nav.getStartPose()
-        );
-
         Controls.initializeAuto();
 
         waitForStart();
+
+        if (config.alliance == Alliance.UNKNOWN || config.side == Side.UNKNOWN)
+            throw new RuntimeException("Alliance and/or Side is Unknown");
 
         schedule(
             auto.execute()

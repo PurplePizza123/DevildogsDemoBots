@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.game;
 
-import static org.firstinspires.ftc.teamcode.game.Alliance.RED;
 import static org.firstinspires.ftc.teamcode.game.Backdrop.LEFT;
 import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
-import static org.firstinspires.ftc.teamcode.game.Side.NORTH;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.util.ElapsedTime;

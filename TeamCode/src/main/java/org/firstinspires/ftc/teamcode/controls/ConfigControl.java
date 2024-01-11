@@ -1,18 +1,10 @@
 package org.firstinspires.ftc.teamcode.controls;
 
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.A;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.BACK;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_STICK_BUTTON;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_STICK_BUTTON;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.Y;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.LEFT_TRIGGER;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.RIGHT_TRIGGER;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.menu;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad1;
@@ -21,10 +13,6 @@ import static org.firstinspires.ftc.teamcode.subsystems.ConfigSubsystem.Change.N
 import static org.firstinspires.ftc.teamcode.subsystems.ConfigSubsystem.Change.PREV;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.command.button.Trigger;
-
-import org.firstinspires.ftc.teamcode.game.Backdrop;
-import org.firstinspires.ftc.teamcode.subsystems.ConfigSubsystem;
 
 @Config
 public class ConfigControl {
