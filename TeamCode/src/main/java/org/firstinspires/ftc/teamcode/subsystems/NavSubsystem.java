@@ -111,7 +111,7 @@ public class NavSubsystem extends SubsystemBase {
         return createPose(
             19.5,
             config.alliance.sign * 39,
-            Math.toRadians(150),
+            Math.toRadians(165),
             Axial.CENTER
         );
     }
