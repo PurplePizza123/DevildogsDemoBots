@@ -99,9 +99,12 @@ public class DriveCommands {
     }
 
     public Command toDroneLaunch() {
-        return drive.follow(
-            t -> t.strafeToLinearHeading(
-                nav.getDroneLaunchProse()
+        return drive.toBackdropApproach1().andThen(
+            Commands.vision.detect(),
+            drive.follow(
+                t -> t.strafeToLinearHeading(
+                    nav.getDroneLaunchProse()
+                )
             )
         );
     }
