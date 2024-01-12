@@ -240,7 +240,7 @@ public class VisionSubsystem extends SubsystemBase {
         detectionPose = new com.acmerobotics.roadrunner.Pose2d(
             aprilTagPose.getX() - rotatedPose.getX(),
             aprilTagPose.getY() - rotatedPose.getY(),
-            Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw - CAMERA_YAW_DEGREES)
+            Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw + CAMERA_YAW_DEGREES)
         );
 
         if (!config.started && detection.ftcPose.range < 70) {

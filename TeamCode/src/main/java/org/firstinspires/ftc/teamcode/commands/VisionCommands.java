@@ -14,7 +14,7 @@ public class VisionCommands {
     public Command recognize() {
         return new SelectCommand(
             () -> vision.enableRecognition().andThen(
-                wait.seconds(.5),
+                wait.seconds(1),
                 attemptRecognition(),
                 disableRecognition(),
                 logRecognition()

@@ -26,7 +26,7 @@ public class AutoCommands {
     public Command scorePurplePixel() {
         return drive.toSpikeMark().andThen(
             intake.out(),
-            wait.seconds(0.25),
+            wait.seconds(0.1),
             intake.stop(),
             drive.toSpikeMarkTile()
         );
