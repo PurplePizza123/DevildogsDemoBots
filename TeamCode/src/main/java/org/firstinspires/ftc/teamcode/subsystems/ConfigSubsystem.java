@@ -71,7 +71,6 @@ public class ConfigSubsystem extends SubsystemBase {
             () -> String.format("%s", config.backdrop),
             change -> config.backdrop = config.backdrop == LEFT ? RIGHT : LEFT
         )
-        // TODO: Add offset if we want it
     );
 
     public ConfigSubsystem() {
@@ -81,8 +80,9 @@ public class ConfigSubsystem extends SubsystemBase {
             if (file.exists()) {
                 try {
                     config = gson.fromJson(ReadWriteFile.readFile(file), Config.class);
+                    Log.i(this.getClass().getSimpleName(), "Config loaded");
                 } catch (Exception e) {
-                    Log.w("ConfigSubsystem", "Config failed to load", e);
+                    Log.w(this.getClass().getSimpleName(), "Config failed to load", e);
                 }
             }
         }
@@ -112,6 +112,13 @@ public class ConfigSubsystem extends SubsystemBase {
         };
 
         thread.start();
+    }
+
+    public void start() {
+        if (config.started) return;
+        config.timer.reset();
+        config.started = true;
+        Log.i(this.getClass().getSimpleName(), "Start | " + gson.toJson(config));
     }
 
     public void setEditable(boolean editable)

@@ -13,9 +13,23 @@ public class ConveyorCommands {
         );
     }
 
+    public Command in(double power) {
+        return new InstantCommand(
+            () -> Subsystems.conveyor.in(power),
+            Subsystems.conveyor
+        );
+    }
+
     public Command out() {
         return new InstantCommand(
             Subsystems.conveyor::out,
+            Subsystems.conveyor
+        );
+    }
+
+    public Command out(double power) {
+        return new InstantCommand(
+            () -> Subsystems.conveyor.out(power),
             Subsystems.conveyor
         );
     }

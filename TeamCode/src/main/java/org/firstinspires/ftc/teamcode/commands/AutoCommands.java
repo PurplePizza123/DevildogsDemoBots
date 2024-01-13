@@ -25,10 +25,13 @@ public class AutoCommands {
 
     public Command scorePurplePixel() {
         return drive.toSpikeMark().andThen(
-            intake.out(),
-            wait.seconds(0.1),
-            intake.stop(),
-            drive.toSpikeMarkTile()
+            intake.out(-0.25).andThen(
+                wait.seconds(0.5),
+                intake.stop()
+            ).alongWith(
+                wait.seconds(0.25),
+                drive.toSpikeMarkTile()
+            )
         );
     }
 
@@ -38,7 +41,7 @@ public class AutoCommands {
                 () -> vision.detect().andThen(
                     drive.toBackdropApproach2(),
                     drive.toBackdropSide(),
-                    wait.seconds(1),
+                    wait.seconds(0.5),
                     deposit.open(),
                     wait.seconds(2),
                     deposit.close()
@@ -51,7 +54,7 @@ public class AutoCommands {
         return drive.toBackdropApproach1().andThen(
             vision.detect(),
             drive.toBackdropFront(),
-            wait.seconds(1),
+            wait.seconds(0.5),
             deposit.open(),
             wait.seconds(2),
             deposit.close()

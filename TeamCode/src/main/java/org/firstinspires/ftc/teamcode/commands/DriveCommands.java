@@ -90,7 +90,7 @@ public class DriveCommands {
         );
     }
 
-        public Command toParking() {
+    public Command toParking() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
                 nav.getParkingPose()
@@ -99,6 +99,14 @@ public class DriveCommands {
     }
 
     public Command toDroneLaunch() {
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getDroneLaunchProse()
+            )
+        );
+    }
+
+    public Command toDroneLaunchWithDetection() {
         return drive.toBackdropApproach1().andThen(
             Commands.vision.detect(),
             drive.follow(

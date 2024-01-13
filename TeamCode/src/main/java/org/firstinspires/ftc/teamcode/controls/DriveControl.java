@@ -36,6 +36,6 @@ public class DriveControl {
 
         gamepad1.getGamepadButton(BACK)
             .and(gamepad1.getGamepadButton(B))
-            .whenActive(drive.toDroneLaunch());
+            .toggleWhenActive(drive.toDroneLaunch(), drive.toDroneLaunchWithDetection());
     }
 }

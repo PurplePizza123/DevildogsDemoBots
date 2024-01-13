@@ -4,11 +4,13 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.opMode;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -56,8 +58,13 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
         Pose2d pose = getPose();
-        if (pose != null)
-            config.pose = pose;
+        if (pose != null && !opMode.isStopRequested()) {
+            double bounds = 23.5 * 3;
+            if (Math.abs(pose.position.x) > bounds || Math.abs(pose.position.y) > bounds)
+                Log.w("DriveSubSystem", String.format("Pose (%.1fx, %.1fy) is out of bounds and will be ignored! ", pose.position.x, pose.position.y));
+            else
+                config.pose = pose;
+        }
 
         if (isStill() && !isBusy() && vision.detectionPose != null) {
             setPose(vision.detectionPose);

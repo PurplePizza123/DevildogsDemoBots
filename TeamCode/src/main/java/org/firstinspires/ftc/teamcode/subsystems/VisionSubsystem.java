@@ -114,12 +114,12 @@ public class VisionSubsystem extends SubsystemBase {
 
         telemetry.addData(
             "Vision (Recognition)",
-            () -> recognition != null ? String.format(
-                "%.0f%%, %d, %.1fx",
-                recognition.getConfidence() * 100,
+            () -> String.format(
+                "id: %d, %.0f%%, %.1fx",
                 recognitionId,
+                (recognition != null ? recognition.getConfidence() : 1) * 100,
                 recognitionX
-            ) : "None"
+            )
         );
 
         telemetry.addData(
@@ -151,13 +151,11 @@ public class VisionSubsystem extends SubsystemBase {
     public void logRecognition() {
         Log.i(
             "VisionSubsystem",
-            "Recognition: " + (recognition != null ?
-                String.format(
-                    "%.0f%%, %d, %.1fx",
-                    recognition.getConfidence() * 100,
-                    recognitionId,
-                    recognitionX
-                ) : "None"
+            String.format(
+                "Recognition | id: %d, %.0f%%, %.1fx",
+                recognitionId,
+                (recognition != null ? recognition.getConfidence() : 1) * 100,
+                recognitionX
             )
         );
     }
@@ -199,17 +197,17 @@ public class VisionSubsystem extends SubsystemBase {
 
         recognition = recognitions.size() > 0 ? recognitions.get(0) : null;
 
-        recognitionX = recognition == null ? 0 : (recognition.getLeft() + recognition.getRight()) / 2;
-
         if ((config.alliance == RED && config.side == NORTH) ||
             (config.alliance == BLUE && config.side == SOUTH)) {
+            recognitionX = recognition == null ? 0 : (recognition.getLeft() + recognition.getRight()) / 2;
             if (recognitionX >= 375) recognitionId = 1;
             else if (recognitionX >= 50) recognitionId = 0;
             else recognitionId = -1;
         } else {
-            if (recognitionX >= 600) recognitionId = 1;
-            else if (recognitionX >= 375) recognitionId = 0;
-            else recognitionId = -1;
+            recognitionX = recognition == null ? 640 : (recognition.getLeft() + recognition.getRight()) / 2;
+            if (recognitionX <= 375) recognitionId = -1;
+            else if (recognitionX <= 600) recognitionId = 0;
+            else recognitionId = 1;
         }
     }
 
@@ -219,7 +217,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         detection = detections.size() > 0 ? detections.get(0) : null;
 
-        if (detection == null) {
+        if (detection == null || detection.ftcPose == null || detection.ftcPose.range > 70 || Math.abs(detection.ftcPose.yaw) > 30) {
             detectionPose = null;
             return;
         }
@@ -243,7 +241,7 @@ public class VisionSubsystem extends SubsystemBase {
             Math.PI + aprilTagPose.getHeading() - Math.toRadians(detection.ftcPose.yaw + CAMERA_YAW_DEGREES)
         );
 
-        if (!config.started && detection.ftcPose.range < 70) {
+        if (!config.started) {
             config.alliance = detectionPose.position.y > 0 ? BLUE : RED;
             config.side = detectionPose.position.x > 0 ? NORTH : SOUTH;
         }

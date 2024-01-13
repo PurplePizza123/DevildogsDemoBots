@@ -5,9 +5,6 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.sweeper;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.InstantCommand;
-
-import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class IntakeCommands {
     public Command getPixels() {
@@ -15,30 +12,29 @@ public class IntakeCommands {
             conveyor.in(),
             wait.seconds(0), // TODO: wait for signal
             sweeper.out(),
-            wait.seconds(1), // TODO: figure out time it takes for a pixel to get out of conveyor
+            wait.seconds(1),
             conveyor.stop(),
             sweeper.stop()
         );
     }
 
     public Command in() {
-        return new InstantCommand(
-            Subsystems.conveyor::in,
-            Subsystems.conveyor
-        );
+        return conveyor.in();
+    }
+
+    public Command in(double power) {
+        return conveyor.in(power);
     }
 
     public Command out() {
-        return new InstantCommand(
-            Subsystems.conveyor::out,
-            Subsystems.conveyor
-        );
+        return conveyor.out();
+    }
+
+    public Command out(double power) {
+        return conveyor.out(power);
     }
 
     public Command stop() {
-        return new InstantCommand(
-            Subsystems.conveyor::stop,
-            Subsystems.conveyor
-        );
+        return conveyor.stop();
     }
 }

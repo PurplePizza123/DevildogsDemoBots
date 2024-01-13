@@ -14,7 +14,7 @@ public class VisionCommands {
     public Command recognize() {
         return new SelectCommand(
             () -> vision.enableRecognition().andThen(
-                wait.seconds(1),
+                wait.seconds(1.5),
                 attemptRecognition(),
                 disableRecognition(),
                 logRecognition()
@@ -24,7 +24,9 @@ public class VisionCommands {
 
     private Command attemptRecognition() {
         return wait.until(
-            () -> Subsystems.vision.recognition != null
+            () -> Subsystems.drive.isStill() &&
+                !Subsystems.drive.isBusy() &&
+                Subsystems.vision.recognition != null
         ).withTimeout(1500);
     }
 

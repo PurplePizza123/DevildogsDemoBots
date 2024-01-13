@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.robotcore.external.Telemetry.DisplayFormat.HTML;
-import static org.firstinspires.ftc.teamcode.game.Config.config;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -45,13 +44,13 @@ public abstract class OpMode extends CommandOpMode {
         Commands.initialize();
     }
 
+    @Override
     public void waitForStart() {
-        while (!isStarted()) {
+        while (!isStarted() && !isStopRequested()) {
             CommandScheduler.getInstance().run();
             Thread.yield();
         }
 
-        config.timer.reset();
-        config.started = true;
+        Subsystems.config.start();
     }
 }

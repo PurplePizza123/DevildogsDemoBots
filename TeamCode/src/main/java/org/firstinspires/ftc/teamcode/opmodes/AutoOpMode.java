@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.auto;
+import static org.firstinspires.ftc.teamcode.game.Backdrop.LEFT;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
 
@@ -20,6 +21,7 @@ public class AutoOpMode extends OpMode {
         config.alliance = Alliance.UNKNOWN;
         config.side = Side.UNKNOWN;
         config.parking = INNER;
+        config.backdrop = LEFT;
         config.offsetX = 0;
         config.offsetY = 0;
         config.delay = 0;

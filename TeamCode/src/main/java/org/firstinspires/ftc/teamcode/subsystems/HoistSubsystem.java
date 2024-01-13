@@ -56,7 +56,7 @@ public class HoistSubsystem extends SubsystemBase {
 
     public void to(double height) {
         atPositionTimer.reset();
-        height = clamp(height, MIN + 0.5, MAX);
+        height = clamp(height, MIN, MAX);
         if (height > this.height)
             hardware.hoistHelp.setPower(SERVO_POWER);
         hardware.hoist.setTargetDistance(this.height = height);

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
+import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.RawPower;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
@@ -14,11 +13,9 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 public class ConveyorSubsystem extends SubsystemBase {
     public static double POWER = 1;
 
-    private boolean pressed = false;
-
     public ConveyorSubsystem() {
-        hardware.conveyor.motor.setMode(RUN_WITHOUT_ENCODER);
-        hardware.conveyor.motor.setDirection(REVERSE);
+        hardware.conveyor.setRunMode(RawPower);
+        hardware.conveyor.setInverted(true);
     }
 
     @Override
@@ -27,25 +24,29 @@ public class ConveyorSubsystem extends SubsystemBase {
         telemetry.addData(
             "Conveyor",
             () -> String.format(
-                "%.1f pow, pressed: %s",
-                hardware.conveyor.get(),
-                pressed
+                "%.1f pow",
+                hardware.conveyor.get()
             )
         );
     }
 
     public void in() {
-        pressed = true;
         hardware.conveyor.set(+POWER);
     }
 
+    public void in(double power) {
+        hardware.conveyor.set(power);
+    }
+
     public void out() {
-        pressed = true;
         hardware.conveyor.set(-POWER);
     }
 
+    public void out(double power) {
+        hardware.conveyor.set(power);
+    }
+
     public void stop() {
-        pressed = false;
         hardware.conveyor.set(0);
     }
 }

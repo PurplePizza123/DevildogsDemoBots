@@ -30,7 +30,8 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getRecognitionPose() {
         return new Pose2d(
-            config.side.sign * (config.side == NORTH ? 1: 2) * TILE_WIDTH - (config.side.sign * (ROBOT_WIDTH_HALF + 3d/8)),
+            config.side.sign * (config.side == NORTH ? 1 : 2) * TILE_WIDTH -
+                (config.side.sign * ROBOT_WIDTH_HALF),
             config.alliance.sign * (2.95 * TILE_WIDTH - ROBOT_LENGTH_HALF),
             config.alliance.sign * Math.toRadians(-90)
         );
@@ -38,8 +39,11 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getSpikeMarkPose(int detection) {
         return createPose(
-            ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) - config.alliance.sign * detection * TILE_WIDTH_HALF * 0.8,
-            config.alliance.sign * (detection == 0 ? 1.05 : 1.10) * TILE_WIDTH,
+            ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) +
+                (detection == -1 ? config.alliance.sign * +0.92 * TILE_WIDTH_HALF : 0) +
+                (detection ==  0 ? config.alliance.sign : 0) +
+                (detection == +1 ? config.alliance.sign * -0.77 * TILE_WIDTH_HALF : 0),
+            config.alliance.sign * (detection == 0 ? 1.05 : 1.1) * TILE_WIDTH,
             Math.toRadians(config.alliance.sign * -90 - 45 * detection),
             Axial.FRONT
         );
@@ -84,7 +88,8 @@ public class NavSubsystem extends SubsystemBase {
     public Pose2d getBackdropSidePose(int detection) {
         return createPose(
             TILE_WIDTH * 2.8,
-            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH + config.alliance.sign * -3.5 + (1.5 * config.backdrop.sign),
+            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH +
+                config.alliance.sign * -3 + (1.5 * config.backdrop.sign),
             Math.toRadians(90),
             Lateral.RIGHT
         );
@@ -92,8 +97,9 @@ public class NavSubsystem extends SubsystemBase {
     public Pose2d getBackdropFrontPose(int detection) {
         return createPose(
             TILE_WIDTH * 2.7,
-            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH + (1.5 * config.backdrop.sign),
-            0,
+            (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH +
+                (1.5 * config.backdrop.sign),
+            Math.toRadians(0),
             Lateral.RIGHT
         );
     }
@@ -111,7 +117,7 @@ public class NavSubsystem extends SubsystemBase {
         return createPose(
             19.5,
             config.alliance.sign * 39,
-            Math.toRadians(165),
+            config.alliance.sign * Math.toRadians(-165),
             Axial.CENTER
         );
     }
