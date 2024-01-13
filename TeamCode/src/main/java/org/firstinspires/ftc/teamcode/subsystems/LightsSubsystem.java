@@ -37,7 +37,7 @@ public class LightsSubsystem extends SubsystemBase {
         if (vision.detectionPose != null)
             pattern = GREEN;
 
-        if (!config.auto && config.started && config.timer.seconds() >= 80)
+        if (!config.auto && config.started && config.timer.seconds() >= 85)
             pattern = STROBE_RED;
 
         hardware.lights.setPattern(pattern);

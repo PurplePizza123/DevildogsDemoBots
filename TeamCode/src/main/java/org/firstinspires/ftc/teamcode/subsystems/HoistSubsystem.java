@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.PositionControl;
 import static com.arcrobotics.ftclib.util.MathUtils.clamp;
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
@@ -33,6 +34,9 @@ public class HoistSubsystem extends SubsystemBase {
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
+        if (config.timer.seconds() > 123 && config.timer.seconds() < 125 && this.height > MAX / 2 && this.height < MAX)
+            to(MAX);
+
         hardware.hoist.set(MOTOR_POWER);
 
         if (hardware.hoist.atTargetPosition() || atPositionTimer.seconds() >= 1)
