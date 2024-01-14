@@ -8,9 +8,7 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
-import static org.firstinspires.ftc.teamcode.commands.Commands.drone;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad1;
-import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad2;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 

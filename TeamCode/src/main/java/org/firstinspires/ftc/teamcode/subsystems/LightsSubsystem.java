@@ -7,7 +7,6 @@ import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.HEART
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_BLUE;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_RED;
-import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.SHOT_RED;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD;
 import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
