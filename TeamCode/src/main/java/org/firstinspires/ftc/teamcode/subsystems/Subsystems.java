@@ -7,6 +7,7 @@ public class Subsystems {
     public static SweeperSubsystem sweeper;
     public static LiftSubsystem lift;
     public static DepositSubsystem deposit;
+    public static BucketSubsystem bucket;
     public static DroneSubsystem drone;
     public static HoistSubsystem hoist;
     public static DriveSubsystem drive;

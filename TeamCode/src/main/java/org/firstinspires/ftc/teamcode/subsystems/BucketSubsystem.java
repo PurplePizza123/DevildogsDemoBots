@@ -9,24 +9,28 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
-public class DepositSubsystem extends SubsystemBase {
+public class BucketSubsystem extends SubsystemBase {
+
+    public static double INTAKE = 0.4;
+    public static double DEPOSIT = 0.6;
+
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
         telemetry.addData(
-            "Deposit",
+            "Bucket",
             () -> String.format(
                 "%.1f pos",
-                hardware.deposit.getPosition()
+                hardware.bucket.getPosition()
             )
         );
     }
 
-    public void open() {
-        hardware.deposit.setPosition(0.4);
+    public void intake() {
+        hardware.bucket.setPosition(INTAKE);
     }
 
-    public void closed() {
-        hardware.deposit.setPosition(0.6);
+    public void deposit() {
+        hardware.bucket.setPosition(DEPOSIT);
     }
 }

@@ -58,6 +58,8 @@ public class Hardware {
 
     public Servo deposit;
 
+    public Servo bucket;
+
     public MotorEx hoist;
     public CRServo hoistHelp;
 
@@ -100,6 +102,8 @@ public class Hardware {
         lift = new MotorEx(hardwareMap, "lift", RPM_435);
 
         deposit = hardwareMap.get(Servo.class, "deposit");
+
+        bucket = hardwareMap.get(Servo.class, "bucket");
 
         hoist = new MotorEx(hardwareMap, "hoist", RPM_84);
         hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");

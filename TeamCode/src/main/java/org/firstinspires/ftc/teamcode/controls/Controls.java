@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.controls;
 
+import org.firstinspires.ftc.teamcode.commands.BucketCommands;
+
 /** @noinspection InstantiationOfUtilityClass*/
 public class Controls {
     public static void initializeAuto() {
