@@ -4,7 +4,6 @@ public class Subsystems {
     public static ConfigSubsystem config;
     public static VisionSubsystem vision;
     public static ConveyorSubsystem conveyor;
-    public static SweeperSubsystem sweeper;
     public static LiftSubsystem lift;
     public static DepositSubsystem deposit;
     public static BucketSubsystem bucket;
@@ -19,7 +18,6 @@ public class Subsystems {
         config = new ConfigSubsystem();
         vision = new VisionSubsystem();
         conveyor = new ConveyorSubsystem();
-        sweeper = new SweeperSubsystem();
         lift = new LiftSubsystem();
         deposit = new DepositSubsystem();
         drone = new DroneSubsystem();

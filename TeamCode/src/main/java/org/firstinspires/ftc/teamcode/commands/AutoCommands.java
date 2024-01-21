@@ -57,7 +57,8 @@ public class AutoCommands {
             wait.seconds(0.5),
             deposit.open(),
             wait.seconds(2),
-            deposit.close()
+            deposit.close(),
+            drive.toBackdropApproach1()
         );
     }
 

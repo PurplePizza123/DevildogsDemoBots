@@ -19,11 +19,4 @@ public class DepositCommands {
             Subsystems.deposit
         );
     }
-
-    public Command stop() {
-        return new InstantCommand(
-            Subsystems.sweeper::stop,
-            Subsystems.sweeper
-        );
-    }
 }

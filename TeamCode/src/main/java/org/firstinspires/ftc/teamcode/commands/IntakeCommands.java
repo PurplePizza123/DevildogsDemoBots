@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.commands;
 import static org.firstinspires.ftc.teamcode.commands.Commands.conveyor;
 import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.lift;
-import static org.firstinspires.ftc.teamcode.commands.Commands.sweeper;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.commands.Commands.bucket;
 
@@ -11,13 +10,10 @@ import com.arcrobotics.ftclib.command.Command;
 
 public class IntakeCommands {
     public Command getPixels() {
-        return sweeper.in().andThen(
-            conveyor.in(),
+        return conveyor.in().andThen(
             wait.seconds(0), // TODO: wait for signal
-            sweeper.out(),
             wait.seconds(1),
-            conveyor.stop(),
-            sweeper.stop()
+            conveyor.stop()
         );
     }
 

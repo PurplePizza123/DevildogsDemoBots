@@ -6,7 +6,6 @@ public class Commands {
     public static VisionCommands vision;
     public static ConfigCommands menu;
     public static DriveCommands drive;
-    public static SweeperCommands sweeper;
     public static DroneCommands drone;
     public static DepositCommands deposit;
     public static HoistCommands hoist;
@@ -21,7 +20,6 @@ public class Commands {
         vision = new VisionCommands();
         menu = new ConfigCommands();
         drive = new DriveCommands();
-        sweeper = new SweeperCommands();
         conveyor = new ConveyorCommands();
         intake = new IntakeCommands();
         lift = new LiftCommands();

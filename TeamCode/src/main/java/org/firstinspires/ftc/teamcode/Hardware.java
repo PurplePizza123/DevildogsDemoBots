@@ -50,10 +50,6 @@ public class Hardware {
 
     public MotorEx conveyor;
 
-    public CRServo sweeperLeft;
-    public CRServo sweeperRight;
-    public CRServo sweeperCenter;
-
     public MotorEx lift;
 
     public Servo deposit;
@@ -92,10 +88,6 @@ public class Hardware {
 
         frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
         /*rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");*/
-
-        sweeperLeft = hardwareMap.get(CRServo.class,"sweeperLeft");
-        sweeperRight = hardwareMap.get(CRServo.class,"sweeperRight");
-        sweeperCenter = hardwareMap.get(CRServo.class,"sweeperCenter");
 
         conveyor = new MotorEx(hardwareMap, "odometryRightAndConveyor", RPM_435);
 
