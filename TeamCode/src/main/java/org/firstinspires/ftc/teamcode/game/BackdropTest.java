@@ -30,7 +30,7 @@ public enum BackdropTest {
         return map.get(label);
     }
 
-    private static String legend = "L1L2L3L4L5L6L7L8L9L10L11123456"; //TODO Ask Brandon about how to separate
+    private static String legend = "L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 1 2 3 4 5 6"; //TODO Ask Brandon about how to separate
 
     private static String[][] characters = {
         { " #         #   ", " #        #####   ", "  #        #####  ", " #       #       ", " #       ####### ", " #        #####  ", " #       ####### ", " #        #####  ", " #        #####  ", " #         #     ###   ", " #         #     #   ", "   #   ", "  #####  ", "  #####  ", " #       ", " ####### ", "  #####  ", " ####### ", "    #####  ", "  #####  ", "   #     ###   ", "   #     #   ", "   #    #####  ", "   #    #####  " },
