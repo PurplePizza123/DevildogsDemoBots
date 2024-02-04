@@ -13,6 +13,7 @@ public class Subsystems {
     public static NavSubsystem nav;
     public static LightsSubsystem lights;
     public static PeriodicSubsystem periodic;
+    public static BackdropSubsystem backdrop;
 
     public static void initialize() {
         config = new ConfigSubsystem();
@@ -26,5 +27,7 @@ public class Subsystems {
         nav = new NavSubsystem();
         lights = new LightsSubsystem();
         periodic = new PeriodicSubsystem();
+        bucket = new BucketSubsystem();
+        backdrop = new BackdropSubsystem();
     }
 }
