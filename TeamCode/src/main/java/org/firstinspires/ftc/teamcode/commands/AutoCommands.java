@@ -62,6 +62,16 @@ public class AutoCommands {
         );
     }
 
+    public Command scoreStackPixels() {
+        return drive.toPixelStack().andThen(
+            intake.in(),
+            drive.toBackdropFront(),
+            deposit.open(),
+            wait.seconds(.5),
+            deposit.close()
+        );
+    }
+
     public Command park() {
         return drive.toParking();
     }

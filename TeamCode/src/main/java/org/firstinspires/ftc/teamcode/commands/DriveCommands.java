@@ -90,6 +90,14 @@ public class DriveCommands {
         );
     }
 
+    public Command toPixelStack() {
+        return drive.follow(
+                t -> t.strafeToLinearHeading(
+                        nav.getStackPose()
+                )
+        );
+    }
+
     public Command toParking() {
         return drive.follow(
             t -> t.strafeToLinearHeading(

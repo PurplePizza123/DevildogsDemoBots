@@ -22,6 +22,8 @@ public class AutoOpMode extends OpMode {
         config.side = Side.UNKNOWN;
         config.parking = INNER;
         config.backdrop = LEFT;
+        config.backdropRow = 1;
+        config.backdropCol = 1;
         config.offsetX = 0;
         config.offsetY = 0;
         config.delay = 0;
