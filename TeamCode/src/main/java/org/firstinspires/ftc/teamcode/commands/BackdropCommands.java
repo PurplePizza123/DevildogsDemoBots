@@ -11,9 +11,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 public class BackdropCommands {
     public Command changeAddress(int column, int row) {
         return new InstantCommand(
-                () -> config.backdrop = "" +
-                        (char)clamp(config.backdropCol.charAt(0) + column, 'V', 'Z') +
-                        (char)clamp(config.backdropRow.charAt(1) + row, '1', '5'),
+                () -> {
+                    config.backdropRow = clamp(config.backdropRow + row, 1, 11);
+                    config.backdropCol = clamp(config.backdropCol + column, 1, config.backdropRow % 2 == 0 ? 7 : 6);
+                },
                 Subsystems.backdrop
         );
     }

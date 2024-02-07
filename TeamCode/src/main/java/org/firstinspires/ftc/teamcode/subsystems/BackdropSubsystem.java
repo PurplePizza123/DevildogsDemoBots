@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.game.Config.config;
-import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
 import android.annotation.SuppressLint;
@@ -19,7 +18,7 @@ public class BackdropSubsystem extends SubsystemBase {
     public void periodic() {
         if (config.auto) return;
 
-        for (String line : Backdrop.lines("1-1L")) {
+        for (String line : Backdrop.lines()) {
             telemetry.addLine("<font face=\"monospace\">" + line.replace(" ", "&nbsp;") + "</font>");
         }
     }
