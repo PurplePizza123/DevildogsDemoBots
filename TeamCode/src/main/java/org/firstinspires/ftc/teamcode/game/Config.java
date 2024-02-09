@@ -20,6 +20,7 @@ public class Config {
     public double offsetX = 0;
     public double offsetY = 0;
     public double delay = 0;
+    public double pixelHeight = 3.3125;
     public Pose2d pose = new Pose2d(0, 0, 0);
     public transient ElapsedTime timer = new ElapsedTime();
 }

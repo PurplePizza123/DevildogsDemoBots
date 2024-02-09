@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.commands.Commands.intake;
 import static org.firstinspires.ftc.teamcode.commands.Commands.vision;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
@@ -15,7 +16,8 @@ public class AutoCommands {
         return wait.seconds(config.delay).alongWith(
             deposit.close(),
             drive.toRecognition(),
-            vision.recognize()
+            vision.recognize(),
+            vision.setActiveCamera(hardware.rearWebcam)
         ).andThen(
             scorePurplePixel(),
             scoreYellowPixel(),

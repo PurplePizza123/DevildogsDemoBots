@@ -18,6 +18,9 @@ import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.adaptations.ftcdashboard.FtcDashboardProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -84,8 +87,11 @@ public class VisionSubsystem extends SubsystemBase {
             .setModelLabels(new String[]{"Team Prop"})
             .build();
 
+        CameraName switchableCamera = ClassFactory.getInstance()
+                .getCameraManager().nameForSwitchableCamera(hardware.frontWebcam, hardware.rearWebcam);
+
         visionPortal = new VisionPortal.Builder()
-            .setCamera(hardware.frontWebcam)
+            .setCamera(switchableCamera)
             .addProcessors(ftcDashboard, tfod, aprilTag)
             .build();
 
@@ -145,6 +151,10 @@ public class VisionSubsystem extends SubsystemBase {
                 )
             ) : "None"
         );
+    }
+
+    public void setActiveCamera(WebcamName webcam) {
+        visionPortal.setActiveCamera(webcam);
     }
 
     @SuppressLint("DefaultLocale")

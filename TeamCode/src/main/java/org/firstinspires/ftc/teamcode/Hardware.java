@@ -46,7 +46,7 @@ public class Hardware {
     public Encoder odometryCenter;
 
     public WebcamName frontWebcam;
-    /*public WebcamName rearWebcam;*/
+    public WebcamName rearWebcam;
 
     public MotorEx conveyor;
 
@@ -87,7 +87,7 @@ public class Hardware {
         odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
 
         frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
-        /*rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");*/
+        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
 
         conveyor = new MotorEx(hardwareMap, "odometryRightAndConveyor", RPM_435);
 

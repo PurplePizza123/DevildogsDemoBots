@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SelectCommand;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
@@ -48,6 +49,13 @@ public class VisionCommands {
         return vision.enableDetection().andThen(
             attemptDetection(),
             logDetection()
+        );
+    }
+
+    public Command setActiveCamera(WebcamName webcam) {
+        return new InstantCommand(
+            () -> Subsystems.vision.setActiveCamera(webcam),
+            Subsystems.vision
         );
     }
 

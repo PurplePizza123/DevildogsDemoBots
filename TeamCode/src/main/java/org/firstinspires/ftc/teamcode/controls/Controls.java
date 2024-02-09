@@ -15,5 +15,7 @@ public class Controls {
         new DepositControl();
         new HoistControl();
         new DroneControl();
+        new ConfigControl();
+        new BackdropControl();
     }
 }

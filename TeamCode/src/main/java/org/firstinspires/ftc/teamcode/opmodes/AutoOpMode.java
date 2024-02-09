@@ -7,9 +7,11 @@ import static org.firstinspires.ftc.teamcode.game.Parking.INNER;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.controls.Controls;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
+import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 @Autonomous(name = "Auto")
 @SuppressWarnings("unused")
@@ -29,6 +31,7 @@ public class AutoOpMode extends OpMode {
         config.delay = 0;
 
         Controls.initializeAuto();
+        Subsystems.vision.setActiveCamera(hardware.frontWebcam);
 
         waitForStart();
 
