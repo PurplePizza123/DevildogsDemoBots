@@ -60,17 +60,11 @@ public class DriveCommands {
         );
     }
 
-    public Command toBackdropApproach1() {
+    public Command toBackdropApproach() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
-                nav.getBackdropApproachPose1()
+                nav.getBackdropApproach()
             )
-        );
-    }
-
-    public Command toBackdropApproach2() {
-        return drive.follow(
-            t -> t.turnTo(Math.toRadians(90))
         );
     }
 
@@ -82,10 +76,10 @@ public class DriveCommands {
         );
     }
 
-    public Command toBackdropFront() {
+    public Command toBackdrop() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
-                nav.getBackdropFrontPose(vision.recognitionId)
+                nav.getBackdropPose(vision.recognitionId)
             )
         );
     }
@@ -115,7 +109,7 @@ public class DriveCommands {
     }
 
     public Command toDroneLaunchWithDetection() {
-        return drive.toBackdropApproach1().andThen(
+        return drive.toBackdropApproach().andThen(
             Commands.vision.detect(),
             drive.follow(
                 t -> t.strafeToLinearHeading(

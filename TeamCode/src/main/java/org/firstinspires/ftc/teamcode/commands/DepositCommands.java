@@ -6,6 +6,11 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class DepositCommands {
+    public Command scorePixel() {
+        return new InstantCommand(
+
+        );
+    }
     public Command open() {
         return new InstantCommand(
             Subsystems.deposit::open,

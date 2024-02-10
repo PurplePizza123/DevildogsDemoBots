@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.arcrobotics.ftclib.hardware.motors.Motor.RunMode.PositionControl;
 import static com.arcrobotics.ftclib.util.MathUtils.clamp;
 
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
 
@@ -17,6 +18,8 @@ public class LiftSubsystem extends SubsystemBase {
     public static double POWER = 1;
     public static double MIN = 0;
     public static double MAX = 28;
+    public static double PIXEL_HEIGHT = 3.3125;
+    public static double INITIAL_BACKDROP_HEIGHT = 6.125;
 
     public double height = MIN;
 
@@ -50,5 +53,9 @@ public class LiftSubsystem extends SubsystemBase {
         hardware.lift.setTargetDistance(
             this.height = clamp(height, MIN, MAX)
         );
+    }
+
+    public void toScorePos() {
+        hardware.lift.setTargetDistance((PIXEL_HEIGHT * config.backdropRow) + INITIAL_BACKDROP_HEIGHT);
     }
 }

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.intake;
+import static org.firstinspires.ftc.teamcode.commands.Commands.lift;
 import static org.firstinspires.ftc.teamcode.commands.Commands.vision;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
 import static org.firstinspires.ftc.teamcode.game.Config.config;
@@ -38,10 +39,9 @@ public class AutoCommands {
     }
 
     public Command scoreYellowPixel() {
-        return drive.toBackdropApproach1().andThen(
+        return drive.toBackdropApproach().andThen(
             new SelectCommand(
                 () -> vision.detect().andThen(
-                    drive.toBackdropApproach2(),
                     drive.toBackdropSide(),
                     wait.seconds(0.5),
                     deposit.open(),
@@ -53,21 +53,22 @@ public class AutoCommands {
     }
 
     public Command scorePixel() {
-        return drive.toBackdropApproach1().andThen(
+        return drive.toBackdropApproach().andThen(
             vision.detect(),
-            drive.toBackdropFront(),
+            lift.toScorePos(),
+            drive.toBackdrop(),
             wait.seconds(0.5),
             deposit.open(),
             wait.seconds(2),
             deposit.close(),
-            drive.toBackdropApproach1()
+            drive.toBackdropApproach()
         );
     }
 
     public Command scoreStackPixels() {
         return drive.toPixelStack().andThen(
             intake.in(),
-            drive.toBackdropFront(),
+            drive.toBackdrop(),
             deposit.open(),
             wait.seconds(.5),
             deposit.close()
