@@ -22,7 +22,7 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getStartPose() {
         return new Pose2d(
-            config.side.sign * (config.side == NORTH ? 4 : 1.5) * TILE_WIDTH,
+            config.side.sign * (config.side == NORTH ? .5 : 1.5) * TILE_WIDTH,
             config.alliance.sign * (3 * TILE_WIDTH - ROBOT_LENGTH_HALF - 1.41279528),
             config.alliance.sign * Math.toRadians(-90)
         );
@@ -96,8 +96,26 @@ public class NavSubsystem extends SubsystemBase {
 
     public Pose2d getStackPose() {
         return createPose(
-            TILE_WIDTH * config.alliance.sign,
-               (config.alliance.sign * TILE_WIDTH * 3 - (TILE_WIDTH / .9)),
+            (-TILE_WIDTH * 3) - 6,
+                (config.alliance.sign * TILE_WIDTH_HALF),
+            Math.toRadians(180),
+            Axial.FRONT
+        );
+    }
+
+    public Pose2d getStackApproachPose1() {
+        return createPose(
+            TILE_WIDTH_HALF,
+               (config.alliance.sign * TILE_WIDTH_HALF),
+            Math.toRadians(180),
+            Axial.CENTER
+        );
+    }
+
+    public Pose2d getStackApproachPose2() {
+        return createPose(
+            (-TILE_WIDTH * 3) - 12,
+            (config.alliance.sign * TILE_WIDTH_HALF),
             Math.toRadians(180),
             Axial.FRONT
         );

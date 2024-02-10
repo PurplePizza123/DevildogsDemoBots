@@ -25,8 +25,4 @@ public class LiftCommands {
         Subsystems.lift.toScorePos();
         return new InstantCommand();
     }
-
-    public Command toPixelHeight() {
-        Backdrop.get
-    }
 }

@@ -68,14 +68,6 @@ public class DriveCommands {
         );
     }
 
-    public Command toBackdropSide() {
-        return drive.follow(
-            t -> t.strafeToLinearHeading(
-                nav.getBackdropSidePose(vision.recognitionId)
-            )
-        );
-    }
-
     public Command toBackdrop() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
@@ -84,11 +76,27 @@ public class DriveCommands {
         );
     }
 
-    public Command toPixelStack() {
+    public Command toStackApproach1() {
         return drive.follow(
-                t -> t.strafeToLinearHeading(
-                        nav.getStackPose()
-                )
+            t -> t.strafeToLinearHeading(
+                nav.getStackApproachPose1()
+            )
+        );
+    }
+
+    public Command toStackApproach2() {
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getStackApproachPose2()
+            )
+        );
+    }
+
+    public Command toStack() {
+        return drive.follow(
+            t -> t.strafeToLinearHeading(
+                nav.getStackPose()
+            )
         );
     }
 
