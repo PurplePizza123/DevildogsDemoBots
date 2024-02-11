@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.wait;
+import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
 import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
@@ -98,6 +99,22 @@ public class DriveCommands {
                 nav.getStackPose()
             )
         );
+    }
+
+    public Command checkAutoTimer() {
+        if (config.auto && config.started && config.timer.seconds() >= 25) {
+            return drive.follow( t -> t.strafeToLinearHeading(
+                nav.getParkingPose())
+            );
+        }
+
+        else {
+            return drive.follow(
+                t -> t.strafeToLinearHeading(
+                    nav.getStackApproachPose1()
+                )
+            );
+        }
     }
 
     public Command toParking() {

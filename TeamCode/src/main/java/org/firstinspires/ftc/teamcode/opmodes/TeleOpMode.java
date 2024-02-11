@@ -14,5 +14,6 @@ public class TeleOpMode extends OpMode {
         Subsystems.vision.setActiveCamera(hardware.rearWebcam);
         waitForStart();
         Controls.initializeTeleop();
+        hardware.lift.set(0);
     }
 }

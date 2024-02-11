@@ -13,6 +13,8 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import java.util.Timer;
+
 public class AutoCommands {
     public Command execute() {
         return wait.seconds(config.delay).alongWith(
@@ -70,6 +72,8 @@ public class AutoCommands {
                     wait.seconds(1),
                     intake.stop(),
                     drive.toStackApproach1(),
+                    drive.checkAutoTimer(),
+                    //TODO: add if we want to park or score based on time
                     drive.toBackdrop(),
                     deposit.open(),
                     wait.seconds(.5),
