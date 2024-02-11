@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.auto;
 import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.intake;
@@ -10,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
@@ -61,28 +63,28 @@ public class AutoCommands {
     }
 
     public Command scoreStackPixels() {
-        SequentialCommandGroup group = new SequentialCommandGroup();
+        return new SelectCommand(
+            () -> {
+                SequentialCommandGroup group = new SequentialCommandGroup();
 
-        if (config.stackTimes > 0) {
-            group.addCommands(
-                drive.toStackApproach1().andThen(
-                    drive.toStackApproach2(),
-                    intake.in(),
-                    drive.toStack(),
-                    wait.seconds(1),
-                    intake.stop(),
-                    drive.toStackApproach1(),
-                    drive.checkAutoTimer(),
-                    //TODO: add if we want to park or score based on time
-                    drive.toBackdrop(),
-                    deposit.open(),
-                    wait.seconds(.5),
-                    deposit.close()
-                )
-            );
-        }
+                if (config.stackTimes > 0 && config.timer.seconds() <= 20) {
+                    group.addCommands(
+                        drive.toStackApproach1().andThen(
+                            drive.toStackApproach2(),
+                            intake.in(),
+                            drive.toStack(),
+                            wait.seconds(1),
+                            intake.stop(),
+                            drive.toStackApproach1(),
+                            new ConditionalCommand(auto.scorePixel(), wait.seconds(0), () -> config.timer.seconds() <= 25),
+                            auto.park()
+                        )
+                    );
+                }
 
-        return group;
+                return group;
+            }
+        );
     }
 
     public Command park() {
