@@ -19,13 +19,13 @@ import java.util.Timer;
 
 public class AutoCommands {
     public Command execute() {
-        return wait.seconds(config.delay).alongWith(
-            deposit.close(),
+        return wait.seconds(config.delay).andThen(
             lift.to(0),
+            deposit.close(),
             drive.toRecognition(),
-            vision.recognize(),
-            vision.setActiveCamera(hardware.rearWebcam)
+            vision.recognize()
         ).andThen(
+            vision.setActiveCamera(hardware.rearWebcam),
             scorePurplePixel(),
             scoreYellowPixel(),
             scoreStackPixels(),
@@ -58,6 +58,7 @@ public class AutoCommands {
             deposit.open(),
             wait.seconds(2),
             deposit.close(),
+            lift.to(0),
             drive.toBackdropApproach() //TODO Maybe switch to park?
         );
     }
@@ -67,7 +68,7 @@ public class AutoCommands {
             () -> {
                 SequentialCommandGroup group = new SequentialCommandGroup();
 
-                if (config.stackTimes > 0 && config.timer.seconds() <= 20) {
+                if (config.stackTimes > 0 && config.timer.seconds() <= 40) { //changed from 20
                     group.addCommands(
                         drive.toStackApproach1().andThen(
                             drive.toStackApproach2(),
@@ -76,7 +77,7 @@ public class AutoCommands {
                             wait.seconds(1),
                             intake.stop(),
                             drive.toStackApproach1(),
-                            new ConditionalCommand(auto.scorePixel(), wait.seconds(0), () -> config.timer.seconds() <= 25),
+                            new ConditionalCommand(auto.scorePixel(), wait.seconds(0), () -> config.timer.seconds() <= 55), //changed from 25
                             auto.park()
                         )
                     );

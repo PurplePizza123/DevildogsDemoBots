@@ -34,6 +34,7 @@ public class AutoOpMode extends OpMode {
         config.delay = 0;
 
         Controls.initializeAuto();
+
         Subsystems.vision.setActiveCamera(hardware.frontWebcam);
 
         waitForStart();

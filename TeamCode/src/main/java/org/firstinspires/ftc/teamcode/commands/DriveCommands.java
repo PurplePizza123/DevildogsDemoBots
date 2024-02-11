@@ -103,22 +103,6 @@ public class DriveCommands {
         );
     }
 
-    public Command checkAutoTimer() { //TODO Switch to ConditionalCommand
-        if (SelectCommand(config.auto && config.started && config.timer.seconds() >= 25)) {
-            return drive.follow( t -> t.strafeToLinearHeading(
-                nav.getParkingPose())
-            );
-        }
-
-        else {
-            return drive.follow(
-                t -> t.strafeToLinearHeading(
-                    nav.getStackApproachPose1()
-                )
-            );
-        }
-    }
-
     public Command toParking() {
         return drive.follow(
             t -> t.strafeToLinearHeading(
