@@ -89,8 +89,8 @@ public class NavSubsystem extends SubsystemBase {
             TILE_WIDTH * 2.7,
             (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH +
                 (1.5 * config.backdrop.sign),
-            Math.toRadians(0),
-            Lateral.RIGHT
+            Math.toRadians(180),
+            Axial.BACK
         );
     }
 

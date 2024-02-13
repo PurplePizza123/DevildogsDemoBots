@@ -55,7 +55,7 @@ public class DriveCommands {
             )
         ).andThen(
             drive.follow(
-                t -> t.turnTo(0)
+                t -> t.turnTo(Math.toRadians(180))
             )
         );
     }

@@ -19,7 +19,7 @@ public class LiftSubsystem extends SubsystemBase {
     public static double MIN = 0;
     public static double MAX = 28;
     public static double PIXEL_HEIGHT = 3.3125;
-    public static double INITIAL_BACKDROP_HEIGHT = 6.125;
+    public static double INITIAL_BACKDROP_HEIGHT = 0;
 
     public double height = MIN;
 

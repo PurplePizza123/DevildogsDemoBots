@@ -33,11 +33,11 @@ import java.util.List;
 
 @Config
 public class VisionSubsystem extends SubsystemBase {
-    public static double CAMERA_X_INCHES = 0;
+    public static double CAMERA_X_INCHES = 0; //TODO add offsets with other camera
 
-    public static double CAMERA_Y_INCHES = 6.5;
+    public static double CAMERA_Y_INCHES = 7.25;
 
-    public static double CAMERA_YAW_DEGREES = 5;
+    public static double CAMERA_YAW_DEGREES = 180;
 
     public static boolean recognitionEnabled = true;
 

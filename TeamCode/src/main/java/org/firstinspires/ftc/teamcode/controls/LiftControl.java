@@ -6,6 +6,7 @@ import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
 import static org.firstinspires.ftc.teamcode.commands.Commands.lift;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.gamepad2;
 
@@ -26,6 +27,7 @@ public class LiftControl {
 
         gamepad2.getGamepadButton(X)
             .and(gamepad2.getGamepadButton(DPAD_RIGHT).or(gamepad2.getGamepadButton(DPAD_LEFT)))
-            .toggleWhenActive(lift.toScorePos());
+            .whenActive(drive.toBackdrop()
+            .andThen(lift.toScorePos()));
     }
 }
