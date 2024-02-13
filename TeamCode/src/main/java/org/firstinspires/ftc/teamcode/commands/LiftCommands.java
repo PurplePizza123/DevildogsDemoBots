@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
-import org.firstinspires.ftc.teamcode.game.Backdrop;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
 public class LiftCommands {
@@ -24,7 +23,7 @@ public class LiftCommands {
     public Command toScorePos() {
         return new InstantCommand(
             () -> Subsystems.lift.toScorePos(),
-                Subsystems.lift
+            Subsystems.lift
         );
     }
 }

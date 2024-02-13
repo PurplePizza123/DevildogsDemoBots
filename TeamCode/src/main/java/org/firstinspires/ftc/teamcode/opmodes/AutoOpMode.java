@@ -13,9 +13,6 @@ import org.firstinspires.ftc.teamcode.controls.Controls;
 import org.firstinspires.ftc.teamcode.game.Alliance;
 import org.firstinspires.ftc.teamcode.game.Side;
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
-
-import java.util.Timer;
-
 @Autonomous(name = "Auto")
 @SuppressWarnings("unused")
 public class AutoOpMode extends OpMode {

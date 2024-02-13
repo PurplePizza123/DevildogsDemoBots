@@ -72,9 +72,9 @@ public class ConfigSubsystem extends SubsystemBase {
             change -> config.backdrop = config.backdrop == LEFT ? RIGHT : LEFT
         ),
         new Item(
-                "Stacks",
-                () -> String.format("%s", config.stackTimes),
-                change -> config.stackTimes = config.stackTimes == 0 ? 1 : 0
+            "Stacks",
+            () -> String.format("%s", config.stackTimes),
+            change -> config.stackTimes = config.stackTimes == 0 ? 1 : 0
         )
     );
 

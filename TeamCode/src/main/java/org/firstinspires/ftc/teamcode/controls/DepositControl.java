@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.controls;
 
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.BACK;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.START;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
 

@@ -8,19 +8,19 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 public class BackdropControl {
     public BackdropControl() {
         new Trigger(
-                () -> gamepad2.getLeftY() > 0
+            () -> gamepad2.getLeftY() > 0
         ).whileActiveOnce(backdrop.changeAddress(+0, +1));
 
         new Trigger(
-                () -> gamepad2.getLeftY() < 0
+            () -> gamepad2.getLeftY() < 0
         ).whileActiveOnce(backdrop.changeAddress(+0, -1));
 
         new Trigger(
-                () -> gamepad2.getRightX() > 0
+            () -> gamepad2.getRightX() > 0
         ).whileActiveOnce(backdrop.changeAddress(+1, +0));
 
         new Trigger(
-                () -> gamepad2.getRightX() < 0
+            () -> gamepad2.getRightX() < 0
         ).whileActiveOnce(backdrop.changeAddress(-1, +0));
     }
 }
