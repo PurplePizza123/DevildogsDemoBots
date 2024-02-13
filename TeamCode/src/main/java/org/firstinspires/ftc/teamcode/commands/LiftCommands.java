@@ -22,7 +22,9 @@ public class LiftCommands {
     }
 
     public Command toScorePos() {
-        Subsystems.lift.toScorePos();
-        return new InstantCommand();
+        return new InstantCommand(
+            () -> Subsystems.lift.toScorePos(),
+                Subsystems.lift
+        );
     }
 }

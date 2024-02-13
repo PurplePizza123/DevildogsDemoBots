@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.controls;
 
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_UP;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.X;
 
@@ -21,5 +23,9 @@ public class LiftControl {
         gamepad2.getGamepadButton(X)
             .and(gamepad2.getGamepadButton(DPAD_DOWN))
             .whileActiveContinuous(lift.change(-INCREMENT));
+
+        gamepad2.getGamepadButton(X)
+            .and(gamepad2.getGamepadButton(DPAD_RIGHT).or(gamepad2.getGamepadButton(DPAD_LEFT)))
+            .toggleWhenActive(lift.toScorePos());
     }
 }
