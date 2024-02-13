@@ -68,7 +68,7 @@ public class AutoCommands {
             () -> {
                 SequentialCommandGroup group = new SequentialCommandGroup();
 
-                if (config.stackTimes > 0 && config.timer.seconds() <= 40) { //was 20
+                if (config.stackTimes > 0 && config.timer.seconds() <= 20) {
                     group.addCommands(
                         drive.toStackApproach1().andThen(
                             drive.toStackApproach2(),
@@ -77,7 +77,7 @@ public class AutoCommands {
                             wait.seconds(1),
                             intake.stop(),
                             drive.toStackApproach1(),
-                            new ConditionalCommand(auto.scorePixel(), wait.seconds(0), () -> config.timer.seconds() <= 55), //was 25
+                            new ConditionalCommand(auto.scorePixel(), wait.seconds(0), () -> config.timer.seconds() <= 25),
                             auto.park()
                         )
                     );
