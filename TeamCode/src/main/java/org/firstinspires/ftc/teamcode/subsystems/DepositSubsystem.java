@@ -23,7 +23,7 @@ public class DepositSubsystem extends SubsystemBase {
     }
 
     public void open() {
-        hardware.deposit.setPosition(0.4);
+        hardware.deposit.setPosition(0.5);
     }
 
     public void closed() {
