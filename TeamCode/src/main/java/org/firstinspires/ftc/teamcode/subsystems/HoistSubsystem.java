@@ -34,7 +34,7 @@ public class HoistSubsystem extends SubsystemBase {
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
-        if (config.timer.seconds() > 123 && config.timer.seconds() < 125 && this.height > MAX / 2 && this.height < MAX)
+        if (config.timer.seconds() > 123 && config.timer.seconds() < 125 && this.height > MAX * 0.05 && this.height < MAX)
             to(MAX);
 
         hardware.hoist.set(MOTOR_POWER);

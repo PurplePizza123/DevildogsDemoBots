@@ -15,8 +15,6 @@ import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import java.util.Timer;
-
 public class AutoCommands {
     public Command execute() {
         return wait.seconds(config.delay).andThen(
@@ -54,10 +52,10 @@ public class AutoCommands {
             vision.detect(),
             lift.toScorePos(),
             drive.toBackdrop(),
-            wait.seconds(.5), //was .5
+            wait.seconds(.5),
             deposit.open(),
             wait.seconds(2),
-            drive.toBackdropApproach(), //TODO Maybe switch to park?
+            drive.toBackdropApproach(),
             deposit.close(),
             lift.to(0)
         );

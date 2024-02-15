@@ -12,7 +12,6 @@ public class Commands {
     public static ConveyorCommands conveyor;
     public static LiftCommands lift;
     public static IntakeCommands intake;
-    public static BucketCommands bucket;
     public static BackdropCommands backdrop;
 
     public static void initialize() {
@@ -27,7 +26,6 @@ public class Commands {
         deposit = new DepositCommands();
         hoist = new HoistCommands();
         drone = new DroneCommands();
-        bucket = new BucketCommands();
         backdrop = new BackdropCommands();
     }
 }

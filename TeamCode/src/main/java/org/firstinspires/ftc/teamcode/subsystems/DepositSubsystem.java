@@ -24,7 +24,6 @@ public class DepositSubsystem extends SubsystemBase {
                 hardware.deposit.getPosition()
             )
         );
-//        open(); //Temporary for tuning
     }
 
     public void open() {

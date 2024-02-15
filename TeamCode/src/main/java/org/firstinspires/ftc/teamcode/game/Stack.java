@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.game;
 
 public enum Stack {
-    OUTER(+1), INNER(-1), CENTER(0); //TODO Brandon how do I do this
+    OUTER(+1), INNER(-1), CENTER(0);
 
     public final int number;
 

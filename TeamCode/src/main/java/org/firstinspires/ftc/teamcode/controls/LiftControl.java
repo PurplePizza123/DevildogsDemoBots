@@ -32,9 +32,8 @@ public class LiftControl {
             .andThen(lift.toScorePos()));
 
         gamepad1.getGamepadButton(X)
-                .and(gamepad1.getGamepadButton(DPAD_RIGHT).or(gamepad1.getGamepadButton(DPAD_LEFT)))
-                .whenActive(lift.toScorePos()
-                        .andThen(drive.toBackdrop()));
-
+            .and(gamepad1.getGamepadButton(DPAD_RIGHT).or(gamepad1.getGamepadButton(DPAD_LEFT)))
+            .whenActive(lift.toScorePos()
+            .andThen(drive.toBackdrop()));
     }
 }
