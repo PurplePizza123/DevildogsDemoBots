@@ -34,7 +34,11 @@ import java.util.function.Supplier;
 
 public class ConfigSubsystem extends SubsystemBase {
     private static final String fileName = "config.json";
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson =
+        new GsonBuilder()
+            .setPrettyPrinting()
+            .serializeSpecialFloatingPointValues()
+            .create();
 
     public static boolean PERSISTENCE = false;
     public static double DELAY_INCREMENT = 0.5;
@@ -123,7 +127,11 @@ public class ConfigSubsystem extends SubsystemBase {
         if (config.started) return;
         config.timer.reset();
         config.started = true;
-        Log.i(this.getClass().getSimpleName(), "Start | " + gson.toJson(config));
+        try {
+            Log.i(this.getClass().getSimpleName(), "Start | " + gson.toJson(config));
+        } catch (Exception e) {
+            Log.w("Problem logging current config", e);
+        }
     }
 
     public void setEditable(boolean editable)
