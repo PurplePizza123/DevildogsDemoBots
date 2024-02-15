@@ -86,9 +86,9 @@ public class NavSubsystem extends SubsystemBase {
     }
     public Pose2d getBackdropPose(int detection) {
         return createPose(
-            TILE_WIDTH * 2.7,
+                (TILE_WIDTH * 2.7) - 5.5,
             (config.alliance.sign * 1.5 - 0.25 * detection) * TILE_WIDTH +
-                (1.5 * config.backdrop.sign),
+                (1.5 * config.backdrop.sign) + 1.625,
             Math.toRadians(180),
             Axial.BACK
         );

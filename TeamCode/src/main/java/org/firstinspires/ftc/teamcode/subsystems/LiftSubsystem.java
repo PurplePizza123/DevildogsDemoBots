@@ -15,7 +15,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 @Config
 public class LiftSubsystem extends SubsystemBase {
     public static double SPOOL_CIRCUMFERENCE = 1.5 * Math.PI;
-    public static double POWER = 1;
+    public static double POWER = .5;
     public static double MIN = 0;
     public static double MAX = 28;
     public static double PIXEL_HEIGHT = 3.3125;

@@ -10,6 +10,10 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 
 @Config
 public class DepositSubsystem extends SubsystemBase {
+
+    public static double OPEN_POSITION = .6;
+    public static double CLOSED_POSITION = .5;
+
     @Override
     @SuppressLint("DefaultLocale")
     public void periodic() {
@@ -20,13 +24,14 @@ public class DepositSubsystem extends SubsystemBase {
                 hardware.deposit.getPosition()
             )
         );
+//        open(); //Temporary for tuning
     }
 
     public void open() {
-        hardware.deposit.setPosition(0.5);
+        hardware.deposit.setPosition(OPEN_POSITION);
     }
 
     public void closed() {
-        hardware.deposit.setPosition(0.6);
+        hardware.deposit.setPosition(CLOSED_POSITION);
     }
 }
