@@ -42,7 +42,7 @@ public class NavSubsystem extends SubsystemBase {
             ((config.side == NORTH ? 0.5 : -1.5) * TILE_WIDTH) +
                 (detection == -1 ? config.alliance.sign * +0.92 * TILE_WIDTH_HALF : 0) +
                 (detection ==  0 ? config.alliance.sign : 0) +
-                (detection == +1 ? config.alliance.sign * -0.77 * TILE_WIDTH_HALF : 0),
+                (detection == +1 ? config.alliance.sign * -0.65 * TILE_WIDTH_HALF : 0),
             config.alliance.sign * (detection == 0 ? 1.05 : 1.1) * TILE_WIDTH,
             Math.toRadians(config.alliance.sign * -90 - 45 * detection),
             Axial.FRONT
