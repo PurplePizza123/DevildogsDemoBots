@@ -5,18 +5,18 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.Subsystems;
 
-public class DepositCommands {
-    public Command open() {
+public class ArmCommands {
+    public Command up() {
         return new InstantCommand(
-            Subsystems.deposit::open,
-            Subsystems.deposit
+            Subsystems.arm::up,
+            Subsystems.arm
         );
     }
 
-    public Command close() {
+    public Command down() {
         return new InstantCommand(
-            Subsystems.deposit::closed,
-            Subsystems.deposit
+            Subsystems.arm::down,
+            Subsystems.arm
         );
     }
 }

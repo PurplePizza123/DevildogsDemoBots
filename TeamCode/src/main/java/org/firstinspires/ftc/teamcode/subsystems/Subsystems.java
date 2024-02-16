@@ -6,6 +6,7 @@ public class Subsystems {
     public static VisionSubsystem vision;
     public static ConveyorSubsystem conveyor;
     public static LiftSubsystem lift;
+    public static ArmSubsystem arm;
     public static DepositSubsystem deposit;
     public static DroneSubsystem drone;
     public static HoistSubsystem hoist;
@@ -20,6 +21,7 @@ public class Subsystems {
         vision = new VisionSubsystem();
         conveyor = new ConveyorSubsystem();
         lift = new LiftSubsystem();
+        arm = new ArmSubsystem();
         deposit = new DepositSubsystem();
         drone = new DroneSubsystem();
         hoist = new HoistSubsystem();

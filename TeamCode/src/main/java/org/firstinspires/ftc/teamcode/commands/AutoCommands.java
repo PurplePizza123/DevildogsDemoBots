@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.commands.Commands.arm;
 import static org.firstinspires.ftc.teamcode.commands.Commands.auto;
 import static org.firstinspires.ftc.teamcode.commands.Commands.deposit;
 import static org.firstinspires.ftc.teamcode.commands.Commands.drive;
@@ -50,13 +51,18 @@ public class AutoCommands {
     public Command scorePixel() {
         return drive.toBackdropApproach().andThen(
             vision.detect(),
-            lift.toScorePos(),
+            lift.toScorePos().andThen(
+                wait.seconds(.4),
+                arm.up()
+            ),
             drive.toBackdrop(),
             wait.seconds(.5),
             deposit.open(),
             wait.seconds(2),
             drive.toBackdropApproach(),
             deposit.close(),
+            arm.down(),
+            wait.seconds(1),
             lift.to(0)
         );
     }

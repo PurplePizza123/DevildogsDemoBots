@@ -56,6 +56,7 @@ public class Hardware {
 
     public MotorEx hoist;
     public CRServo hoistHelp;
+    public Servo arm;
 
     public Servo drone;
 
@@ -99,6 +100,8 @@ public class Hardware {
         drone = hardwareMap.get(Servo.class, "drone");
 
         lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
+
+        arm = hardwareMap.get(Servo.class, "arm");
 
         clearBulkCache();
     }

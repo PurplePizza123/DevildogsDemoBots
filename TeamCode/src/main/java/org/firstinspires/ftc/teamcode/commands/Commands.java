@@ -11,6 +11,7 @@ public class Commands {
     public static HoistCommands hoist;
     public static ConveyorCommands conveyor;
     public static LiftCommands lift;
+    public static ArmCommands arm;
     public static IntakeCommands intake;
     public static BackdropCommands backdrop;
 
@@ -23,6 +24,7 @@ public class Commands {
         conveyor = new ConveyorCommands();
         intake = new IntakeCommands();
         lift = new LiftCommands();
+        arm = new ArmCommands();
         deposit = new DepositCommands();
         hoist = new HoistCommands();
         drone = new DroneCommands();
