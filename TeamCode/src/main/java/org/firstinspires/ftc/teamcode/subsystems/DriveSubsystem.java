@@ -6,8 +6,6 @@ import static org.firstinspires.ftc.teamcode.game.Config.config;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.opMode;
 import static org.firstinspires.ftc.teamcode.opmodes.OpMode.telemetry;
-import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.nav;
-import static org.firstinspires.ftc.teamcode.subsystems.Subsystems.vision;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -66,19 +64,10 @@ public class DriveSubsystem extends SubsystemBase {
                 config.pose = pose;
         }
 
-        if (isStill() && !isBusy() && vision.detectionPose != null) {
-            setPose(vision.detectionPose);
-        }
-
-        telemetry.addData("Drive (Pose)", () -> String.format("%.1fx, %.1fy, %.1f°", config.pose.position.x, config.pose.position.y, Math.toDegrees(config.pose.heading.toDouble())));
-
         telemetry.addData("Drive (FL)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveFrontLeft.get(), hardware.driveFrontLeft.getCurrentPosition(), hardware.driveFrontLeft.getVelocity(), hardware.driveFrontLeft.getDistance()));
         telemetry.addData("Drive (FR)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveFrontRight.get(), hardware.driveFrontRight.getCurrentPosition(), hardware.driveFrontRight.getVelocity(), hardware.driveFrontRight.getDistance()));
         telemetry.addData("Drive (BL)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveBackLeft.get(), hardware.driveBackLeft.getCurrentPosition(), hardware.driveBackLeft.getVelocity(), hardware.driveBackLeft.getDistance()));
         telemetry.addData("Drive (BR)", () -> String.format("%.1f pow, %d pos, %.1f vel, %.1f dist", hardware.driveBackRight.get(), hardware.driveBackRight.getCurrentPosition(), hardware.driveBackRight.getVelocity(), hardware.driveBackRight.getDistance()));
-
-        telemetry.addData("Drive (OR)", () -> String.format("%d pos, %d vel", hardware.odometryRight.getPositionAndVelocity().position, hardware.odometryRight.getPositionAndVelocity().velocity));
-        telemetry.addData("Drive (OC)", () -> String.format("%d pos, %d vel", hardware.odometryCenter.getPositionAndVelocity().position, hardware.odometryCenter.getPositionAndVelocity().velocity));
 
         telemetry.addData("IMU (Roll)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getRoll()), Math.toDegrees(getRollRate())));
         telemetry.addData("IMU (Pitch)", () -> String.format("%.1f°, %.1f°/s", Math.toDegrees(getPitch()), Math.toDegrees(getPitchRate())));
@@ -136,11 +125,6 @@ public class DriveSubsystem extends SubsystemBase {
         drive.pose = pose;
     }
 
-    public void resetPose() {
-        setPose(
-            nav.getStartPose()
-        );
-    }
 
     public boolean isBusy() {
         return trajectoryAction != null;

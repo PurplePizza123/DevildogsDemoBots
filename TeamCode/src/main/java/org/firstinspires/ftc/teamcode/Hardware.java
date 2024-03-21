@@ -45,23 +45,6 @@ public class Hardware {
     public Encoder odometryRight;
     public Encoder odometryCenter;
 
-    public WebcamName frontWebcam;
-    public WebcamName rearWebcam;
-
-    public MotorEx conveyor;
-
-    public MotorEx lift;
-
-    public Servo deposit;
-
-    public MotorEx hoist;
-    public CRServo hoistHelp;
-    public Servo arm;
-
-    public Servo drone;
-
-    public RevBlinkinLedDriver lights;
-
     public Hardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -82,26 +65,8 @@ public class Hardware {
             driveBackRight = new MotorEx(hardwareMap, "driveBackRight", RPM_435)
         );
 
-        odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRightAndConveyor")));
-        odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
-
-        frontWebcam = hardwareMap.get(WebcamName.class, "frontWebcam");
-        rearWebcam = hardwareMap.get(WebcamName.class, "rearWebcam");
-
-        conveyor = new MotorEx(hardwareMap, "odometryRightAndConveyor", RPM_435);
-
-        lift = new MotorEx(hardwareMap, "lift", RPM_435);
-
-        deposit = hardwareMap.get(Servo.class, "deposit");
-
-        hoist = new MotorEx(hardwareMap, "hoist", RPM_84);
-        hoistHelp = hardwareMap.get(CRServo.class,"hoistHelp");
-
-        drone = hardwareMap.get(Servo.class, "drone");
-
-        lights = hardwareMap.get(RevBlinkinLedDriver.class,"lights");
-
-        arm = hardwareMap.get(Servo.class, "arm");
+//        odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRightAndConveyor")));
+//        odometryCenter = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryCenter")));
 
         clearBulkCache();
     }

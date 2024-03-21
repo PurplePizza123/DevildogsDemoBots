@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.controls;
 
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.B;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.BACK;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_DOWN;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_RIGHT;
@@ -31,9 +29,5 @@ public class DriveControl {
 
         gamepad1.getGamepadButton(DPAD_UP)
             .whenActive(drive.setDrivePower(1.00));
-
-        gamepad1.getGamepadButton(BACK)
-            .and(gamepad1.getGamepadButton(B))
-            .toggleWhenActive(drive.toDroneLaunch(), drive.toDroneLaunchWithDetection());
     }
 }

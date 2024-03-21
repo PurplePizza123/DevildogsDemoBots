@@ -50,7 +50,5 @@ public abstract class OpMode extends CommandOpMode {
             CommandScheduler.getInstance().run();
             Thread.yield();
         }
-
-        Subsystems.config.start();
     }
 }
