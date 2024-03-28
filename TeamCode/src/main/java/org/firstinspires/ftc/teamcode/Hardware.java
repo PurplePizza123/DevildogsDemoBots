@@ -59,10 +59,10 @@ public class Hardware {
         imu = hardwareMap.get(IMU.class, "imu");
 
         drive = new MotorGroup(
-            driveFrontLeft = new MotorEx(hardwareMap, "driveFrontLeft", RPM_435),
-            driveFrontRight = new MotorEx(hardwareMap, "driveFrontRight", RPM_435),
-            driveBackLeft = new MotorEx(hardwareMap, "driveBackLeft", RPM_435),
-            driveBackRight = new MotorEx(hardwareMap, "driveBackRight", RPM_435)
+            driveFrontLeft = new MotorEx(hardwareMap, "driveLeftFront", RPM_435),
+            driveFrontRight = new MotorEx(hardwareMap, "driveRightFront", RPM_435),
+            driveBackLeft = new MotorEx(hardwareMap, "driveLeftRear", RPM_435),
+            driveBackRight = new MotorEx(hardwareMap, "driveRightRear", RPM_435)
         );
 
 //        odometryRight = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "odometryRightAndConveyor")));

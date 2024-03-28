@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.adaptations.roadrunner;
 
+import static org.firstinspires.ftc.teamcode.opmodes.OpMode.hardware;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -39,6 +41,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.messages.MecanumEncodersMessage;
@@ -185,6 +188,9 @@ public final class MecanumDrive {
     }
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
+        if (hardware == null)
+            hardware = new Hardware(hardwareMap);
+
         this.pose = pose;
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -193,26 +199,34 @@ public final class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFront = hardware.driveFrontLeft.motorEx;
+        leftBack = hardware.driveBackLeft.motorEx;
+        rightBack = hardware.driveBackRight.motorEx;
+        rightFront = hardware.driveFrontRight.motorEx;
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        imu = hardwareMap.get(IMU.class, "imu");
+        imu = hardware.imu;
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
         imu.initialize(parameters);
 
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
+        voltageSensor = hardware.batteryVoltageSensor;
 
-        localizer = new DriveLocalizer();
+        localizer = new MecanumDrive.DriveLocalizer();
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+    }
+
+    public void setDrivePowers(double forward, double strafe, double turn) {
+        setDrivePowers(
+                new PoseVelocity2d(
+                        new Vector2d(forward, strafe), turn
+                )
+        );
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {

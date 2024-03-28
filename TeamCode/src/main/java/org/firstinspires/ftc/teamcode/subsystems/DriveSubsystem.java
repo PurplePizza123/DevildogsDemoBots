@@ -17,6 +17,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.adaptations.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.OmniDrive;
 import org.firstinspires.ftc.teamcode.adaptations.roadrunner.Trajectory;
 
@@ -32,10 +33,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     private Action trajectoryAction = null;
 
-    private final OmniDrive drive;
+    private final MecanumDrive drive;
 
     public DriveSubsystem() {
-        drive = new OmniDrive(hardwareMap, config.pose);
+        drive = new MecanumDrive(hardwareMap, config.pose);
         hardware.drive.setDistancePerRevolution(DISTANCE_PER_REVOLUTION);
     }
 
